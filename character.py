@@ -33,7 +33,7 @@ class Character:
         elif self.L_check == 3 and self.move == 0:
             self.image.clip_draw(324 + self.frame // 10 * 35, 171, 35, 34, self.x, self.y)
             self.frame = (self.frame + 1) % 20
-
+        delay(0.03)
     def moving(self):
         if self.R_check == 1:
             if self.x < WIDTH:
