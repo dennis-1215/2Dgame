@@ -9,14 +9,15 @@ background = load_image('sprites/maps/bg_molise.png')
 enemys = load_image('sprites/characters/enemies.png')
 
 character = Character()
-myutal = enemy.Enemy()
+myutals = [enemy.Enemy() for i in range(50)]
 
 
 while character.running:
     clear_canvas()
     background.draw(WIDTH // 2, HEIGHT // 2)
     character.input_key()
-    myutal.moving(character)
+    for myutal in myutals:
+        enemy.enemy_move(myutal, character)
     update_canvas()
 
 close_canvas()
