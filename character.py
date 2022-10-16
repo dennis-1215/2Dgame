@@ -7,6 +7,8 @@ class Character:
         self.image = load_image('sprites/characters/characters.png')
         self.x, self.y = WIDTH/2, HEIGHT/2
         self.hp = 100
+        self.level = 1
+        self.atk = 10
         self.speed = 8
         self.U_check = 0
         self.D_check = 0

@@ -10,6 +10,7 @@ class Enemy:
         self.speed = randint(1, 3)
         self.on = 0
         self.hp = 10
+        self.atk = 10
 
         if randint(0, 1) == 1:
             self.x = randint(0, WIDTH)
