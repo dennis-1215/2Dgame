@@ -7,7 +7,7 @@ class Enemy:
     def __init__(self):
         self.imageR = load_image('sprites/characters/enemy1R.png')
         self.imageL = load_image('sprites/characters/enemy1L.png')
-        self.speed = randint(1,3)
+        self.speed = randint(1, 3)
 
         if randint(0, 1) == 1:
             self.x = randint(0, WIDTH)
@@ -34,6 +34,7 @@ def enemy_move(enemy, character):
     if enemy.y > character.y:
         enemy.y -= enemy.speed
 
+def enemy_animation(enemy, character):
     if enemy.x < character.x: # imageR 사용
         if enemy.y < character.y:
             # 우상

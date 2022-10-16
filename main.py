@@ -2,7 +2,7 @@ from pico2d import *
 from character import *
 import enemy
 
-WIDTH, HEIGHT = 1024, 1024
+
 
 open_canvas(WIDTH, HEIGHT)
 background = load_image('sprites/maps/bg_molise.png')
