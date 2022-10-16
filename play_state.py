@@ -80,6 +80,7 @@ def update():
     schedule.run_pending()
     for myutal in myutals:
         enemy.enemy_move(myutal, player)
+        enemy.enemy_crash(myutal, player)
 
 def draw():
     clear_canvas()

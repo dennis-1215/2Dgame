@@ -37,6 +37,10 @@ def enemy_move(enemy, character):
         if enemy.y > character.y:
             enemy.y -= enemy.speed
 
+def enemy_crash(enemy, character):
+    if abs(enemy.x - character.x) < 35 and abs(enemy.y - character.y) < 40:
+        enemy.on = 0
+
 def enemy_animation(enemy, character):
     if enemy.on == 1:
         if enemy.x < character.x: # imageR 사용
