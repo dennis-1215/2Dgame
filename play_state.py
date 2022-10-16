@@ -34,9 +34,7 @@ def handle_events():
                 player.D_check = 1
             if event.key == SDLK_ESCAPE:
                 game_framework.quit()
-            if event.key == SDLK_1:
-                for myutal in myutals:
-                    myutal.on = 1
+
 
 
 
@@ -60,6 +58,7 @@ player = None # c로 따지믄 NULL
 background = None
 myutals = None
 running = True
+enemy_count = 0
 
 # 초기화
 def enter():
@@ -78,6 +77,7 @@ def exit():
 
 def update():
     player.moving()
+    schedule.run_pending()
     for myutal in myutals:
         enemy.enemy_move(myutal, player)
 
@@ -89,3 +89,12 @@ def draw():
         enemy.enemy_animation(myutal, player)
     update_canvas()
 
+def enemy_on():
+    global enemy_count
+    myutals[enemy_count].on = 1
+    enemy_count += 1
+
+job1 = schedule.every(3).seconds.do(enemy_on)
+
+if enemy_count == 50:
+    schedule.cancel_job(job1)
