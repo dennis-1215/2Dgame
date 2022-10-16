@@ -2,6 +2,8 @@ from pico2d import *
 import game_framework
 import enemy
 import character
+import schedule
+import time
 
 class BG:
     def __init__(self):
@@ -15,31 +17,37 @@ def handle_events():
     for event in events:
         if event.type == SDL_QUIT:
             game_framework.quit()
-        elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
-            game_framework.quit()
         if event.type == SDL_KEYDOWN:
             if event.key == SDLK_RIGHT:
                 player.move = 1
-                player.R_check = 1
+                player.R_L_check = 1
             elif event.key == SDLK_LEFT:
                 player.move = 1
-                player.L_check = 1
-            if event.key == SDLK_UP:
+                player.R_L_check = 2
+            elif event.key == SDLK_UP:
                 player.move = 1
+                player.D_check = 0
                 player.U_check = 1
             elif event.key == SDLK_DOWN:
                 player.move = 1
+                player.U_check = 0
                 player.D_check = 1
             if event.key == SDLK_ESCAPE:
-                player.running = False
-        if event.type == SDL_KEYUP:
+                game_framework.quit()
+            if event.key == SDLK_1:
+                for myutal in myutals:
+                    myutal.on = 1
+
+
+
+        elif event.type == SDL_KEYUP:
             if event.key == SDLK_RIGHT:
                 player.move = 0
-                player.R_check = 3
+                player.R_L_check = 3
             elif event.key == SDLK_LEFT:
                 player.move = 0
-                player.L_check = 3
-            if event.key == SDLK_UP:
+                player.R_L_check = 4
+            elif event.key == SDLK_UP:
                 player.move = 0
                 player.U_check = 0
             elif event.key == SDLK_DOWN:
@@ -80,5 +88,4 @@ def draw():
     for myutal in myutals:
         enemy.enemy_animation(myutal, player)
     update_canvas()
-
 
