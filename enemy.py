@@ -40,7 +40,10 @@ def enemy_move(enemy, character):
 
 def enemy_crash(enemy, character):
     if abs(enemy.x - character.x) < 35 and abs(enemy.y - character.y) < 40:
-        enemy.on = 0
+        character.hp -= enemy.atk
+        enemy.hp -= character.atk
+        if enemy.hp < 1:
+            enemy.on = 0
 
 def enemy_animation(enemy, character):
     if enemy.on == 1:

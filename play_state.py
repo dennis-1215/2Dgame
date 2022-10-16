@@ -35,9 +35,6 @@ def handle_events():
             if event.key == SDLK_ESCAPE:
                 game_framework.quit()
 
-
-
-
         elif event.type == SDL_KEYUP:
             if event.key == SDLK_RIGHT:
                 player.move = 0
