@@ -5,7 +5,7 @@ WIDTH, HEIGHT = 1024, 1024
 class Character:
     def __init__(self):
         self.image = load_image('sprites/characters/characters.png')
-        self.x, self.y = WIDTH/2, HEIGHT/2
+        self.x, self.y = 0, 0
         self.hp = 100
         self.level = 1
         self.atk = 10
@@ -19,36 +19,44 @@ class Character:
 
     def animation(self):
         if self.R_L_check == 1 and self.move != 0:
-            self.image.clip_draw(72 + self.frame // 10 * 35, 171, 35, 34, self.x, self.y)
+            self.image.clip_draw(72 + self.frame // 10 * 35, 171, 35, 34, WIDTH/2, HEIGHT/2)
             self.frame = (self.frame + 1) % 40
         elif self.R_L_check == 2 and self.move != 0:
-            self.image.clip_draw(216 + self.frame // 10 * 35, 171, 35, 34, self.x, self.y)
+            self.image.clip_draw(216 + self.frame // 10 * 35, 171, 35, 34, WIDTH/2, HEIGHT/2)
             self.frame = (self.frame + 1) % 40
         elif self.R_L_check % 2 == 1 and self.move != 0:
-            self.image.clip_draw(72 + self.frame // 10 * 35, 171, 35, 34, self.x, self.y)
+            self.image.clip_draw(72 + self.frame // 10 * 35, 171, 35, 34, WIDTH/2, HEIGHT/2)
             self.frame = (self.frame + 1) % 40
         elif self.R_L_check % 2 == 0 and self.move != 0:
-            self.image.clip_draw(216 + self.frame // 10 * 35, 171, 35, 34, self.x, self.y)
+            self.image.clip_draw(216 + self.frame // 10 * 35, 171, 35, 34, WIDTH/2, HEIGHT/2)
             self.frame = (self.frame + 1) % 40
         elif self.R_L_check % 2 == 1 and self.move == 0:
             self.frame = 0
-            self.image.clip_draw(36 + self.frame // 10 * 35, 171, 35, 34, self.x, self.y)
+            self.image.clip_draw(36 + self.frame // 10 * 35, 171, 35, 34, WIDTH/2, HEIGHT/2)
             self.frame = (self.frame + 1) % 20
         elif self.R_L_check % 2 == 0 and self.move == 0:
             self.frame = 0
-            self.image.clip_draw(324 + self.frame // 10 * 35, 171, 35, 34, self.x, self.y)
+            self.image.clip_draw(324 + self.frame // 10 * 35, 171, 35, 34, WIDTH/2, HEIGHT/2)
             self.frame = (self.frame + 1) % 20
+
         delay(0.03)
     def moving(self):
-        if self.R_L_check == 1 :
-            if self.x < WIDTH:
-                self.x += self.speed
+        # move about map + enemy
+        if self.R_L_check == 1:
+            self.x += self.speed
         if self.R_L_check == 2:
-            if self.x > 0:
-                self.x -= self.speed
+            self.x -= self.speed
         if self.U_check == 1:
-            if self.y < HEIGHT:
-                self.y += self.speed
+            self.y += self.speed
         if self.D_check == 1:
-            if self.y > 0:
-                self.y -= self.speed
+            self.y -= self.speed
+
+        # map cycle
+        if self.x >= WIDTH:
+            self.x = self.x - WIDTH
+        if self.y >= HEIGHT:
+            self.y = self.y - HEIGHT
+        if self.x <= -WIDTH:
+            self.x = WIDTH + self.x
+        if self.y <= -HEIGHT:
+            self.y = HEIGHT + self.y

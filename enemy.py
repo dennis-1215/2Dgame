@@ -27,32 +27,32 @@ class Enemy:
         self.frame = randint(0,5)
         self.running = True
 
-def enemy_move(enemy, character):
+def enemy_move(enemy):
     if enemy.on == 1:
-        if enemy.x < character.x:
+        if enemy.x < WIDTH/2:
             enemy.x += enemy.speed
-        if enemy.x > character.x:
+        if enemy.x > WIDTH/2:
             enemy.x -= enemy.speed
-        if enemy.y < character.y:
+        if enemy.y < HEIGHT/2:
             enemy.y += enemy.speed
-        if enemy.y > character.y:
+        if enemy.y > HEIGHT/2:
             enemy.y -= enemy.speed
 
 def enemy_crash(enemy, character):
-    if abs(enemy.x - character.x) < 35 and abs(enemy.y - character.y) < 40:
+    if abs(enemy.x - WIDTH/2) < 35 and abs(enemy.y - HEIGHT/2) < 40:
         character.hp -= enemy.atk
         enemy.hp -= character.atk
         if enemy.hp < 1:
             enemy.on = 0
 
-def enemy_animation(enemy, character):
+def enemy_animation(enemy):
     if enemy.on == 1:
-        if enemy.x < character.x: # imageR 사용
-            if enemy.y < character.y:
+        if enemy.x < WIDTH/2: # imageR 사용
+            if enemy.y < HEIGHT/2:
                 # 우상
                 enemy.imageR.clip_draw(136, 615 - enemy.frame // 10 * 75, 63, 72, enemy.x, enemy.y)
                 enemy.frame = (enemy.frame + 1) % 50
-            elif enemy.y > character.y:
+            elif enemy.y > HEIGHT/2:
                 # 우하
                 enemy.imageR.clip_draw(471, 615 - enemy.frame // 10 * 75, 63, 72, enemy.x, enemy.y)
                 enemy.frame = (enemy.frame + 1) % 50
@@ -60,12 +60,12 @@ def enemy_animation(enemy, character):
                 # 우측
                 enemy.imageR.clip_draw(203, 615 - enemy.frame // 10 * 75, 63, 72, enemy.x, enemy.y)
                 enemy.frame = (enemy.frame + 1) % 50
-        elif enemy.x > character.x: # imageL 사용
-            if enemy.y < character.y:
+        elif enemy.x > WIDTH/2: # imageL 사용
+            if enemy.y < HEIGHT/2:
                 # 좌상
                 enemy.imageL.clip_draw(467, 615 - enemy.frame // 10 * 75, 63, 72, enemy.x, enemy.y)
                 enemy.frame = (enemy.frame + 1) % 50
-            elif enemy.y > character.y:
+            elif enemy.y > HEIGHT/2:
                 # 좌하
                 enemy.imageL.clip_draw(199, 615 - enemy.frame // 10 * 75, 63, 72, enemy.x, enemy.y)
                 enemy.frame = (enemy.frame + 1) % 50
@@ -78,3 +78,12 @@ def enemy_animation(enemy, character):
             enemy.frame = (enemy.frame + 1) % 50
 
 
+def enemy_distance(player, enemy):
+        if player.R_L_check == 1:
+            enemy.x -= player.speed
+        if player.R_L_check == 2:
+            enemy.x += player.speed
+        if player.U_check == 1:
+            enemy.y -= player.speed
+        if player.D_check == 1:
+            enemy.y += player.speed
