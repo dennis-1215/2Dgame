@@ -5,12 +5,15 @@ import character
 import schedule
 import time
 
+WIDTH, HEIGHT = 1024, 1024
+
 class BG:
     def __init__(self):
         self.image = load_image('sprites/maps/bg_molise.png')
+        self.x, self.y = 0, 0
 
-    def draw(self):
-        self.image.draw(character.WIDTH/2, character.HEIGHT/2)
+    def draw(self, x, y):
+        self.image.draw(self.x - x, self.y - y)
 
 def handle_events():
     events = get_events()
@@ -52,39 +55,45 @@ def handle_events():
 
 
 player = None # c로 따지믄 NULL
-background = None
+backgrounds = None
 myutals = None
 running = True
 enemy_count = 0
 
 # 초기화
 def enter():
-    global player, background, myutals, running
+    global player, backgrounds, myutals, running
     player = character.Character()
-    background = BG()
+    backgrounds = [BG() for i in range(9)]
+
+    for i in range(3):
+        for j in range(3):
+            backgrounds[i*3+j].x, backgrounds[i*3+j].y =  (-1/2 * WIDTH) + (j * WIDTH), (-1/2 * HEIGHT) + (i * HEIGHT)
     myutals = [enemy.Enemy() for i in range(50)]
     running = True
 
 # finalization code
 def exit():
-    global player, background, myutals
+    global player, backgrounds, myutals
     del player
-    del background
+    del backgrounds
     del myutals
 
 def update():
     player.moving()
     schedule.run_pending()
     for myutal in myutals:
-        enemy.enemy_move(myutal, player)
+        enemy.enemy_distance(player, myutal)
+        enemy.enemy_move(myutal)
         enemy.enemy_crash(myutal, player)
 
 def draw():
     clear_canvas()
-    background.draw()
+    for background in backgrounds:
+        background.draw(player.x, player.y)
     player.animation()
     for myutal in myutals:
-        enemy.enemy_animation(myutal, player)
+        enemy.enemy_animation(myutal)
     update_canvas()
 
 def enemy_on():
