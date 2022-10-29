@@ -69,7 +69,7 @@ def enter():
     for i in range(3):
         for j in range(3):
             backgrounds[i*3+j].x, backgrounds[i*3+j].y =  (-1/2 * WIDTH) + (j * WIDTH), (-1/2 * HEIGHT) + (i * HEIGHT)
-    myutals = [enemy.Enemy() for i in range(50)]
+    myutals = [enemy.Enemy()]
     running = True
 
 # finalization code
@@ -85,7 +85,7 @@ def update():
     for myutal in myutals:
         enemy.enemy_distance(player, myutal)
         enemy.enemy_move(myutal)
-        enemy.enemy_crash(myutal, player)
+        enemy.enemy_crash(myutal, player, myutals)
 
 def draw():
     clear_canvas()
@@ -97,9 +97,7 @@ def draw():
     update_canvas()
 
 def enemy_on():
-    global enemy_count
-    myutals[enemy_count].on = 1
-    enemy_count += 1
+    myutals.append(enemy.Enemy())
 
 job1 = schedule.every(3).seconds.do(enemy_on)
 

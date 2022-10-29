@@ -7,8 +7,8 @@ class Enemy:
     def __init__(self):
         self.imageR = load_image('sprites/characters/enemy1R.png')
         self.imageL = load_image('sprites/characters/enemy1L.png')
+        self.imageItem = load_image('sprites/characters/enemy1L.png')
         self.speed = randint(1, 3)
-        self.on = 0
         self.hp = 10
         self.atk = 10
 
@@ -27,55 +27,56 @@ class Enemy:
         self.frame = randint(0,5)
         self.running = True
 
-def enemy_move(enemy):
-    if enemy.on == 1:
-        if enemy.x < WIDTH/2:
-            enemy.x += enemy.speed
-        if enemy.x > WIDTH/2:
-            enemy.x -= enemy.speed
-        if enemy.y < HEIGHT/2:
-            enemy.y += enemy.speed
-        if enemy.y > HEIGHT/2:
-            enemy.y -= enemy.speed
+    def drop_item(self):
 
-def enemy_crash(enemy, character):
+
+def enemy_move(enemy):
+    if enemy.x < WIDTH/2:
+        enemy.x += enemy.speed
+    if enemy.x > WIDTH/2:
+        enemy.x -= enemy.speed
+    if enemy.y < HEIGHT/2:
+        enemy.y += enemy.speed
+    if enemy.y > HEIGHT/2:
+        enemy.y -= enemy.speed
+
+def enemy_crash(enemy, character, myutals):
     if abs(enemy.x - WIDTH/2) < 35 and abs(enemy.y - HEIGHT/2) < 40:
         character.hp -= enemy.atk
         enemy.hp -= character.atk
         if enemy.hp < 1:
-            enemy.on = 0
+            myutals.remove(enemy)
 
 def enemy_animation(enemy):
-    if enemy.on == 1:
-        if enemy.x < WIDTH/2: # imageR 사용
-            if enemy.y < HEIGHT/2:
-                # 우상
-                enemy.imageR.clip_draw(136, 615 - enemy.frame // 10 * 75, 63, 72, enemy.x, enemy.y)
-                enemy.frame = (enemy.frame + 1) % 50
-            elif enemy.y > HEIGHT/2:
-                # 우하
-                enemy.imageR.clip_draw(471, 615 - enemy.frame // 10 * 75, 63, 72, enemy.x, enemy.y)
-                enemy.frame = (enemy.frame + 1) % 50
-            else:
-                # 우측
-                enemy.imageR.clip_draw(203, 615 - enemy.frame // 10 * 75, 63, 72, enemy.x, enemy.y)
-                enemy.frame = (enemy.frame + 1) % 50
-        elif enemy.x > WIDTH/2: # imageL 사용
-            if enemy.y < HEIGHT/2:
-                # 좌상
-                enemy.imageL.clip_draw(467, 615 - enemy.frame // 10 * 75, 63, 72, enemy.x, enemy.y)
-                enemy.frame = (enemy.frame + 1) % 50
-            elif enemy.y > HEIGHT/2:
-                # 좌하
-                enemy.imageL.clip_draw(199, 615 - enemy.frame // 10 * 75, 63, 72, enemy.x, enemy.y)
-                enemy.frame = (enemy.frame + 1) % 50
-            else:
-                # 좌측
-                enemy.imageL.clip_draw(333, 615 - enemy.frame // 10 * 75, 63, 72, enemy.x, enemy.y)
-                enemy.frame = (enemy.frame + 1) % 50
+    if enemy.x < WIDTH/2: # imageR 사용
+        if enemy.y < HEIGHT/2:
+            # 우상
+            enemy.imageR.clip_draw(136, 615 - enemy.frame // 10 * 75, 63, 72, enemy.x, enemy.y)
+            enemy.frame = (enemy.frame + 1) % 50
+        elif enemy.y > HEIGHT/2:
+            # 우하
+            enemy.imageR.clip_draw(471, 615 - enemy.frame // 10 * 75, 63, 72, enemy.x, enemy.y)
+            enemy.frame = (enemy.frame + 1) % 50
         else:
+            # 우측
             enemy.imageR.clip_draw(203, 615 - enemy.frame // 10 * 75, 63, 72, enemy.x, enemy.y)
             enemy.frame = (enemy.frame + 1) % 50
+    elif enemy.x > WIDTH/2: # imageL 사용
+        if enemy.y < HEIGHT/2:
+            # 좌상
+            enemy.imageL.clip_draw(467, 615 - enemy.frame // 10 * 75, 63, 72, enemy.x, enemy.y)
+            enemy.frame = (enemy.frame + 1) % 50
+        elif enemy.y > HEIGHT/2:
+            # 좌하
+            enemy.imageL.clip_draw(199, 615 - enemy.frame // 10 * 75, 63, 72, enemy.x, enemy.y)
+            enemy.frame = (enemy.frame + 1) % 50
+        else:
+            # 좌측
+            enemy.imageL.clip_draw(333, 615 - enemy.frame // 10 * 75, 63, 72, enemy.x, enemy.y)
+            enemy.frame = (enemy.frame + 1) % 50
+    else:
+        enemy.imageR.clip_draw(203, 615 - enemy.frame // 10 * 75, 63, 72, enemy.x, enemy.y)
+        enemy.frame = (enemy.frame + 1) % 50
 
 
 def enemy_distance(player, enemy):
