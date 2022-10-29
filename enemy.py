@@ -1,5 +1,6 @@
 from pico2d import *
 from random import *
+import Item
 import character
 
 WIDTH, HEIGHT = 1024, 1024
@@ -7,7 +8,6 @@ class Enemy:
     def __init__(self):
         self.imageR = load_image('sprites/characters/enemy1R.png')
         self.imageL = load_image('sprites/characters/enemy1L.png')
-        self.imageItem = load_image('sprites/characters/enemy1L.png')
         self.speed = randint(1, 3)
         self.hp = 10
         self.atk = 10
@@ -27,9 +27,6 @@ class Enemy:
         self.frame = randint(0,5)
         self.running = True
 
-    def drop_item(self):
-
-
 def enemy_move(enemy):
     if enemy.x < WIDTH/2:
         enemy.x += enemy.speed
@@ -40,12 +37,14 @@ def enemy_move(enemy):
     if enemy.y > HEIGHT/2:
         enemy.y -= enemy.speed
 
-def enemy_crash(enemy, character, myutals):
+def enemy_crash(enemy, character, myutals, items):
     if abs(enemy.x - WIDTH/2) < 35 and abs(enemy.y - HEIGHT/2) < 40:
         character.hp -= enemy.atk
         enemy.hp -= character.atk
         if enemy.hp < 1:
             myutals.remove(enemy)
+            items.append(Item.Item(enemy.x, enemy.y))
+
 
 def enemy_animation(enemy):
     if enemy.x < WIDTH/2: # imageR 사용

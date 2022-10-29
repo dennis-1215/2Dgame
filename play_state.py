@@ -1,6 +1,7 @@
 from pico2d import *
 import game_framework
 import enemy
+import Item
 import character
 import schedule
 import time
@@ -57,12 +58,13 @@ def handle_events():
 player = None # c로 따지믄 NULL
 backgrounds = None
 myutals = None
+Items = None
 running = True
 enemy_count = 0
 
 # 초기화
 def enter():
-    global player, backgrounds, myutals, running
+    global player, backgrounds, myutals, running, items
     player = character.Character()
     backgrounds = [BG() for i in range(9)]
 
@@ -70,6 +72,7 @@ def enter():
         for j in range(3):
             backgrounds[i*3+j].x, backgrounds[i*3+j].y =  (-1/2 * WIDTH) + (j * WIDTH), (-1/2 * HEIGHT) + (i * HEIGHT)
     myutals = [enemy.Enemy()]
+    items = []
     running = True
 
 # finalization code
@@ -85,7 +88,9 @@ def update():
     for myutal in myutals:
         enemy.enemy_distance(player, myutal)
         enemy.enemy_move(myutal)
-        enemy.enemy_crash(myutal, player, myutals)
+        enemy.enemy_crash(myutal, player, myutals, items)
+    for item in items:
+        Item.item_distance(player, item)
 
 def draw():
     clear_canvas()
@@ -94,6 +99,8 @@ def draw():
     player.animation()
     for myutal in myutals:
         enemy.enemy_animation(myutal)
+    for item in items:
+        item.draw()
     update_canvas()
 
 def enemy_on():
