@@ -10,7 +10,7 @@ class Character:
         self.image_vfx = load_image('sprites/characters/vfx.png')
         self.x, self.y = 0, 0
         self.max_hp = 1000
-        self.hp = 1000
+        self.hp = 100
         self.level = 0
         self.max_exp = 200
         self.exp = 0

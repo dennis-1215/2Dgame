@@ -2,6 +2,8 @@ from pico2d import *
 from random import *
 import Item
 import character
+import game_framework
+import gameover_state
 
 WIDTH, HEIGHT = 1024, 1024
 class Enemy:
@@ -40,10 +42,15 @@ def enemy_move(enemy):
 def enemy_crash(enemy, character, myutals, items):
     if abs(enemy.x - WIDTH/2) < 35 and abs(enemy.y - HEIGHT/2) < 40:
         character.hp -= enemy.atk
-        enemy.hp -= character.atk
+
+        if character.hp <= 0:
+            game_framework.push_state(gameover_state)
+
+        #enemy.hp -= character.atk
         if enemy.hp < 1:
             myutals.remove(enemy)
             items.append(Item.Item(enemy.x, enemy.y))
+
 
 
 def enemy_animation(enemy):
