@@ -91,12 +91,14 @@ def update():
         enemy.enemy_crash(myutal, player, myutals, items)
     for item in items:
         Item.item_distance(player, item)
+        Item.get_item(player, item, items)
 
 def draw():
     clear_canvas()
     for background in backgrounds:
         background.draw(player.x, player.y)
     player.animation()
+    player.draw_status()
     for myutal in myutals:
         enemy.enemy_animation(myutal)
     for item in items:

@@ -1,6 +1,6 @@
 from pico2d import *
 import character
-
+WIDTH, HEIGHT = 1024, 1024
 class Item:
     def __init__(self, x, y):
         self.imageItem = load_image('sprites/characters/items.png')
@@ -11,7 +11,7 @@ class Item:
 
     def draw(self):
         if self.level == 1:
-            self.imageItem.clip_draw(166, 8, 10, 12, self.x, self.y)
+            self.imageItem.clip_draw(166, 8, 10, 12, self.x, self.y, 20, 24)
 
 
 def item_distance(player, item):
@@ -23,3 +23,13 @@ def item_distance(player, item):
         item.y -= player.speed
     if player.D_check == 1:
         item.y += player.speed
+
+def get_item(player, item, items):
+    if abs(item.x - WIDTH/2) < 16 and abs(item.y - HEIGHT/2) < 25:
+        player.exp += item.exp
+        items.remove(item)
+        if player.exp >= player.max_exp:
+            player.level += 1
+            player.exp -= player.max_exp
+            print(player.level)
+            player.max_exp *= 1.2

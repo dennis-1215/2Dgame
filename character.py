@@ -6,8 +6,11 @@ class Character:
     def __init__(self):
         self.image = load_image('sprites/characters/characters.png')
         self.x, self.y = 0, 0
-        self.hp = 100
-        self.level = 1
+        self.max_hp = 1000
+        self.hp = 1000
+        self.level = 0
+        self.max_exp = 500
+        self.exp = 0
         self.atk = 10
         self.speed = 8
         self.U_check = 0
@@ -16,6 +19,13 @@ class Character:
         self.move = 0
         self.frame = 0
         self.running = True
+
+    def draw_status(self):
+        self.image.clip_draw(0, 1077, 2, 1, WIDTH / 2 - 17 , HEIGHT / 2 - 20, 80, 4) # 최대 체력바
+        self.image.clip_draw(2, 448, 2, 1, WIDTH / 2 - 17, HEIGHT / 2 - 20, 80 * self.hp / self.max_hp, 4) # 현재 체력바
+        self.image.clip_draw(0, 1077, 2, 1, 0, HEIGHT - 5, WIDTH * 2, 10) # 최대 경험치 바
+        self.image.clip_draw(0, 1, 2, 1, 0, HEIGHT - 5, WIDTH * 2 * self.exp / self.max_exp, 10)  # 현재 경험치 바
+
 
     def animation(self):
         if self.R_L_check == 1 and self.move != 0:
