@@ -26,19 +26,15 @@ def handle_events():
             game_framework.quit()
         elif event.type == SDL_KEYDOWN and event.key == SDLK_RETURN:
             game_framework.change_state(play_state)
+        elif event.type == SDL_KEYDOWN and event.key == SDLK_SPACE:
+            game_framework.pop_state()
     pass
 
 def draw():
-    clear_canvas()
-    image_bg.clip_draw(0, 0, 400, 300, WIDTH/2, HEIGHT/2, WIDTH, HEIGHT)
-    if title_frame % 2 == 0:
-        image_sub.clip_draw(0, 0, 400, 300, WIDTH / 2, HEIGHT / 2, WIDTH, HEIGHT)
-    update_canvas()
+    pass
 
 def update():
-    global title_frame
-    title_frame = (title_frame + 1) % 2
-    delay(0.5)
+    pass
 
 def pause():
     pass

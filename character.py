@@ -9,7 +9,7 @@ class Character:
         self.max_hp = 1000
         self.hp = 1000
         self.level = 0
-        self.max_exp = 500
+        self.max_exp = 200
         self.exp = 0
         self.atk = 10
         self.speed = 8

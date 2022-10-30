@@ -1,7 +1,9 @@
 from pico2d import *
+import game_framework
 import character
 import level_up_state
 import play_state
+
 WIDTH, HEIGHT = 1024, 1024
 class Item:
     def __init__(self, x, y):
@@ -33,5 +35,8 @@ def get_item(player, item, items):
         if player.exp >= player.max_exp:
             player.level += 1
             player.exp -= player.max_exp
-            print(player.level)
             player.max_exp *= 1.2
+            player.U_check = 0
+            player.D_check = 0
+            player.R_L_check = 0
+            game_framework.push_state(level_up_state)

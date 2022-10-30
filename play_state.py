@@ -105,6 +105,11 @@ def draw():
     for item in items:
         item.draw()
     update_canvas()
+def pause():
+    pass
+
+def resume():
+    pass
 
 def enemy_on():
     myutals.append(enemy.Enemy())
