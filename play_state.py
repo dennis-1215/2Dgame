@@ -1,5 +1,6 @@
 from pico2d import *
 import game_framework
+import level_up_state
 import enemy
 import Item
 import character

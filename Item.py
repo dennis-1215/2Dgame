@@ -1,5 +1,7 @@
 from pico2d import *
 import character
+import level_up_state
+import play_state
 WIDTH, HEIGHT = 1024, 1024
 class Item:
     def __init__(self, x, y):
