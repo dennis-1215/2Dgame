@@ -36,7 +36,4 @@ def get_item(player, item, items):
             player.level += 1
             player.exp -= player.max_exp
             player.max_exp *= 1.2
-            player.U_check = 0
-            player.D_check = 0
-            player.R_L_check = 0
             game_framework.push_state(level_up_state)

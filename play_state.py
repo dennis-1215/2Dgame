@@ -61,11 +61,12 @@ backgrounds = None
 myutals = None
 Items = None
 running = True
-enemy_count = 0
+attack_on = 0
+attack_speed = 1
 
 # 초기화
 def enter():
-    global player, backgrounds, myutals, running, items
+    global player, backgrounds, myutals, running, items, attack_time
     player = character.Character()
     backgrounds = [BG() for i in range(9)]
 
@@ -75,6 +76,7 @@ def enter():
     myutals = [enemy.Enemy()]
     items = []
     running = True
+    attack_time = player.atk_time
 
 # finalization code
 def exit():
@@ -84,6 +86,8 @@ def exit():
     del myutals
 
 def update():
+    global attack_speed
+    attack_speed = player.atk_speed
     player.moving()
     schedule.run_pending()
     for myutal in myutals:
@@ -96,14 +100,24 @@ def update():
 
 def draw():
     clear_canvas()
+
     for background in backgrounds:
         background.draw(player.x, player.y)
+
     player.animation()
-    player.draw_status()
+
+
     for myutal in myutals:
         enemy.enemy_animation(myutal)
+
     for item in items:
         item.draw()
+
+    if attack_on == 1:
+        player.attack_draw()
+
+    player.draw_status()
+
     update_canvas()
 def pause():
     pass
@@ -114,7 +128,14 @@ def resume():
 def enemy_on():
     myutals.append(enemy.Enemy())
 
-job1 = schedule.every(3).seconds.do(enemy_on)
+def player_attack():
+    global attack_on, job2
+    attack_on = (attack_on + 1) % 10
+    print(attack_on)
+    print('[',attack_speed, ']')
+    schedule.cancel_job(job2)
+    job2 = schedule.every(attack_speed/10).seconds.do(player_attack)
 
-if enemy_count == 50:
-    schedule.cancel_job(job1)
+
+job1 = schedule.every(3).seconds.do(enemy_on)
+job2 = schedule.every(attack_speed/10).seconds.do(player_attack)

@@ -1,10 +1,13 @@
 from pico2d import *
+import Item
+import schedule
 
 WIDTH, HEIGHT = 1024, 1024
 
 class Character:
     def __init__(self):
         self.image = load_image('sprites/characters/characters.png')
+        self.image_vfx = load_image('sprites/characters/vfx.png')
         self.x, self.y = 0, 0
         self.max_hp = 1000
         self.hp = 1000
@@ -12,6 +15,9 @@ class Character:
         self.max_exp = 200
         self.exp = 0
         self.atk = 10
+        self.atk_speed = 2
+        self.atk_time = 1
+        self.atk_range = 60
         self.speed = 8
         self.U_check = 0
         self.D_check = 0
@@ -25,8 +31,13 @@ class Character:
         self.image.clip_draw(2, 448, 2, 1, WIDTH / 2 - 17, HEIGHT / 2 - 20, 80 * self.hp / self.max_hp, 4) # 현재 체력바
         self.image.clip_draw(0, 1077, 2, 1, 0, HEIGHT - 5, WIDTH * 2, 10) # 최대 경험치 바
         self.image.clip_draw(0, 1, 2, 1, 0, HEIGHT - 5, WIDTH * 2 * self.exp / self.max_exp, 10)  # 현재 경험치 바
-
-
+    def attack_draw(self):
+        for i in range(self.atk_time):
+            if i == 0:
+                if self.R_L_check % 2 == 1:
+                    self.image_vfx.clip_draw(0, 985 - 11, 22, 11, WIDTH / 2 + 17 + 22, HEIGHT/2)
+                elif self.R_L_check % 2 == 0:
+                    self.image_vfx.clip_draw(0, 985 - 11, 22, 11, WIDTH / 2 + 18, HEIGHT / 2, -22, 11)
     def animation(self):
         if self.R_L_check == 1 and self.move != 0:
             self.image.clip_draw(72 + self.frame // 10 * 35, 171, 35, 34, WIDTH/2, HEIGHT/2)
@@ -70,3 +81,4 @@ class Character:
             self.x = WIDTH + self.x
         if self.y <= -HEIGHT:
             self.y = HEIGHT + self.y
+
