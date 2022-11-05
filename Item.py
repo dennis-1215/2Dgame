@@ -5,6 +5,7 @@ import level_up_state
 import play_state
 
 WIDTH, HEIGHT = 1024, 1024
+
 class Item:
     def __init__(self, x, y):
         self.imageItem = load_image('sprites/characters/items.png')
@@ -19,13 +20,25 @@ class Item:
 
 
 def item_distance(player, item):
-    if player.R_L_check == 1:
+    if player.dir == 1:
         item.x -= player.speed
-    if player.R_L_check == 2:
+    elif player.dir == 2:
         item.x += player.speed
-    if player.U_check == 1:
         item.y -= player.speed
-    if player.D_check == 1:
+    elif player.dir == 3:
+        item.y -= player.speed
+    elif player.dir == 4:
+        item.x -= player.speed
+        item.y -= player.speed
+    elif player.dir == -1:
+        item.x += player.speed
+    elif player.dir == -2:
+        item.x -= player.speed
+        item.y += player.speed
+    elif player.dir == -3:
+        item.y += player.speed
+    elif player.dir == -4:
+        item.x += player.speed
         item.y += player.speed
 
 def get_item(player, item, items):
@@ -36,4 +49,6 @@ def get_item(player, item, items):
             player.level += 1
             player.exp -= player.max_exp
             player.max_exp *= 1.2
+            player.dir = 0
+            player.cur_state = character.IDLE
             game_framework.push_state(level_up_state)

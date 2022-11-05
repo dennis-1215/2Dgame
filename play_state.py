@@ -64,6 +64,9 @@ def update():
     for item in items:
         Item.item_distance(player, item)
         Item.get_item(player, item, items)
+    if attack_on == 1:
+        for myutal in myutals:
+            player.attack_rect(myutal, myutals, items)
     delay(0.02)
 
 def draw():
@@ -83,6 +86,8 @@ def draw():
 
     if attack_on == 1:
         player.attack_draw()
+    else:
+        player.atk_frame = 0
 
     player.draw_status()
 

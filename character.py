@@ -1,6 +1,7 @@
 from pico2d import *
 import Item
 import schedule
+import game_framework
 
 WIDTH, HEIGHT = 1024, 1024
 
@@ -195,7 +196,7 @@ class Character:
         self.max_hp = 1000
         self.hp = 1000
         self.level = 0
-        self.max_exp = 200
+        self.max_exp = 100
         self.exp = 0
         self.atk = 10
         self.atk_speed = 2
@@ -204,6 +205,7 @@ class Character:
         self.speed = 8
         self.move = 0
         self.frame = 0
+        self.atk_frame = 1
         self.event_que = []
         self.cur_state = IDLE
         self.cur_state.enter(self, None)
@@ -239,12 +241,25 @@ class Character:
         self.image.clip_draw(0, 1077, 2, 1, 0, HEIGHT - 5, WIDTH * 2, 10) # 최대 경험치 바
         self.image.clip_draw(0, 1, 2, 1, 0, HEIGHT - 5, WIDTH * 2 * self.exp / self.max_exp, 10)  # 현재 경험치 바
     def attack_draw(self):
-        for i in range(self.atk_time):
-            if i == 0:
-                if self.face_dir == 1:
-                    self.image_vfx.clip_draw(0, 985 - 11, 22, 11, WIDTH / 2 + 17 + 22, HEIGHT/2)
-                elif self.face_dir == -1:
-                    self.image_vfx.clip_draw(0, 985 - 11, 22, 11, WIDTH / 2 + 18, HEIGHT / 2, -22, 11)
+        if self.face_dir == 1:
+            self.image_vfx.clip_composite_draw(0, 985 - 64, 148, 20, 0, '', WIDTH / 2 + 17 + 32, HEIGHT / 2, self.atk_range / 20 * self.atk_frame, self.atk_frame)
+        elif self.face_dir == -1:
+            self.image_vfx.clip_composite_draw(0, 985 - 64, 148, 20, -3.141592, '', WIDTH / 2 - 17 - 32, HEIGHT/2, self.atk_range / 20 * self.atk_frame, self.atk_frame)
+        self.atk_frame = (self.atk_frame + 1) % 20 + 1
+
+    def attack_rect(self, enemy, myutals, items):
+        if self.face_dir == 1:
+            if enemy.x - WIDTH / 2 <= 35 + self.atk_range and enemy.x > WIDTH/2 and enemy.y - HEIGHT/2 <= 20 and enemy.y >= HEIGHT/2 - 20:
+                enemy.hp -= self.atk
+                if enemy.hp < 1:
+                    myutals.remove(enemy)
+                    items.append(Item.Item(enemy.x, enemy.y))
+        else:
+            if WIDTH / 2 - enemy.x <= 35 + self.atk_range and enemy.x < WIDTH/2 and enemy.y - HEIGHT/2 <= 20 and enemy.y >= HEIGHT/2 - 20:
+                enemy.hp -= self.atk
+                if enemy.hp < 1:
+                    myutals.remove(enemy)
+                    items.append(Item.Item(enemy.x, enemy.y))
 
     def moving(self):
         # move about map + enemy
