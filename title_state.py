@@ -4,7 +4,7 @@ import play_state
 
 WIDTH, HEIGHT = 1024, 1024
 
-image_bg, image_sub  = None, None
+image_bg, image_sub = None, None
 title_frame = 0
 
 def enter():

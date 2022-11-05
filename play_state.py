@@ -4,56 +4,11 @@ import level_up_state
 import enemy
 import Item
 import character
+import back_ground
 import schedule
 import time
 
 WIDTH, HEIGHT = 1024, 1024
-
-class BG:
-    def __init__(self):
-        self.image = load_image('sprites/maps/bg_molise.png')
-        self.x, self.y = 0, 0
-
-    def draw(self, x, y):
-        self.image.draw(self.x - x, self.y - y)
-
-def handle_events():
-    events = get_events()
-    for event in events:
-        if event.type == SDL_QUIT:
-            game_framework.quit()
-        if event.type == SDL_KEYDOWN:
-            if event.key == SDLK_RIGHT:
-                player.move = 1
-                player.R_L_check = 1
-            elif event.key == SDLK_LEFT:
-                player.move = 1
-                player.R_L_check = 2
-            elif event.key == SDLK_UP:
-                player.move = 1
-                player.D_check = 0
-                player.U_check = 1
-            elif event.key == SDLK_DOWN:
-                player.move = 1
-                player.U_check = 0
-                player.D_check = 1
-            if event.key == SDLK_ESCAPE:
-                game_framework.quit()
-
-        elif event.type == SDL_KEYUP:
-            if event.key == SDLK_RIGHT:
-                player.move = 0
-                player.R_L_check = 3
-            elif event.key == SDLK_LEFT:
-                player.move = 0
-                player.R_L_check = 4
-            elif event.key == SDLK_UP:
-                player.move = 0
-                player.U_check = 0
-            elif event.key == SDLK_DOWN:
-                player.move = 0
-                player.D_check = 0
-
 
 
 player = None # c로 따지믄 NULL
@@ -64,11 +19,22 @@ running = True
 attack_on = 0
 attack_speed = 1
 
-# 초기화
+
+def handle_events():
+    events = get_events()
+    for event in events:
+        if event.type == SDL_QUIT:
+            game_framework.quit()
+        elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_ESCAPE):
+            game_framework.quit()
+        else:
+            player.handle_event(event)
+
+
 def enter():
     global player, backgrounds, myutals, running, items, attack_time
     player = character.Character()
-    backgrounds = [BG() for i in range(9)]
+    backgrounds = [back_ground.BG() for i in range(9)]
 
     for i in range(3):
         for j in range(3):
@@ -88,6 +54,7 @@ def exit():
 def update():
     global attack_speed
     attack_speed = player.atk_speed
+    player.update()
     player.moving()
     schedule.run_pending()
     for myutal in myutals:
@@ -97,6 +64,7 @@ def update():
     for item in items:
         Item.item_distance(player, item)
         Item.get_item(player, item, items)
+    delay(0.02)
 
 def draw():
     clear_canvas()
@@ -104,7 +72,7 @@ def draw():
     for background in backgrounds:
         background.draw(player.x, player.y)
 
-    player.animation()
+    player.draw()
 
 
     for myutal in myutals:
@@ -131,8 +99,6 @@ def enemy_on():
 def player_attack():
     global attack_on, job2
     attack_on = (attack_on + 1) % 10
-    print(attack_on)
-    print('[',attack_speed, ']')
     schedule.cancel_job(job2)
     job2 = schedule.every(attack_speed/10).seconds.do(player_attack)
 

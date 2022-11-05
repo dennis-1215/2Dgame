@@ -86,11 +86,23 @@ def enemy_animation(enemy):
 
 
 def enemy_distance(player, enemy):
-        if player.R_L_check == 1:
+        if player.dir == 1:
             enemy.x -= player.speed
-        if player.R_L_check == 2:
+        elif player.dir == 2:
             enemy.x += player.speed
-        if player.U_check == 1:
             enemy.y -= player.speed
-        if player.D_check == 1:
+        elif player.dir == 3:
+            enemy.y -= player.speed
+        elif player.dir == 4:
+            enemy.x -= player.speed
+            enemy.y -= player.speed
+        elif player.dir == -1:
+            enemy.x += player.speed
+        elif player.dir == -2:
+            enemy.x -= player.speed
+            enemy.y += player.speed
+        elif player.dir == -3:
+            enemy.y += player.speed
+        elif player.dir == -4:
+            enemy.x += player.speed
             enemy.y += player.speed
