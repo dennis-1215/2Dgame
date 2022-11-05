@@ -7,8 +7,10 @@ import play_state
 WIDTH, HEIGHT = 1024, 1024
 
 class Item:
+    imageItem = None
     def __init__(self, x, y):
-        self.imageItem = load_image('sprites/characters/items.png')
+        if Item.imageItem == None:
+            self.imageItem = load_image('sprites/characters/items.png')
         self.level = 1
         self.exp = 100
         self.x = x

@@ -200,7 +200,6 @@ class Character:
         self.exp = 0
         self.atk = 10
         self.atk_speed = 2
-        self.atk_time = 1
         self.atk_range = 60
         self.speed = 8
         self.move = 0

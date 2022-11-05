@@ -1,6 +1,7 @@
 from pico2d import *
 import game_framework
 import level_up_state
+import win_state
 import enemy
 import Item
 import character
@@ -18,6 +19,7 @@ Items = None
 running = True
 attack_on = 0
 attack_speed = 1
+play_time = 0
 
 
 def handle_events():
@@ -107,6 +109,13 @@ def player_attack():
     schedule.cancel_job(job2)
     job2 = schedule.every(attack_speed/10).seconds.do(player_attack)
 
+def play_timer():
+    global play_time
+    play_time += 1
+    if play_time == 1800:
+        schedule.cancel_job(job)
+        game_framework.push_state(win_state)
 
+job = schedule.every(1).seconds.do(play_timer)
 job1 = schedule.every(3).seconds.do(enemy_on)
 job2 = schedule.every(attack_speed/10).seconds.do(player_attack)

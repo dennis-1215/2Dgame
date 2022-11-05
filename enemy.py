@@ -7,9 +7,12 @@ import gameover_state
 
 WIDTH, HEIGHT = 1024, 1024
 class Enemy:
+    imageR, imageL = None, None
     def __init__(self):
-        self.imageR = load_image('sprites/characters/enemy1R.png')
-        self.imageL = load_image('sprites/characters/enemy1L.png')
+        if Enemy.imageR == None:
+            self.imageR = load_image('sprites/characters/enemy1R.png')
+        if Enemy.imageL == None:
+            self.imageL = load_image('sprites/characters/enemy1L.png')
         self.speed = randint(1, 3)
         self.hp = 10
         self.atk = 10
