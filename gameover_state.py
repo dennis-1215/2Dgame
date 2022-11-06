@@ -1,5 +1,6 @@
 from pico2d import *
 import game_framework
+import game_world
 import title_state
 
 WIDTH, HEIGHT = 1024, 1024
@@ -12,6 +13,7 @@ def enter():
     image = load_image('sprites/framework/gameover.png')
 
 def exit():
+    game_world.clear()
     global image
     del image
 

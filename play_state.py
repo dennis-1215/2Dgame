@@ -1,5 +1,6 @@
 from pico2d import *
 import game_framework
+import game_world
 import level_up_state
 import win_state
 import enemy
@@ -14,9 +15,6 @@ WIDTH, HEIGHT = 1024, 1024
 
 player = None # c로 따지믄 NULL
 backgrounds = None
-myutals = None
-Items = None
-running = True
 attack_on = 0
 attack_speed = 1
 play_time = 0
@@ -34,65 +32,47 @@ def handle_events():
 
 
 def enter():
-    global player, backgrounds, myutals, running, items, attack_time
+    global player, backgrounds, myutals, running, items, play_time
+    play_time = 0
     player = character.Character()
     backgrounds = [back_ground.BG() for i in range(9)]
 
     for i in range(3):
         for j in range(3):
             backgrounds[i*3+j].x, backgrounds[i*3+j].y =  (-1/2 * WIDTH) + (j * WIDTH), (-1/2 * HEIGHT) + (i * HEIGHT)
-    myutals = [enemy.Enemy()]
-    items = []
-    running = True
-    attack_time = player.atk_time
+    game_world.add_objects(backgrounds, 0)
+    game_world.add_object(player, 1)
+    print(game_world.objects)
 
 # finalization code
 def exit():
-    global player, backgrounds, myutals
-    del player
-    del backgrounds
-    del myutals
+    game_world.clear()
 
 def update():
     global attack_speed
     attack_speed = player.atk_speed
-    player.update()
-    player.moving()
     schedule.run_pending()
-    for myutal in myutals:
-        enemy.enemy_distance(player, myutal)
-        enemy.enemy_move(myutal)
-        enemy.enemy_crash(myutal, player, myutals, items)
-    for item in items:
-        Item.item_distance(player, item)
-        Item.get_item(player, item, items)
-    if attack_on == 1:
-        for myutal in myutals:
-            player.attack_rect(myutal, myutals, items)
+
+    for game_object in game_world.all_objects():
+        game_object.update(player)
+
+    for game_object in game_world.objects[2]:
+        if player.atk_frame == 10:
+            player.attack_rect(game_object)
+
     delay(0.02)
+
+def draw_world():
+    for game_object in game_world.all_objects():
+        game_object.draw(player)
 
 def draw():
     clear_canvas()
-
-    for background in backgrounds:
-        background.draw(player.x, player.y)
-
-    player.draw()
-
-
-    for myutal in myutals:
-        enemy.enemy_animation(myutal)
-
-    for item in items:
-        item.draw()
-
+    draw_world()
     if attack_on == 1:
         player.attack_draw()
     else:
         player.atk_frame = 0
-
-    player.draw_status()
-
     update_canvas()
 def pause():
     pass
@@ -101,7 +81,8 @@ def resume():
     pass
 
 def enemy_on():
-    myutals.append(enemy.Enemy())
+    #myutals.append(enemy.Enemy())
+    game_world.add_object(enemy.Enemy(), 2)
 
 def player_attack():
     global attack_on, job2

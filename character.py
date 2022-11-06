@@ -2,6 +2,8 @@ from pico2d import *
 import Item
 import schedule
 import game_framework
+import game_world
+import play_state
 
 WIDTH, HEIGHT = 1024, 1024
 
@@ -23,15 +25,16 @@ class IDLE:
     def enter(self,event):
         print('ENTER IDLE')
         self.dir = 0
-        self.timer = 1000
 
     @staticmethod
     def exit(self, event):
-        pass
+        if event == RD:
+            self.face_dir = 1
+        elif event == LD:
+            self.face_dir = -1
     @staticmethod
     def do(self):
         self.frame = (self.frame + 1) % 8
-        self.timer -= 1
 
 
     @staticmethod
@@ -66,12 +69,43 @@ class RUN: # 수평 이동
         elif event == DU:
             self.dir += 3
     def exit(self, event):
-        if event == RD or event == RU:
+        if event == RD:
             self.face_dir = 1
-        elif event == LD or event == LU:
+        elif event == LD:
             self.face_dir = -1
 
     def do(self):
+        # move about map + enemy
+        if self.dir == 1:
+            self.x += self.speed
+        elif self.dir == 2:
+            self.x -= self.speed
+            self.y += self.speed
+        elif self.dir == 3:
+            self.y += self.speed
+        elif self.dir == 4:
+            self.x += self.speed
+            self.y += self.speed
+        elif self.dir == -1:
+            self.x -= self.speed
+        elif self.dir == -2:
+            self.x += self.speed
+            self.y -= self.speed
+        elif self.dir == -3:
+            self.y -= self.speed
+        elif self.dir == -4:
+            self.x -= self.speed
+            self.y -= self.speed
+
+        # map cycle
+        if self.x >= WIDTH:
+            self.x = self.x - WIDTH
+        if self.y >= HEIGHT:
+            self.y = self.y - HEIGHT
+        if self.x <= -WIDTH:
+            self.x = WIDTH + self.x
+        if self.y <= -HEIGHT:
+            self.y = HEIGHT + self.y
         pass
     def draw(self):
         if self.dir == 1 or self.dir == 4 or self.dir == -2:
@@ -111,12 +145,43 @@ class RUN2: # 수직 이동
             self.dir += 3
 
     def exit(self, event):
-        if event == RD or event == RU:
+        if event == RD:
             self.face_dir = 1
-        elif event == LD or event == LU:
+        elif event == LD:
             self.face_dir = -1
 
     def do(self):
+        # move about map + enemy
+        if self.dir == 1:
+            self.x += self.speed
+        elif self.dir == 2:
+            self.x -= self.speed
+            self.y += self.speed
+        elif self.dir == 3:
+            self.y += self.speed
+        elif self.dir == 4:
+            self.x += self.speed
+            self.y += self.speed
+        elif self.dir == -1:
+            self.x -= self.speed
+        elif self.dir == -2:
+            self.x += self.speed
+            self.y -= self.speed
+        elif self.dir == -3:
+            self.y -= self.speed
+        elif self.dir == -4:
+            self.x -= self.speed
+            self.y -= self.speed
+
+        # map cycle
+        if self.x >= WIDTH:
+            self.x = self.x - WIDTH
+        if self.y >= HEIGHT:
+            self.y = self.y - HEIGHT
+        if self.x <= -WIDTH:
+            self.x = WIDTH + self.x
+        if self.y <= -HEIGHT:
+            self.y = HEIGHT + self.y
         pass
     def draw(self):
         if self.dir == 1 or self.dir == 4 or self.dir == -2:
@@ -156,12 +221,43 @@ class RUN3: # 대각 이동
             self.dir += 3
 
     def exit(self, event):
-        if event == RD or event == RU:
+        if event == RD:
             self.face_dir = 1
-        elif event == LD or event == LU:
+        elif event == LD:
             self.face_dir = -1
 
     def do(self):
+        # move about map + enemy
+        if self.dir == 1:
+            self.x += self.speed
+        elif self.dir == 2:
+            self.x -= self.speed
+            self.y += self.speed
+        elif self.dir == 3:
+            self.y += self.speed
+        elif self.dir == 4:
+            self.x += self.speed
+            self.y += self.speed
+        elif self.dir == -1:
+            self.x -= self.speed
+        elif self.dir == -2:
+            self.x += self.speed
+            self.y -= self.speed
+        elif self.dir == -3:
+            self.y -= self.speed
+        elif self.dir == -4:
+            self.x -= self.speed
+            self.y -= self.speed
+
+        # map cycle
+        if self.x >= WIDTH:
+            self.x = self.x - WIDTH
+        if self.y >= HEIGHT:
+            self.y = self.y - HEIGHT
+        if self.x <= -WIDTH:
+            self.x = WIDTH + self.x
+        if self.y <= -HEIGHT:
+            self.y = HEIGHT + self.y
         pass
     def draw(self):
         if self.dir == 1 or self.dir == 4 or self.dir == -2:
@@ -209,7 +305,7 @@ class Character:
         self.cur_state = IDLE
         self.cur_state.enter(self, None)
 
-    def update(self):
+    def update(self, player):
         self.cur_state.do(self)
         if self.event_que:
             event = self.event_que.pop()
@@ -220,10 +316,14 @@ class Character:
                 print(f'ERROR: State {self.cur_state.__name__}     Event {event}')
             self.cur_state.enter(self, event)
 
-    def draw(self):
+    def draw(self, player):
         self.cur_state.draw(self)
         debug_print('PPPP')
         debug_print(f'Face Dir: {self.face_dir}, Dir: {self.dir}')
+        self.image.clip_draw(0, 1077, 2, 1, WIDTH / 2 - 17, HEIGHT / 2 - 20, 80, 4)  # 최대 체력바
+        self.image.clip_draw(2, 448, 2, 1, WIDTH / 2 - 17, HEIGHT / 2 - 20, 80 * self.hp / self.max_hp, 4)  # 현재 체력바
+        self.image.clip_draw(0, 1077, 2, 1, 0, HEIGHT - 5, WIDTH * 2, 10)  # 최대 경험치 바
+        self.image.clip_draw(0, 1, 2, 1, 0, HEIGHT - 5, WIDTH * 2 * self.exp / self.max_exp, 10)  # 현재 경험치 바
 
     def add_event(self, event):
         self.event_que.insert(0, event)
@@ -235,10 +335,7 @@ class Character:
 
 
     def draw_status(self):
-        self.image.clip_draw(0, 1077, 2, 1, WIDTH / 2 - 17 , HEIGHT / 2 - 20, 80, 4) # 최대 체력바
-        self.image.clip_draw(2, 448, 2, 1, WIDTH / 2 - 17, HEIGHT / 2 - 20, 80 * self.hp / self.max_hp, 4) # 현재 체력바
-        self.image.clip_draw(0, 1077, 2, 1, 0, HEIGHT - 5, WIDTH * 2, 10) # 최대 경험치 바
-        self.image.clip_draw(0, 1, 2, 1, 0, HEIGHT - 5, WIDTH * 2 * self.exp / self.max_exp, 10)  # 현재 경험치 바
+        pass
     def attack_draw(self):
         if self.face_dir == 1:
             self.image_vfx.clip_composite_draw(0, 985 - 64, 148, 20, 0, '', WIDTH / 2 + 17 + 32, HEIGHT / 2, self.atk_range / 20 * self.atk_frame, self.atk_frame)
@@ -246,50 +343,20 @@ class Character:
             self.image_vfx.clip_composite_draw(0, 985 - 64, 148, 20, -3.141592, '', WIDTH / 2 - 17 - 32, HEIGHT/2, self.atk_range / 20 * self.atk_frame, self.atk_frame)
         self.atk_frame = (self.atk_frame + 1) % 20 + 1
 
-    def attack_rect(self, enemy, myutals, items):
+    def attack_rect(self, enemy):
         if self.face_dir == 1:
             if enemy.x - WIDTH / 2 <= 35 + self.atk_range and enemy.x > WIDTH/2 and enemy.y - HEIGHT/2 <= 20 and enemy.y >= HEIGHT/2 - 20:
                 enemy.hp -= self.atk
                 if enemy.hp < 1:
-                    myutals.remove(enemy)
-                    items.append(Item.Item(enemy.x, enemy.y))
+                    game_world.add_object(Item.Item(enemy.x, enemy.y), 1)
+                    game_world.remove_object(enemy)
         else:
             if WIDTH / 2 - enemy.x <= 35 + self.atk_range and enemy.x < WIDTH/2 and enemy.y - HEIGHT/2 <= 20 and enemy.y >= HEIGHT/2 - 20:
                 enemy.hp -= self.atk
                 if enemy.hp < 1:
-                    myutals.remove(enemy)
-                    items.append(Item.Item(enemy.x, enemy.y))
+                    game_world.add_object(Item.Item(enemy.x, enemy.y), 1)
+                    game_world.remove_object(enemy)
 
-    def moving(self):
-        # move about map + enemy
-        if self.dir == 1:
-            self.x += self.speed
-        elif self.dir == 2:
-            self.x -= self.speed
-            self.y += self.speed
-        elif self.dir == 3:
-            self.y += self.speed
-        elif self.dir == 4:
-            self.x += self.speed
-            self.y += self.speed
-        elif self.dir == -1:
-            self.x -= self.speed
-        elif self.dir == -2:
-            self.x += self.speed
-            self.y -= self.speed
-        elif self.dir == -3:
-            self.y -= self.speed
-        elif self.dir == -4:
-            self.x -= self.speed
-            self.y -= self.speed
 
-        # map cycle
-        if self.x >= WIDTH:
-            self.x = self.x - WIDTH
-        if self.y >= HEIGHT:
-            self.y = self.y - HEIGHT
-        if self.x <= -WIDTH:
-            self.x = WIDTH + self.x
-        if self.y <= -HEIGHT:
-            self.y = HEIGHT + self.y
+
 
