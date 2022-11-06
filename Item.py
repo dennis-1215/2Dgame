@@ -46,8 +46,6 @@ class Item:
 
         if abs(item.x - WIDTH/2) < 16 and abs(item.y - HEIGHT/2) < 25:
             player.exp += item.exp
-            # items.remove(item)
-            # del item
             game_world.remove_object(item)
             if player.exp >= player.max_exp:
                 player.level += 1

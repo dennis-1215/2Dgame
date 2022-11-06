@@ -56,9 +56,12 @@ def update():
     for game_object in game_world.all_objects():
         game_object.update(player)
 
-    for game_object in game_world.objects[2]:
-        if player.atk_frame == 10:
+    if player.atk_frame == 5:
+        print(game_world.objects[2])
+        for game_object in game_world.objects[2]:
+            print(game_object)
             player.attack_rect(game_object)
+
 
     delay(0.02)
 

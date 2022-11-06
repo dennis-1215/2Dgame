@@ -4,6 +4,7 @@ import Item
 import character
 import game_framework
 import gameover_state
+import game_world
 
 WIDTH, HEIGHT = 1024, 1024
 class Enemy:
@@ -13,9 +14,10 @@ class Enemy:
             self.imageR = load_image('sprites/characters/enemy1R.png')
         if Enemy.imageL == None:
             self.imageL = load_image('sprites/characters/enemy1L.png')
-        self.speed = randint(1, 3)
+        self.speed = 2
         self.hp = 10
         self.atk = 10
+        self.drop = randint(1, 100)
 
         if randint(0, 1) == 1:
             self.x = randint(0, WIDTH)
@@ -62,6 +64,12 @@ class Enemy:
             enemy.x += player.speed
             enemy.y += player.speed
 
+        if enemy.hp < 1:
+            if enemy.drop <= 80:
+                game_world.add_object(Item.Item(enemy.x, enemy.y), 1)
+            print('kill : ', enemy)
+            game_world.remove_object(enemy)
+
     def draw(enemy, player):
         if enemy.x < WIDTH / 2:  # imageR 사용
             if enemy.y < HEIGHT / 2:
@@ -97,23 +105,4 @@ class Enemy:
             player.hp -= enemy.atk
             if player.hp <= 0:
                 game_framework.push_state(gameover_state)
-
-    def attack_rect(self, enemy):
-        if self.face_dir == 1:
-            if enemy.x - WIDTH / 2 <= 35 + self.atk_range and enemy.x > WIDTH/2 and enemy.y - HEIGHT/2 <= 20 and enemy.y >= HEIGHT/2 - 20:
-                enemy.hp -= self.atk
-                if enemy.hp < 1:
-                    #items.append(Item.Item(enemy.x, enemy.y))
-                    game_world.add_object(Item.Item(enemy.x, enemy.y))
-                    #myutals.remove(enemy)
-                    game_world.remove_object(enemy)
-        else:
-            if WIDTH / 2 - enemy.x <= 35 + self.atk_range and enemy.x < WIDTH/2 and enemy.y - HEIGHT/2 <= 20 and enemy.y >= HEIGHT/2 - 20:
-                enemy.hp -= self.atk
-                if enemy.hp < 1:
-                    # items.append(Item.Item(enemy.x, enemy.y))
-                    game_world.add_object(Item.Item(enemy.x, enemy.y))
-                    # myutals.remove(enemy)
-                    game_world.remove_object(enemy)
-
 

@@ -22,8 +22,7 @@ key_event_table = {
 
 class IDLE:
     @staticmethod
-    def enter(self,event):
-        print('ENTER IDLE')
+    def enter(self, event):
         self.dir = 0
 
     @staticmethod
@@ -51,7 +50,6 @@ class IDLE:
 
 class RUN: # 수평 이동
     def enter(self, event):
-        print('ENTER RUN')
         if event == RD:
             self.dir += 1
         elif event == LD:
@@ -125,7 +123,6 @@ class RUN: # 수평 이동
 
 class RUN2: # 수직 이동
     def enter(self, event):
-        print('ENTER RUN2')
         if event == RD:
             self.dir += 1
         elif event == LD:
@@ -201,7 +198,6 @@ class RUN2: # 수직 이동
 
 class RUN3: # 대각 이동
     def enter(self, event):
-        print('ENTER RUN3')
         if event == RD:
             self.dir += 1
         elif event == LD:
@@ -338,24 +334,19 @@ class Character:
         pass
     def attack_draw(self):
         if self.face_dir == 1:
-            self.image_vfx.clip_composite_draw(0, 985 - 64, 148, 20, 0, '', WIDTH / 2 + 17 + 32, HEIGHT / 2, self.atk_range / 20 * self.atk_frame, self.atk_frame)
+            self.image_vfx.clip_composite_draw(0, 985 - 64, 148, 20, 0, '', WIDTH / 2 + 17 + 32, HEIGHT / 2, self.atk_range / 9 * self.atk_frame, self.atk_frame)
         elif self.face_dir == -1:
-            self.image_vfx.clip_composite_draw(0, 985 - 64, 148, 20, -3.141592, '', WIDTH / 2 - 17 - 32, HEIGHT/2, self.atk_range / 20 * self.atk_frame, self.atk_frame)
-        self.atk_frame = (self.atk_frame + 1) % 20 + 1
+            self.image_vfx.clip_composite_draw(0, 985 - 64, 148, 20, -3.141592, '', WIDTH / 2 - 17 - 32, HEIGHT/2, self.atk_range / 9 * self.atk_frame, self.atk_frame)
+        self.atk_frame = self.atk_frame % 10 + 1
+        #print(self.atk_frame)
 
     def attack_rect(self, enemy):
         if self.face_dir == 1:
             if enemy.x - WIDTH / 2 <= 35 + self.atk_range and enemy.x > WIDTH/2 and enemy.y - HEIGHT/2 <= 20 and enemy.y >= HEIGHT/2 - 20:
                 enemy.hp -= self.atk
-                if enemy.hp < 1:
-                    game_world.add_object(Item.Item(enemy.x, enemy.y), 1)
-                    game_world.remove_object(enemy)
         else:
             if WIDTH / 2 - enemy.x <= 35 + self.atk_range and enemy.x < WIDTH/2 and enemy.y - HEIGHT/2 <= 20 and enemy.y >= HEIGHT/2 - 20:
                 enemy.hp -= self.atk
-                if enemy.hp < 1:
-                    game_world.add_object(Item.Item(enemy.x, enemy.y), 1)
-                    game_world.remove_object(enemy)
 
 
 
