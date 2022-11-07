@@ -42,7 +42,6 @@ def enter():
             backgrounds[i*3+j].x, backgrounds[i*3+j].y =  (-1/2 * WIDTH) + (j * WIDTH), (-1/2 * HEIGHT) + (i * HEIGHT)
     game_world.add_objects(backgrounds, 0)
     game_world.add_object(player, 1)
-    print(game_world.objects)
 
 # finalization code
 def exit():
@@ -57,9 +56,7 @@ def update():
         game_object.update(player)
 
     if player.atk_frame == 5:
-        print(game_world.objects[2])
         for game_object in game_world.objects[2]:
-            print(game_object)
             player.attack_rect(game_object)
 
 

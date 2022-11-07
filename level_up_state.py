@@ -2,6 +2,7 @@ from pico2d import *
 import game_framework
 import game_world
 import play_state
+import character
 
 WIDTH, HEIGHT = 1024, 1024
 
@@ -28,17 +29,50 @@ def handle_events():
             game_framework.quit()
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
             game_framework.quit()
+        elif event.type == SDL_KEYDOWN and event.key == SDLK_RETURN:
+            game_framework.pop_state()
+        elif event.type == SDL_KEYDOWN and event.key == SDLK_SPACE:
+            game_framework.pop_state()
+        elif event.type == SDL_KEYDOWN and event.key == SDLK_UP:
+            if choice > 0:
+                choice -= 1
+        elif event.type == SDL_KEYDOWN and event.key == SDLK_DOWN:
+            if choice < 2:
+                choice += 1
         elif event.type == SDL_KEYDOWN:
-            if event.key == SDLK_RETURN:
-                game_framework.pop_state()
-            elif event.key == SDLK_SPACE:
-                game_framework.pop_state()
-            elif event.key == SDLK_UP:
-                if choice > 0:
-                    choice -= 1
-            elif event.key == SDLK_DOWN:
-                if choice < 2:
-                    choice += 1
+            if event.key == SDLK_RIGHT:
+                if play_state.player.cur_state == character.RUN:
+                    play_state.player.cur_state = character.IDLE
+                    play_state.player.dir = 0
+                elif play_state.player.cur_state == character.IDLE:
+                    play_state.player.cur_state = character.RUN
+                    play_state.player.dir = 1
+                    play_state.player.face_dir = 1
+            elif event.key == SDLK_LEFT:
+                if play_state.player.cur_state == character.RUN:
+                    play_state.player.cur_state = character.IDLE
+                    play_state.player.dir = 0
+                elif play_state.player.cur_state == character.IDLE:
+                    play_state.player.cur_state = character.RUN
+                    play_state.player.dir = -1
+                    play_state.player.face_dir = -1
+        elif event.type == SDL_KEYUP:
+            if event.key == SDLK_RIGHT:
+                if play_state.player.cur_state == character.RUN:
+                    play_state.player.cur_state = character.IDLE
+                    play_state.player.dir = 0
+                elif play_state.player.cur_state == character.IDLE:
+                    play_state.player.cur_state = character.RUN
+                    play_state.player.dir = -1
+                    play_state.player.face_dir = -1
+            elif event.key == SDLK_LEFT:
+                if play_state.player.cur_state == character.RUN:
+                    play_state.player.cur_state = character.IDLE
+                    play_state.player.dir = 0
+                elif play_state.player.cur_state == character.IDLE:
+                    play_state.player.cur_state = character.RUN
+                    play_state.player.dir = 1
+                    play_state.player.face_dir = 1
 
 def draw():
     clear_canvas()
@@ -48,7 +82,7 @@ def draw():
     image_choice.clip_composite_draw(2 + 16 * frame, 1023 - 376, 15, 13, 0, '', WIDTH/2 - 300, HEIGHT/2 + 170 - (choice * 150), 30, 26)
     image_choice.clip_composite_draw(2 + 16 * frame, 1023 - 376, 15, 13, 3.141592, 'v', WIDTH / 2 + 300, HEIGHT / 2 + 170 - (choice * 150), 30, 26)
     update_canvas()
-
+    print(play_state.player.cur_state, play_state.player.dir, play_state.player.face_dir)
     delay(0.02)
     # 중심 512, 512, 한칸 간격 153
 

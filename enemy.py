@@ -64,10 +64,14 @@ class Enemy:
             enemy.x += player.speed
             enemy.y += player.speed
 
+        if abs(enemy.x - WIDTH/2) < 35 and abs(enemy.y - HEIGHT/2) < 40:
+            player.hp -= enemy.atk
+            if player.hp <= 0:
+                game_framework.push_state(gameover_state)
+
         if enemy.hp < 1:
             if enemy.drop <= 80:
                 game_world.add_object(Item.Item(enemy.x, enemy.y), 1)
-            print('kill : ', enemy)
             game_world.remove_object(enemy)
 
     def draw(enemy, player):
@@ -101,8 +105,5 @@ class Enemy:
             enemy.imageR.clip_draw(203, 615 - enemy.frame // 10 * 75, 63, 72, enemy.x, enemy.y)
             enemy.frame = (enemy.frame + 1) % 50
 
-        if abs(enemy.x - WIDTH/2) < 35 and abs(enemy.y - HEIGHT/2) < 40:
-            player.hp -= enemy.atk
-            if player.hp <= 0:
-                game_framework.push_state(gameover_state)
+
 

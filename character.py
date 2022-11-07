@@ -338,7 +338,6 @@ class Character:
         elif self.face_dir == -1:
             self.image_vfx.clip_composite_draw(0, 985 - 64, 148, 20, -3.141592, '', WIDTH / 2 - 17 - 32, HEIGHT/2, self.atk_range / 9 * self.atk_frame, self.atk_frame)
         self.atk_frame = self.atk_frame % 10 + 1
-        #print(self.atk_frame)
 
     def attack_rect(self, enemy):
         if self.face_dir == 1:

@@ -51,6 +51,4 @@ class Item:
                 player.level += 1
                 player.exp -= player.max_exp
                 player.max_exp *= 1.2
-                player.dir = 0
-                player.cur_state = character.IDLE
                 game_framework.push_state(level_up_state)
