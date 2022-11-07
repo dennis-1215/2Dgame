@@ -24,25 +24,25 @@ class Item:
 
     def update(item, player):
         if player.dir == 1:
-            item.x -= player.speed
+            item.x -= character.RUN_SPEED_PPS * game_framework.frame_time
         elif player.dir == 2:
-            item.x += player.speed
-            item.y -= player.speed
+            item.x += character.RUN_SPEED_PPS * game_framework.frame_time
+            item.y -= character.RUN_SPEED_PPS * game_framework.frame_time
         elif player.dir == 3:
-            item.y -= player.speed
+            item.y -= character.RUN_SPEED_PPS * game_framework.frame_time
         elif player.dir == 4:
-            item.x -= player.speed
-            item.y -= player.speed
+            item.x -= character.RUN_SPEED_PPS * game_framework.frame_time
+            item.y -= character.RUN_SPEED_PPS * game_framework.frame_time
         elif player.dir == -1:
-            item.x += player.speed
+            item.x += character.RUN_SPEED_PPS * game_framework.frame_time
         elif player.dir == -2:
-            item.x -= player.speed
-            item.y += player.speed
+            item.x -= character.RUN_SPEED_PPS * game_framework.frame_time
+            item.y += character.RUN_SPEED_PPS * game_framework.frame_time
         elif player.dir == -3:
-            item.y += player.speed
+            item.y += character.RUN_SPEED_PPS * game_framework.frame_time
         elif player.dir == -4:
-            item.x += player.speed
-            item.y += player.speed
+            item.x += character.RUN_SPEED_PPS * game_framework.frame_time
+            item.y += character.RUN_SPEED_PPS * game_framework.frame_time
 
         if abs(item.x - WIDTH/2) < 16 and abs(item.y - HEIGHT/2) < 25:
             player.exp += item.exp

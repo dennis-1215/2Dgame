@@ -6,6 +6,10 @@ import character
 
 WIDTH, HEIGHT = 1024, 1024
 
+TIME_PER_ACTION = 1.0
+ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
+FRAMES_PER_ACTION = 7
+
 image_LU, image_choice = None, None
 choice = 0
 frame = 0
@@ -79,17 +83,13 @@ def draw():
     for game_object in game_world.all_objects():
         game_object.draw(play_state.player)
     image_LU.clip_draw(0, 0, 560, 756, WIDTH / 2, HEIGHT / 2, 560, 756)
-    image_choice.clip_composite_draw(2 + 16 * frame, 1023 - 376, 15, 13, 0, '', WIDTH/2 - 300, HEIGHT/2 + 170 - (choice * 150), 30, 26)
-    image_choice.clip_composite_draw(2 + 16 * frame, 1023 - 376, 15, 13, 3.141592, 'v', WIDTH / 2 + 300, HEIGHT / 2 + 170 - (choice * 150), 30, 26)
+    image_choice.clip_composite_draw(2 + 16 * int(frame), 1023 - 376, 15, 13, 0, '', WIDTH/2 - 300, HEIGHT/2 + 170 - (choice * 150), 30, 26)
+    image_choice.clip_composite_draw(2 + 16 * int(frame), 1023 - 376, 15, 13, 3.141592, 'v', WIDTH / 2 + 300, HEIGHT / 2 + 170 - (choice * 150), 30, 26)
     update_canvas()
-    print(play_state.player.cur_state, play_state.player.dir, play_state.player.face_dir)
-    delay(0.02)
-    # 중심 512, 512, 한칸 간격 153
 
 def update():
     global frame
-    frame = (frame + 1) % 7
-    pass
+    frame = (frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 7
 
 def pause():
     pass

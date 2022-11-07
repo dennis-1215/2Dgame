@@ -59,9 +59,6 @@ def update():
         for game_object in game_world.objects[2]:
             player.attack_rect(game_object)
 
-
-    delay(0.02)
-
 def draw_world():
     for game_object in game_world.all_objects():
         game_object.draw(player)
