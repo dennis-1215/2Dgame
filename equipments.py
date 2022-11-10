@@ -29,6 +29,8 @@ class Whip:
     def play_draw(self, x, y):
         pass
 
+    def choiced(self):
+        pass
     def update(self):
         pass
 

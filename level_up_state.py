@@ -16,7 +16,7 @@ FRAMES_PER_ACTION = 7
 image_LU, image_choice = None, None
 choice = 0
 frame = 0
-
+random_item1, random_item2, random_item3 = None, None, None
 def enter():
     global image_LU, image_choice, choice, random_item1, random_item2, random_item3, equipment_list
     equipment_list = [equipments.Whip(), equipments.Heal(), equipments.Hp(), equipments.Garlic()]
@@ -26,14 +26,17 @@ def enter():
     random_item1 = randint(0, len(equipment_list) - 1)
     random_item2 = randint(0, len(equipment_list) - 1)
     random_item3 = randint(0, len(equipment_list) - 1)
+    print(random_item1, random_item2, random_item3)
+
     while True:
         if random_item1 == random_item2:
-            random_item2 = randint(1, len(equipment_list) - 1)
+            random_item2 = randint(0, len(equipment_list) - 1)
+            continue
         if random_item3 == random_item2 or random_item3 == random_item1:
-            random_item3 = randint(1, len(equipment_list) - 1)
+            random_item3 = randint(0, len(equipment_list) - 1)
         else:
             break
-
+    print(random_item1, random_item2, random_item3)
 def exit():
     global image_LU, image_choice, choice
     del image_LU
@@ -41,7 +44,7 @@ def exit():
     del choice
 
 def handle_events():
-    global choice
+    global choice, random_item1, random_item2, random_item3
     events = get_events()
     for event in events:
         if event.type == SDL_QUIT:
@@ -52,6 +55,19 @@ def handle_events():
             game_framework.pop_state()
         elif event.type == SDL_KEYDOWN and event.key == SDLK_SPACE:
             game_framework.pop_state()
+        elif event.type == SDL_KEYDOWN and event.key == SDLK_r:
+            random_item1 = randint(0, len(equipment_list) - 1)
+            random_item2 = randint(0, len(equipment_list) - 1)
+            random_item3 = randint(0, len(equipment_list) - 1)
+            while True:
+                if random_item1 == random_item2:
+                    random_item2 = randint(0, len(equipment_list) - 1)
+                    continue
+                if random_item3 == random_item2 or random_item3 == random_item1:
+                    random_item3 = randint(0, len(equipment_list) - 1)
+                else:
+                    break
+            print(random_item1, random_item2, random_item3)
         elif event.type == SDL_KEYDOWN and event.key == SDLK_UP:
             if choice > 0:
                 choice -= 1
@@ -102,7 +118,7 @@ def draw():
     image_choice.clip_composite_draw(2 + 16 * int(frame), 1023 - 376, 15, 13, 0, '', WIDTH/2 - 300, HEIGHT/2 + 170 - (choice * 150), 30, 26)
     image_choice.clip_composite_draw(2 + 16 * int(frame), 1023 - 376, 15, 13, 3.141592, 'v', WIDTH / 2 + 300, HEIGHT / 2 + 170 - (choice * 150), 30, 26)
 
-    equipment_list[random_item1].choice_draw(WIDTH/2 - 300, HEIGHT/2 + 170)
+    equipment_list[random_item1].choice_draw(WIDTH/2 - 300, HEIGHT/2 + 180)
     equipment_list[random_item2].choice_draw(WIDTH/2 - 300, HEIGHT/2 + 170 - 150)
     equipment_list[random_item3].choice_draw(WIDTH/2 - 300, HEIGHT/2 + 170 - 300)
 
