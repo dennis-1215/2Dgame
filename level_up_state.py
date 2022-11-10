@@ -1,4 +1,7 @@
 from pico2d import *
+from random import *
+
+import equipments
 import game_framework
 import game_world
 import play_state
@@ -13,11 +16,23 @@ FRAMES_PER_ACTION = 7
 image_LU, image_choice = None, None
 choice = 0
 frame = 0
+
 def enter():
-    global image_LU, image_choice, choice
+    global image_LU, image_choice, choice, random_item1, random_item2, random_item3, equipment_list
+    equipment_list = [equipments.Whip(), equipments.Heal(), equipments.Hp(), equipments.Garlic()]
     image_LU = load_image('sprites/framework/level_up.png')
     image_choice = load_image('sprites/framework/UI.png')
     choice = 0
+    random_item1 = randint(0, len(equipment_list) - 1)
+    random_item2 = randint(0, len(equipment_list) - 1)
+    random_item3 = randint(0, len(equipment_list) - 1)
+    while True:
+        if random_item1 == random_item2:
+            random_item2 = randint(1, len(equipment_list) - 1)
+        if random_item3 == random_item2 or random_item3 == random_item1:
+            random_item3 = randint(1, len(equipment_list) - 1)
+        else:
+            break
 
 def exit():
     global image_LU, image_choice, choice
@@ -82,11 +97,16 @@ def draw():
     clear_canvas()
     for game_object in game_world.all_objects():
         game_object.draw(play_state.player)
+
     image_LU.clip_draw(0, 0, 560, 756, WIDTH / 2, HEIGHT / 2, 560, 756)
     image_choice.clip_composite_draw(2 + 16 * int(frame), 1023 - 376, 15, 13, 0, '', WIDTH/2 - 300, HEIGHT/2 + 170 - (choice * 150), 30, 26)
     image_choice.clip_composite_draw(2 + 16 * int(frame), 1023 - 376, 15, 13, 3.141592, 'v', WIDTH / 2 + 300, HEIGHT / 2 + 170 - (choice * 150), 30, 26)
-    update_canvas()
 
+    equipment_list[random_item1].choice_draw(WIDTH/2 - 300, HEIGHT/2 + 170)
+    equipment_list[random_item2].choice_draw(WIDTH/2 - 300, HEIGHT/2 + 170 - 150)
+    equipment_list[random_item3].choice_draw(WIDTH/2 - 300, HEIGHT/2 + 170 - 300)
+
+    update_canvas()
 def update():
     global frame
     frame = (frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 7
