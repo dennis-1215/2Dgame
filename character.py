@@ -109,14 +109,14 @@ class RUN: # 수평 이동
             self.y -= RUN_SPEED_PPS * game_framework.frame_time
 
         # map cycle
-        if self.x >= WIDTH:
-            self.x = self.x - WIDTH
-        if self.y >= HEIGHT:
-            self.y = self.y - HEIGHT
-        if self.x <= -WIDTH:
-            self.x = WIDTH + self.x
-        if self.y <= -HEIGHT:
-            self.y = HEIGHT + self.y
+        if self.x >= 2 * WIDTH:
+            self.x = self.x - 2 * WIDTH
+        if self.y >= 2 * HEIGHT:
+            self.y = self.y - 2 * HEIGHT
+        if self.x <= -2 * WIDTH:
+            self.x = 2 * WIDTH + self.x
+        if self.y <= -2 * HEIGHT:
+            self.y = 2 * HEIGHT + self.y
         pass
     def draw(self):
         if self.dir == 1 or self.dir == 4 or self.dir == -2:
@@ -187,14 +187,14 @@ class RUN2: # 수직 이동
             self.y -= RUN_SPEED_PPS * game_framework.frame_time
 
         # map cycle
-        if self.x >= WIDTH:
-            self.x = self.x - WIDTH
-        if self.y >= HEIGHT:
-            self.y = self.y - HEIGHT
-        if self.x <= -WIDTH:
-            self.x = WIDTH + self.x
-        if self.y <= -HEIGHT:
-            self.y = HEIGHT + self.y
+        if self.x >= 2 * WIDTH:
+            self.x = self.x - 2 *WIDTH
+        if self.y >= 2 * HEIGHT:
+            self.y = self.y - 2 *HEIGHT
+        if self.x <= -2 * WIDTH:
+            self.x = 2 *WIDTH + self.x
+        if self.y <= -2 * HEIGHT:
+            self.y = 2 * HEIGHT + self.y
         pass
     def draw(self):
         if self.dir == 1 or self.dir == 4 or self.dir == -2:
@@ -264,14 +264,14 @@ class RUN3: # 대각 이동
             self.y -= RUN_SPEED_PPS * game_framework.frame_time
 
         # map cycle
-        if self.x >= WIDTH:
-            self.x = self.x - WIDTH
-        if self.y >= HEIGHT:
-            self.y = self.y - HEIGHT
-        if self.x <= -WIDTH:
-            self.x = WIDTH + self.x
-        if self.y <= -HEIGHT:
-            self.y = HEIGHT + self.y
+        if self.x >= 2 * WIDTH:
+            self.x = self.x - 2 * WIDTH
+        if self.y >= 2 * HEIGHT:
+            self.y = self.y - 2 * HEIGHT
+        if self.x <= -2 * WIDTH:
+            self.x = 2 * WIDTH + self.x
+        if self.y <= -2 * HEIGHT:
+            self.y = 2 * HEIGHT + self.y
         pass
     def draw(self):
         if self.dir == 1 or self.dir == 4 or self.dir == -2:

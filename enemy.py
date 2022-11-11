@@ -28,7 +28,7 @@ class Enemy:
             self.imageL = load_image('sprites/characters/enemy1L.png')
         self.speed = 2
         self.hp = 10
-        self.atk = 10
+        self.atk = 1
         self.drop = randint(1, 100)
 
         if randint(0, 1) == 1:

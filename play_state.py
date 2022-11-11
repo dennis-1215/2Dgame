@@ -7,6 +7,7 @@ import enemy
 import Item
 import character
 import back_ground
+import equipments
 import schedule
 import time
 
@@ -32,14 +33,15 @@ def handle_events():
 
 
 def enter():
-    global player, backgrounds, myutals, running, items, play_time
+    global player, backgrounds, myutals, running, items, play_time, equipment_list
     play_time = 0
     player = character.Character()
     backgrounds = [back_ground.BG() for i in range(9)]
+    equipment_list = [equipments.Whip(), equipments.Heal(), equipments.Hp(), equipments.Garlic()]
 
     for i in range(3):
         for j in range(3):
-            backgrounds[i*3+j].x, backgrounds[i*3+j].y =  (-1/2 * WIDTH) + (j * WIDTH), (-1/2 * HEIGHT) + (i * HEIGHT)
+            backgrounds[i*3+j].x, backgrounds[i*3+j].y =  (-1 * WIDTH) + (j * 2 * WIDTH), (-1 * HEIGHT) + (i * 2 * HEIGHT)
     game_world.add_objects(backgrounds, 0)
     game_world.add_object(player, 1)
 
