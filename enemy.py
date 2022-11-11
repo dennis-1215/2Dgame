@@ -28,8 +28,9 @@ class Enemy:
             self.imageL = load_image('sprites/characters/enemy1L.png')
         self.speed = 2
         self.hp = 10
-        self.atk = 1
+        self.atk = 0.01
         self.drop = randint(1, 100)
+        self.w, self.h = 63, 72
 
         if randint(0, 1) == 1:
             self.x = randint(0, WIDTH)
@@ -45,84 +46,90 @@ class Enemy:
                 self.x = WIDTH + 10
         self.frame = randint(0,5)
         self.running = True
-    def update(enemy, player):
-        if enemy.x < WIDTH / 2:
-            enemy.x += RUN_SPEED_PPS * game_framework.frame_time
-        if enemy.x > WIDTH / 2:
-            enemy.x -= RUN_SPEED_PPS * game_framework.frame_time
-        if enemy.y < HEIGHT / 2:
-            enemy.y += RUN_SPEED_PPS * game_framework.frame_time
-        if enemy.y > HEIGHT / 2:
-            enemy.y -= RUN_SPEED_PPS * game_framework.frame_time
+    def update(self, player):
+        if self.x < WIDTH / 2:
+            self.x += RUN_SPEED_PPS * game_framework.frame_time
+        if self.x > WIDTH / 2:
+            self.x -= RUN_SPEED_PPS * game_framework.frame_time
+        if self.y < HEIGHT / 2:
+            self.y += RUN_SPEED_PPS * game_framework.frame_time
+        if self.y > HEIGHT / 2:
+            self.y -= RUN_SPEED_PPS * game_framework.frame_time
 
         if player.dir == 1:
-            enemy.x -= character.RUN_SPEED_PPS * game_framework.frame_time
+            self.x -= character.RUN_SPEED_PPS * game_framework.frame_time
         elif player.dir == 2:
-            enemy.x += character.RUN_SPEED_PPS * game_framework.frame_time
-            enemy.y -= character.RUN_SPEED_PPS * game_framework.frame_time
+            self.x += character.RUN_SPEED_PPS * game_framework.frame_time
+            self.y -= character.RUN_SPEED_PPS * game_framework.frame_time
         elif player.dir == 3:
-            enemy.y -= character.RUN_SPEED_PPS * game_framework.frame_time
+            self.y -= character.RUN_SPEED_PPS * game_framework.frame_time
         elif player.dir == 4:
-            enemy.x -= character.RUN_SPEED_PPS * game_framework.frame_time
-            enemy.y -= character.RUN_SPEED_PPS * game_framework.frame_time
+            self.x -= character.RUN_SPEED_PPS * game_framework.frame_time
+            self.y -= character.RUN_SPEED_PPS * game_framework.frame_time
         elif player.dir == -1:
-            enemy.x += character.RUN_SPEED_PPS * game_framework.frame_time
+            self.x += character.RUN_SPEED_PPS * game_framework.frame_time
         elif player.dir == -2:
-            enemy.x -= character.RUN_SPEED_PPS * game_framework.frame_time
-            enemy.y += character.RUN_SPEED_PPS * game_framework.frame_time
+            self.x -= character.RUN_SPEED_PPS * game_framework.frame_time
+            self.y += character.RUN_SPEED_PPS * game_framework.frame_time
         elif player.dir == -3:
-            enemy.y += character.RUN_SPEED_PPS * game_framework.frame_time
+            self.y += character.RUN_SPEED_PPS * game_framework.frame_time
         elif player.dir == -4:
-            enemy.x += character.RUN_SPEED_PPS * game_framework.frame_time
-            enemy.y += character.RUN_SPEED_PPS * game_framework.frame_time
+            self.x += character.RUN_SPEED_PPS * game_framework.frame_time
+            self.y += character.RUN_SPEED_PPS * game_framework.frame_time
 
-        if abs(enemy.x - WIDTH/2) < 35 and abs(enemy.y - HEIGHT/2) < 40:
-            player.hp -= enemy.atk
-            if player.hp <= 0:
-                game_framework.push_state(gameover_state)
 
-        if enemy.hp < 1:
-            if enemy.drop <= 80:
-                game_world.add_object(Item.Item(enemy.x, enemy.y), 1)
-            game_world.remove_object(enemy)
 
     def draw(self, player):
         if self.x < WIDTH / 2:  # imageR 사용
             if self.y < HEIGHT / 2:
                 # 우상
-                self.imageR.clip_draw(136, 615 - int(self.frame) * 75, 63, 72, self.x, self.y)
+                self.imageR.clip_draw(136, 615 - int(self.frame) * 75, 63, 72, self.x, self.y, self.w, self.h)
                 self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 2
 
             elif self.y > HEIGHT / 2:
                 # 우하
-                self.imageR.clip_draw(471, 615 - int(self.frame) * 75, 63, 72, self.x, self.y)
+                self.imageR.clip_draw(471, 615 - int(self.frame) * 75, 63, 72, self.x, self.y, self.w, self.h)
                 self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 2
 
             else:
                 # 우측
-                self.imageR.clip_draw(203, 615 - int(self.frame) * 75, 63, 72, self.x, self.y)
+                self.imageR.clip_draw(203, 615 - int(self.frame) * 75, 63, 72, self.x, self.y, self.w, self.h)
                 self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 2
 
         elif self.x > WIDTH / 2:  # imageL 사용
             if self.y < HEIGHT / 2:
                 # 좌상
-                self.imageL.clip_draw(467, 615 - int(self.frame) * 75, 63, 72, self.x, self.y)
+                self.imageL.clip_draw(467, 615 - int(self.frame) * 75, 63, 72, self.x, self.y, self.w, self.h)
                 self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 2
 
             elif self.y > HEIGHT / 2:
                 # 좌하
-                self.imageL.clip_draw(199, 615 - int(self.frame) * 75, 63, 72, self.x, self.y)
+                self.imageL.clip_draw(199, 615 - int(self.frame) * 75, 63, 72, self.x, self.y, self.w, self.h)
                 self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 2
 
             else:
                 # 좌측
-                self.imageL.clip_draw(333, 615 - int(self.frame) * 75, 63, 72, self.x, self.y)
+                self.imageL.clip_draw(333, 615 - int(self.frame) * 75, 63, 72, self.x, self.y, self.w, self.h)
                 self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 2
 
         else:
-            self.imageR.clip_draw(203, 615 - int(self.frame) * 75, 63, 72, self.x, self.y)
+            self.imageR.clip_draw(203, 615 - int(self.frame) * 75, 63, 72, self.x, self.y, self.w, self.h)
             self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 2
+        draw_rectangle(*self.get_bb(player))
 
+    def handle_collision(self, other, group):
+        if group == 'player:enemy':
+            pass
+        if group == 'whip:enemy' or group == 'garlic:enemy':
+            self.hp -= other.damage
+            if self.hp <= 0:
+                if self.drop <= 80:
+                    game_world.add_object(Item.Item(self.x, self.y), 2)
+                game_world.remove_object(self)
+
+
+    def get_bb(self, player):
+        return self.x - self.w/2 + 10, self.y - self.h/2 + 10, self.x + self.w/2 - 10, self.y + self.h/2 - 10
 
 
 

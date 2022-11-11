@@ -33,7 +33,7 @@ def handle_events():
 
 
 def enter():
-    global player, backgrounds, myutals, running, items, play_time, equipment_list
+    global player, backgrounds, play_time, equipment_list
     play_time = 0
     player = character.Character()
     backgrounds = [back_ground.BG() for i in range(9)]
@@ -46,21 +46,22 @@ def enter():
     game_world.add_objects(equipment_list, 1)
     game_world.add_object(player, 2)
 
+
 # finalization code
 def exit():
     game_world.clear()
 
 def update():
-    global attack_speed
-    attack_speed = player.atk_speed
     schedule.run_pending()
 
     for game_object in game_world.all_objects():
         game_object.update(player)
 
-    if player.atk_frame == 5:
-        for game_object in game_world.objects[2]:
-            player.attack_rect(game_object)
+    for a, b, group in game_world.all_collision_pairs():
+        if collide(a, b, player):
+            print('COLLISION ', group)
+            a.handle_collision(b, group)
+            b.handle_collision(a, group)
 
 def draw_world():
     for game_object in game_world.all_objects():
@@ -69,10 +70,6 @@ def draw_world():
 def draw():
     clear_canvas()
     draw_world()
-    if attack_on == 1:
-        player.attack_draw()
-    else:
-        player.atk_frame = 0
     update_canvas()
 def pause():
     pass
@@ -81,22 +78,29 @@ def resume():
     pass
 
 def enemy_on():
-    #myutals.append(enemy.Enemy())
-    game_world.add_object(enemy.Enemy(), 2)
-
-def player_attack():
-    global attack_on, job2
-    attack_on = (attack_on + 1) % 10
-    schedule.cancel_job(job2)
-    job2 = schedule.every(attack_speed/10).seconds.do(player_attack)
+    game_world.add_object(enemy.Enemy(), 3)
+    game_world.add_collision_pairs(player, game_world.objects[3][len(game_world.objects[3]) - 1], 'player:enemy')
+    game_world.add_collision_pairs(equipment_list[0], game_world.objects[3][len(game_world.objects[3]) - 1], 'whip:enemy')
+    game_world.add_collision_pairs(equipment_list[3], game_world.objects[3][len(game_world.objects[3]) - 1], 'garlic:enemy')
 
 def play_timer():
     global play_time
     play_time += 1
+    for game_world.object in game_world.objects[1]:
+        game_world.object.time += 1
     if play_time == 1800:
         schedule.cancel_job(job)
         game_framework.push_state(win_state)
 
+
+def collide(a, b, player):
+    left_a, bottom_a, right_a, top_a = a.get_bb(player)
+    left_b, bottom_b, right_b, top_b = b.get_bb(player)
+    if left_a > right_b: return False
+    if right_a < left_b: return False
+    if top_a < bottom_b: return False
+    if bottom_a > top_b: return False
+    return True
+
 job = schedule.every(1).seconds.do(play_timer)
 job1 = schedule.every(3).seconds.do(enemy_on)
-job2 = schedule.every(attack_speed/10).seconds.do(player_attack)

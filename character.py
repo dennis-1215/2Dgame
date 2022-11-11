@@ -2,6 +2,7 @@ from pico2d import *
 import Item
 import schedule
 import game_framework
+import gameover_state
 import game_world
 import play_state
 
@@ -39,9 +40,9 @@ class IDLE:
 
     @staticmethod
     def exit(self, event):
-        if event == RD:
+        if event == RD or event == LU:
             self.face_dir = 1
-        elif event == LD:
+        elif event == LD or event == RU:
             self.face_dir = -1
     @staticmethod
     def do(self):
@@ -53,11 +54,11 @@ class IDLE:
             self.frame = self.frame % 2
 
         if self.face_dir == 1:
-            self.image.clip_draw(36 + int(self.frame) * 35, 171, 35, 34, WIDTH/2, HEIGHT/2)
+            self.image.clip_draw(36 + int(self.frame) * 35, 171, 35, 34, WIDTH/2, HEIGHT/2, self.w, self.h)
             self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 2
 
         else:
-            self.image.clip_draw(324 + int(self.frame) * 35, 171, 35, 34, WIDTH/2, HEIGHT/2)
+            self.image.clip_draw(324 + int(self.frame) * 35, 171, 35, 34, WIDTH/2, HEIGHT/2, self.w, self.h)
             self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 2
 
 
@@ -120,21 +121,17 @@ class RUN: # 수평 이동
         pass
     def draw(self):
         if self.dir == 1 or self.dir == 4 or self.dir == -2:
-            self.image.clip_draw(72 + int(self.frame) * 35, 171, 35, 34, WIDTH / 2, HEIGHT / 2)
-            self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 4
+            self.image.clip_draw(72 + int(self.frame) * 35, 171, 35, 34, WIDTH / 2, HEIGHT / 2, self.w, self.h)
 
         elif self.dir == -1 or self.dir == -4 or self.dir == 2:
-            self.image.clip_draw(216 + int(self.frame) * 35, 171, 35, 34, WIDTH / 2, HEIGHT / 2)
-            self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 4
+            self.image.clip_draw(216 + int(self.frame) * 35, 171, 35, 34, WIDTH / 2, HEIGHT / 2, self.w, self.h)
 
         if self.dir == 3 or self.dir == -3:
             if self.face_dir == 1:
-                self.image.clip_draw(72 + int(self.frame) * 35, 171, 35, 34, WIDTH / 2, HEIGHT / 2)
-                self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 4
-
+                self.image.clip_draw(72 + int(self.frame) * 35, 171, 35, 34, WIDTH / 2, HEIGHT / 2, self.w, self.h)
             else:
-                self.image.clip_draw(216 + int(self.frame) // 10 * 35, 171, 35, 34, WIDTH / 2, HEIGHT / 2)
-                self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 4
+                self.image.clip_draw(216 + int(self.frame) // 10 * 35, 171, 35, 34, WIDTH / 2, HEIGHT / 2, self.w, self.h)
+        self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 4
 
 
 class RUN2: # 수직 이동
@@ -198,21 +195,18 @@ class RUN2: # 수직 이동
         pass
     def draw(self):
         if self.dir == 1 or self.dir == 4 or self.dir == -2:
-            self.image.clip_draw(72 + int(self.frame) * 35, 171, 35, 34, WIDTH / 2, HEIGHT / 2)
-            self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 4
+            self.image.clip_draw(72 + int(self.frame) * 35, 171, 35, 34, WIDTH / 2, HEIGHT / 2, self.w, self.h)
 
         elif self.dir == -1 or self.dir == -4 or self.dir == 2:
-            self.image.clip_draw(216 + int(self.frame) * 35, 171, 35, 34, WIDTH / 2, HEIGHT / 2)
-            self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 4
+            self.image.clip_draw(216 + int(self.frame) * 35, 171, 35, 34, WIDTH / 2, HEIGHT / 2, self.w, self.h)
 
         if self.dir == 3 or self.dir == -3:
             if self.face_dir == 1:
-                self.image.clip_draw(72 + int(self.frame) * 35, 171, 35, 34, WIDTH / 2, HEIGHT / 2)
-                self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 4
+                self.image.clip_draw(72 + int(self.frame) * 35, 171, 35, 34, WIDTH / 2, HEIGHT / 2, self.w, self.h)
 
             else:
-                self.image.clip_draw(216 + int(self.frame) // 10 * 35, 171, 35, 34, WIDTH / 2, HEIGHT / 2)
-                self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 4
+                self.image.clip_draw(216 + int(self.frame) * 35, 171, 35, 34, WIDTH / 2, HEIGHT / 2, self.w, self.h)
+        self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 4
 
 class RUN3: # 대각 이동
     def enter(self, event):
@@ -275,21 +269,18 @@ class RUN3: # 대각 이동
         pass
     def draw(self):
         if self.dir == 1 or self.dir == 4 or self.dir == -2:
-            self.image.clip_draw(72 + int(self.frame) * 35, 171, 35, 34, WIDTH / 2, HEIGHT / 2)
-            self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 4
+            self.image.clip_draw(72 + int(self.frame) * 35, 171, 35, 34, WIDTH / 2, HEIGHT / 2, self.w, self.h)
 
         elif self.dir == -1 or self.dir == -4 or self.dir == 2:
-            self.image.clip_draw(216 + int(self.frame) * 35, 171, 35, 34, WIDTH / 2, HEIGHT / 2)
-            self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 4
+            self.image.clip_draw(216 + int(self.frame) * 35, 171, 35, 34, WIDTH / 2, HEIGHT / 2, self.w, self.h)
 
         if self.dir == 3 or self.dir == -3:
             if self.face_dir == 1:
-                self.image.clip_draw(72 + int(self.frame) * 35, 171, 35, 34, WIDTH / 2, HEIGHT / 2)
-                self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 4
+                self.image.clip_draw(72 + int(self.frame) * 35, 171, 35, 34, WIDTH / 2, HEIGHT / 2, self.w, self.h)
 
             else:
-                self.image.clip_draw(216 + int(self.frame) // 10 * 35, 171, 35, 34, WIDTH / 2, HEIGHT / 2)
-                self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 4
+                self.image.clip_draw(216 + int(self.frame) // 10 * 35, 171, 35, 34, WIDTH / 2, HEIGHT / 2, self.w, self.h)
+        self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 4
 
 next_state = {
     IDLE: {RU: RUN, LU: RUN, RD: RUN, LD: RUN, UU: RUN2, DU: RUN2, UD: RUN2, DD: RUN2},
@@ -302,8 +293,8 @@ next_state = {
 class Character:
     def __init__(self):
         self.image = load_image('sprites/characters/characters.png')
-        self.image_vfx = load_image('sprites/characters/vfx.png')
         self.x, self.y = 0, 0
+        self.w, self.h = 50, 55
         self.dir, self.face_dir = 0, 1
         self.max_hp = 1000
         self.hp = 1000
@@ -339,6 +330,7 @@ class Character:
         self.image.clip_draw(2, 448, 2, 1, WIDTH / 2 - 17, HEIGHT / 2 - 20, 80 * self.hp / self.max_hp, 4)  # 현재 체력바
         self.image.clip_draw(0, 1077, 2, 1, 0, HEIGHT - 5, WIDTH * 2, 10)  # 최대 경험치 바
         self.image.clip_draw(0, 1, 2, 1, 0, HEIGHT - 5, WIDTH * 2 * self.exp / self.max_exp, 10)  # 현재 경험치 바
+        draw_rectangle(*self.get_bb(player))
 
     def add_event(self, event):
         self.event_que.insert(0, event)
@@ -348,24 +340,12 @@ class Character:
             key_event = key_event_table[(event.type, event.key)]
             self.add_event(key_event)
 
+    def handle_collision(self, other, group):
+        if group == 'player:enemy':
+            self.hp -= other.atk
+            if self.hp <= 0:
+                game_framework.push_state(gameover_state)
 
-    def draw_status(self):
-        pass
-    def attack_draw(self):
-        if self.face_dir == 1:
-            self.image_vfx.clip_composite_draw(0, 985 - 64, 148, 20, 0, '', WIDTH / 2 + 17 + 32, HEIGHT / 2, self.atk_range / 9 * self.atk_frame, self.atk_frame)
-        elif self.face_dir == -1:
-            self.image_vfx.clip_composite_draw(0, 985 - 64, 148, 20, -3.141592, '', WIDTH / 2 - 17 - 32, HEIGHT/2, self.atk_range / 9 * self.atk_frame, self.atk_frame)
-        self.atk_frame = self.atk_frame % 10 + 1
-
-    def attack_rect(self, enemy):
-        if self.face_dir == 1:
-            if enemy.x - WIDTH / 2 <= 35 + self.atk_range and enemy.x > WIDTH/2 and enemy.y - HEIGHT/2 <= 20 and enemy.y >= HEIGHT/2 - 20:
-                enemy.hp -= self.atk
-        else:
-            if WIDTH / 2 - enemy.x <= 35 + self.atk_range and enemy.x < WIDTH/2 and enemy.y - HEIGHT/2 <= 20 and enemy.y >= HEIGHT/2 - 20:
-                enemy.hp -= self.atk
-
-
-
+    def get_bb(self, player):
+        return WIDTH/2 - self.w/2, HEIGHT/2 - self.h/2, WIDTH/2 + self.w/2, HEIGHT/2 + self.h/2
 
