@@ -58,7 +58,8 @@ class Whip:
         if player.face_dir == 1:
             return WIDTH/2, HEIGHT/2 - self.frame * 3, WIDTH/2 + self.range / 2 * self.frame, HEIGHT/2 + self.frame * 3
         if player.face_dir == -1:
-            return WIDTH/2, HEIGHT/2 - self.frame * 3, WIDTH/2 - self.range / 2 * self.frame, HEIGHT/2 + self.frame * 3
+            return WIDTH/2 - self.range / 2 * self.frame, HEIGHT/2 - self.frame * 3, WIDTH / 2, HEIGHT/2 + self.frame * 3
+
 
     def handle_collision(self, other, group):
         if group == 'whip:enemy':
