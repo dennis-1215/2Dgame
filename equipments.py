@@ -28,12 +28,13 @@ class Whip:
         self.font.draw(x + 150, y + 30, f'{self.name}')
         self.font.draw(x + 500, y + 30, f'Lv. {self.level}')
 
-    def play_draw(self, x, y):
+    def draw(self, player):
         pass
 
     def choiced(self):
         pass
-    def update(self):
+
+    def update(self, player):
         pass
 
 class Heal(Whip):
@@ -57,11 +58,10 @@ class Heal(Whip):
         self.x, self.y = 394, 392 - 102
         self.width, self.height = 12, 12
 
-
-    def play_draw(self, x, y):
+    def draw(self, player):
         pass
 
-    def update(self):
+    def update(self, player):
         pass
 
 class Hp(Whip):
@@ -83,10 +83,10 @@ class Hp(Whip):
         self.x, self.y = 404, 392-187
         self.width, self.height = 15, 15
 
-    def play_draw(self, x, y):
+    def draw(self, player):
         pass
 
-    def update(self):
+    def update(self, player):
         pass
 
 class Garlic(Whip):
@@ -111,9 +111,8 @@ class Garlic(Whip):
         self.x, self.y = 406, 392-363
         self.width, self.height = 11, 11
 
-
-    def play_draw(self, x, y):
+    def draw(self, player):
         pass
 
-    def update(self):
+    def update(self, player):
         pass

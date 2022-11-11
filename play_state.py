@@ -43,7 +43,8 @@ def enter():
         for j in range(3):
             backgrounds[i*3+j].x, backgrounds[i*3+j].y =  (-1 * WIDTH) + (j * 2 * WIDTH), (-1 * HEIGHT) + (i * 2 * HEIGHT)
     game_world.add_objects(backgrounds, 0)
-    game_world.add_object(player, 1)
+    game_world.add_objects(equipment_list, 1)
+    game_world.add_object(player, 2)
 
 # finalization code
 def exit():
