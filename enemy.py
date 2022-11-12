@@ -21,13 +21,13 @@ FRAMES_PER_ACTION = 5
 WIDTH, HEIGHT = 1024, 1024
 class Enemy:
     imageR, imageL = None, None
-    def __init__(self):
+    def __init__(self, hp = 15):
         if Enemy.imageR == None:
             self.imageR = load_image('sprites/characters/enemy1R.png')
         if Enemy.imageL == None:
             self.imageL = load_image('sprites/characters/enemy1L.png')
         self.speed = 2
-        self.hp = 10
+        self.hp = hp
         self.atk = 0.01
         self.drop = randint(1, 100)
         self.w, self.h = 63, 72
@@ -120,7 +120,7 @@ class Enemy:
     def handle_collision(self, other, group):
         if group == 'player:enemy':
             pass
-        if group == 'whip:enemy' or group == 'garlic:enemy':
+        if group == 'whip:enemy' or group == 'garlic:enemy' or 'whip2:enemy':
             self.hp -= other.damage
             if self.hp <= 0:
                 if self.drop <= 80:

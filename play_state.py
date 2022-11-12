@@ -19,7 +19,7 @@ backgrounds = None
 attack_on = 0
 attack_speed = 1
 play_time = 0
-
+equipment_list = []
 
 def handle_events():
     events = get_events()
@@ -37,7 +37,7 @@ def enter():
     play_time = 0
     player = character.Character()
     backgrounds = [back_ground.BG() for i in range(9)]
-    equipment_list = [equipments.Whip(), equipments.Heal(), equipments.Hp(), equipments.Garlic()]
+    equipment_list = [equipments.Whip(), equipments.Heal(), equipments.Hp(), equipments.Garlic(), equipments.Second_Whip()]
 
     for i in range(3):
         for j in range(3):
@@ -56,6 +56,9 @@ def update():
 
     for game_object in game_world.all_objects():
         game_object.update(player)
+
+    print(f'whip: {game_world.objects[1][0].time:.2f}')
+    print(f's_whip: {game_world.objects[1][-1].time:.2f}')
 
     for a, b, group in game_world.all_collision_pairs():
         if collide(a, b, player):
@@ -78,16 +81,18 @@ def resume():
     pass
 
 def enemy_on():
-    game_world.add_object(enemy.Enemy(), 3)
+    if play_time < 20:
+        game_world.add_object(enemy.Enemy(), 3)
+    else:
+        game_world.add_object(enemy.Enemy(play_time), 3)
     game_world.add_collision_pairs(player, game_world.objects[3][len(game_world.objects[3]) - 1], 'player:enemy')
     game_world.add_collision_pairs(equipment_list[0], game_world.objects[3][len(game_world.objects[3]) - 1], 'whip:enemy')
+    game_world.add_collision_pairs(equipment_list[-1], game_world.objects[3][len(game_world.objects[3]) - 1], 'whip2:enemy')
     game_world.add_collision_pairs(equipment_list[3], game_world.objects[3][len(game_world.objects[3]) - 1], 'garlic:enemy')
 
 def play_timer():
     global play_time
     play_time += 1
-    for game_world.object in game_world.objects[1]:
-        game_world.object.time += 1
     if play_time == 1800:
         schedule.cancel_job(job)
         game_framework.push_state(win_state)
@@ -103,4 +108,4 @@ def collide(a, b, player):
     return True
 
 job = schedule.every(1).seconds.do(play_timer)
-job1 = schedule.every(3).seconds.do(enemy_on)
+job1 = schedule.every(2).seconds.do(enemy_on)

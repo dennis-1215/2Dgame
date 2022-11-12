@@ -301,7 +301,7 @@ class Character:
         self.level = 0
         self.max_exp = 100
         self.exp = 0
-        self.atk = 10
+        self.damage = 0
         self.atk_speed = 2
         self.atk_range = 60
         self.move = 0

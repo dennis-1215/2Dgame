@@ -23,16 +23,16 @@ def enter():
     image_LU = load_image('sprites/framework/level_up.png')
     image_choice = load_image('sprites/framework/UI.png')
     choice = 0
-    random_item[0] = randint(0, len(play_state.equipment_list) - 1)
-    random_item[1] = randint(0, len(play_state.equipment_list) - 1)
-    random_item[2] = randint(0, len(play_state.equipment_list) - 1)
+    random_item[0] = randint(0, len(play_state.equipment_list) - 2)
+    random_item[1] = randint(0, len(play_state.equipment_list) - 2)
+    random_item[2] = randint(0, len(play_state.equipment_list) - 2)
 
     while True:
         if random_item[0] == random_item[1]:
-            random_item[1] = randint(0, len(play_state.equipment_list) - 1)
+            random_item[1] = randint(0, len(play_state.equipment_list) - 2)
             continue
         if random_item[2] == random_item[1] or random_item[2] == random_item[0]:
-            random_item[2] = randint(0, len(play_state.equipment_list) - 1)
+            random_item[2] = randint(0, len(play_state.equipment_list) - 2)
         else:
             break
 def exit():
@@ -51,6 +51,8 @@ def handle_events():
             game_framework.quit()
         elif event.type == SDL_KEYDOWN and event.key == SDLK_RETURN or event.key == SDLK_SPACE:
             play_state.equipment_list[random_item[choice]].level += 1
+            play_state.equipment_list[random_item[choice]].choiced()
+
             game_framework.pop_state()
 
         elif event.type == SDL_KEYDOWN and event.key == SDLK_UP:
