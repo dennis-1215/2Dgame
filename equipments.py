@@ -84,11 +84,13 @@ class Whip():
 
 
     def get_bb(self, player):
-        if player.face_dir == 1:
-            return WIDTH/2, HEIGHT/2 - self.frame * 3, WIDTH/2 + self.range / 2 * self.frame, HEIGHT/2 + self.frame * 3
-        if player.face_dir == -1:
-            return WIDTH/2 - self.range / 2 * self.frame, HEIGHT/2 - self.frame * 3, WIDTH / 2, HEIGHT/2 + self.frame * 3
-
+        if self.time >= self.cooltime:
+            if player.face_dir == 1:
+                return WIDTH/2, HEIGHT/2 - self.frame * 3, WIDTH/2 + self.range / 2 * self.frame, HEIGHT/2 + self.frame * 3
+            if player.face_dir == -1:
+                return WIDTH/2 - self.range / 2 * self.frame, HEIGHT/2 - self.frame * 3, WIDTH / 2, HEIGHT/2 + self.frame * 3
+        else:
+            return 0, 0, 0, 0
 
     def handle_collision(self, other, group):
         if group == 'whip:enemy':
@@ -105,7 +107,7 @@ class Second_Whip():
         self.damage = 15
         self.frame = 0
         self.time = 0
-        self.cooltime = 2.39
+        self.cooltime = 2.29
         self.range = 80
         self.level = 0
         self.description = ['바라보는 방향의 반대 방향으로도 1회 공격합니다.',
@@ -122,14 +124,14 @@ class Second_Whip():
     def choice_draw(self, x, y):pass
     def draw(self, player):
         if self.level >= 1:
-            if self.time > self.cooltime:
+            if self.time >= self.cooltime:
                 if player.face_dir == -1:
                     self.image_vfx.clip_composite_draw(0, 985 - 64, 148, 20, 0, '', WIDTH / 2 + 17 + player.w, HEIGHT / 2, self.range / 2 * self.frame, 6 * self.frame)
                 elif player.face_dir == 1:
-                    self.image_vfx.clip_composite_draw(0, 985 - 64, 148, 20, 0, 'h', WIDTH / 2 - 17 - player.w, HEIGHT / 2, self.range / 2 * self.frame, 6 * self.frame)
+                    self.image_vfx.clip_composite_draw(0, 985 - 64, 148, 20, 0, 'hv', WIDTH / 2 - 17 - player.w, HEIGHT / 2, self.range / 2 * self.frame, 6 * self.frame)
                 self.frame = (self.frame + Whip_FRAMES_PER_ACTION * Whip_ACTION_PER_TIME * game_framework.frame_time)
-                if self.frame >= 3.9 + 0.39:
-                    self.time = 0.39
+                if self.frame >= 3.99:
+                    self.time = 0.29
                     self.frame = 0
 
 
@@ -142,14 +144,14 @@ class Second_Whip():
 
     def get_bb(self, player):
         if self.level >= 1:
-            if player.face_dir == 1:
-                return WIDTH/2 - self.range / 2 * self.frame, HEIGHT/2 - self.frame * 3, WIDTH / 2, HEIGHT/2 + self.frame * 3
-
-            if player.face_dir == -1:
-                return WIDTH/2, HEIGHT/2 - self.frame * 3, WIDTH/2 + self.range / 2 * self.frame, HEIGHT/2 + self.frame * 3
-        else:
-            return 0, 0, 0, 0
-
+            if self.time >= self.cooltime:
+                if player.face_dir == 1:
+                    return WIDTH/2 - self.range / 2 * self.frame, HEIGHT/2 - self.frame * 3, WIDTH / 2, HEIGHT/2 + self.frame * 3
+                if player.face_dir == -1:
+                    return WIDTH/2, HEIGHT/2 - self.frame * 3, WIDTH/2 + self.range / 2 * self.frame, HEIGHT/2 + self.frame * 3
+            else:
+                return 0, 0, 0, 0
+        return 0, 0, 0, 0
     def handle_collision(self, other, group):
         if group == 'whip2:enemy':
             pass
@@ -179,7 +181,7 @@ class Heal(Whip):
     def draw(self, player):
         if self.level >= 1:
             if self.cooltime - self.time < 0.5:
-                self.font.draw(WIDTH/2 , HEIGHT/2+ self.time * player.h/3, f'{self.damage}', (20, 255, 20))
+                self.font.draw(WIDTH/2 , HEIGHT/2 + player.h + (self.time - self.cooltime) * player.h, f'{self.damage}', (20, 255, 20))
 
 
     def get_bb(self, player):

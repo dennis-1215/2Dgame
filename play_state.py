@@ -16,8 +16,6 @@ WIDTH, HEIGHT = 1024, 1024
 
 player = None # c로 따지믄 NULL
 backgrounds = None
-attack_on = 0
-attack_speed = 1
 play_time = 0
 equipment_list = []
 
@@ -46,25 +44,33 @@ def enter():
     game_world.add_objects(equipment_list, 1)
     game_world.add_object(player, 2)
 
+    game_world.add_collision_pairs(player, None, 'player:enemy')
+    game_world.add_collision_pairs(equipment_list[0], None, 'whip:enemy')
+    game_world.add_collision_pairs(equipment_list[-1], None, 'whip2:enemy')
+    game_world.add_collision_pairs(equipment_list[3], None, 'garlic:enemy')
+
 
 # finalization code
 def exit():
     game_world.clear()
 
 def update():
+    global play_time
     schedule.run_pending()
+    play_time += game_framework.frame_time
 
     for game_object in game_world.all_objects():
         game_object.update(player)
 
-    print(f'whip: {game_world.objects[1][0].time:.2f}')
-    print(f's_whip: {game_world.objects[1][-1].time:.2f}')
 
     for a, b, group in game_world.all_collision_pairs():
         if collide(a, b, player):
-            print('COLLISION ', group)
+            #print('COLLISION ', group)
             a.handle_collision(b, group)
             b.handle_collision(a, group)
+
+    if play_time >= 1800.0:
+        game_framework.push_state(win_state)
 
 def draw_world():
     for game_object in game_world.all_objects():
@@ -81,21 +87,12 @@ def resume():
     pass
 
 def enemy_on():
-    if play_time < 20:
-        game_world.add_object(enemy.Enemy(), 3)
-    else:
-        game_world.add_object(enemy.Enemy(play_time), 3)
-    game_world.add_collision_pairs(player, game_world.objects[3][len(game_world.objects[3]) - 1], 'player:enemy')
-    game_world.add_collision_pairs(equipment_list[0], game_world.objects[3][len(game_world.objects[3]) - 1], 'whip:enemy')
-    game_world.add_collision_pairs(equipment_list[-1], game_world.objects[3][len(game_world.objects[3]) - 1], 'whip2:enemy')
-    game_world.add_collision_pairs(equipment_list[3], game_world.objects[3][len(game_world.objects[3]) - 1], 'garlic:enemy')
-
-def play_timer():
-    global play_time
-    play_time += 1
-    if play_time == 1800:
-        schedule.cancel_job(job)
-        game_framework.push_state(win_state)
+    game_world.add_object(enemy.Enemy(play_time), 3)
+    game_world.add_collision_pairs(None, game_world.objects[3][-1], 'player:enemy')
+    game_world.add_collision_pairs(None, game_world.objects[3][-1], 'whip:enemy')
+    game_world.add_collision_pairs(None, game_world.objects[3][-1], 'whip2:enemy')
+    game_world.add_collision_pairs(None, game_world.objects[3][-1], 'garlic:enemy')
+    print(game_world.collision_group)
 
 
 def collide(a, b, player):
@@ -107,5 +104,4 @@ def collide(a, b, player):
     if bottom_a > top_b: return False
     return True
 
-job = schedule.every(1).seconds.do(play_timer)
 job1 = schedule.every(2).seconds.do(enemy_on)

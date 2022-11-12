@@ -36,10 +36,7 @@ def enter():
         else:
             break
 def exit():
-    global image_LU, image_choice, choice
-    del image_LU
-    del image_choice
-    del choice
+    pass
 
 def handle_events():
     global choice, random_item

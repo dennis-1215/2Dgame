@@ -21,14 +21,14 @@ FRAMES_PER_ACTION = 5
 WIDTH, HEIGHT = 1024, 1024
 class Enemy:
     imageR, imageL = None, None
-    def __init__(self, hp = 15):
+    def __init__(self, time = 1):
         if Enemy.imageR == None:
             self.imageR = load_image('sprites/characters/enemy1R.png')
         if Enemy.imageL == None:
             self.imageL = load_image('sprites/characters/enemy1L.png')
         self.speed = 2
-        self.hp = hp
-        self.atk = 0.01
+        self.hp = 100 * time // 60
+        self.atk = 1
         self.drop = randint(1, 100)
         self.w, self.h = 63, 72
 
@@ -44,7 +44,7 @@ class Enemy:
                 self.x = -10
             else:
                 self.x = WIDTH + 10
-        self.frame = randint(0,5)
+        self.frame = randint(0, 5)
         self.running = True
     def update(self, player):
         if self.x < WIDTH / 2:
@@ -120,7 +120,13 @@ class Enemy:
     def handle_collision(self, other, group):
         if group == 'player:enemy':
             pass
-        if group == 'whip:enemy' or group == 'garlic:enemy' or 'whip2:enemy':
+        if group == 'whip:enemy' or group == 'whip2:enemy':
+            self.hp -= other.damage
+            if self.hp <= 0:
+                if self.drop <= 80:
+                    game_world.add_object(Item.Item(self.x, self.y), 2)
+                game_world.remove_object(self)
+        if group == 'garlic:enemy':
             self.hp -= other.damage
             if self.hp <= 0:
                 if self.drop <= 80:

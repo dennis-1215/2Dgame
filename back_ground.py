@@ -18,4 +18,4 @@ class BG:
         pass
     def draw(self, player):
         self.image.clip_draw(0, 0, WIDTH, HEIGHT, self.x - player.x, self.y - player.y, WIDTH*2 , HEIGHT*2)
-        self.font.draw(WIDTH/2, HEIGHT - 50, f'{play_state.play_time // 60}:{play_state.play_time%60}', (255,255,255))
+        self.font.draw(WIDTH/2, HEIGHT - 50, f'{int(play_state.play_time // 60)}:{int(play_state.play_time%60)}', (255,255,255))

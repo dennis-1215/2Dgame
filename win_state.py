@@ -1,5 +1,6 @@
 from pico2d import *
 import game_framework
+import game_world
 import play_state
 import title_state
 import schedule
@@ -16,6 +17,7 @@ def enter():
 def exit():
     play_state.play_time = 0
     play_state.job = schedule.every(1).seconds.do(play_state.play_timer)
+    game_world.clear()
     global image
     del image
 

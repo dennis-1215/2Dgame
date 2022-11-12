@@ -30,6 +30,13 @@ def clear():
     for layer in objects:
         layer.clear()
 
+    for a, b, group in all_collision_pairs():
+        remove_collision_object(a)
+        remove_collision_object(b)
+        remove_collision_object(a)
+        remove_collision_object(b)
+
+
 def add_collision_pairs(a, b, group):
     if group not in collision_group:
         print('Add new group ', group)
