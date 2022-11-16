@@ -1,6 +1,7 @@
 from pico2d import *
 import game_framework
 import play_state
+import character
 
 WIDTH, HEIGHT = 1024, 1024
 
@@ -315,3 +316,49 @@ class Garlic(Whip):
             self.damage *= 3.0
             self.range *= 2
             self.cooltime = 1.0
+
+class Shoes(Whip):
+    image = None
+    def __init__(self):
+        if Heal.image == None:
+            self.image = load_image('sprites/characters/items.png')
+            self.font = load_font('font/KO.ttf', 20)
+        self.name = 'Shoes'
+        self.damage = 10
+        self.time = 0
+        self.cooltime = 2.0
+        self.level = 0
+        self.description = ['이동속도가 빨라집니다.',
+                            '이동속도가 빨라집니다.',
+                            '이동속도가 빨라집니다.',
+                            '이동속도가 빨라집니다.',
+                            '이동속도가 빨라집니다.',
+                            '이동속도가 빨라집니다.',
+                            '이동속도가 빨라집니다.',
+                            ]
+        self.x, self.y = 334, 392 - 295
+        self.width, self.height = 14, 15
+
+    def draw(self, player):
+        pass
+
+    def get_bb(self, player):
+        pass
+
+    def choiced(self):
+        if self.level == 1:
+            character.RUN_SPEED_KMPH += 0.5
+        if self.level == 2:
+            character.RUN_SPEED_KMPH += 0.5
+        if self.level == 3:
+            character.RUN_SPEED_KMPH += 1.0
+        if self.level == 4:
+            character.RUN_SPEED_KMPH += 1.0
+        if self.level == 5:
+            character.RUN_SPEED_KMPH += 2.0
+        if self.level == 6:
+            character.RUN_SPEED_KMPH += 2.0
+        if self.level == 7:
+            character.RUN_SPEED_KMPH += 5.0
+    def update(self, player):
+        pass

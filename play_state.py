@@ -35,7 +35,7 @@ def enter():
     play_time = 0
     player = character.Character()
     backgrounds = [back_ground.BG() for i in range(9)]
-    equipment_list = [equipments.Whip(), equipments.Heal(), equipments.Hp(), equipments.Garlic(), equipments.Second_Whip()]
+    equipment_list = [equipments.Whip(), equipments.Heal(), equipments.Hp(), equipments.Garlic(), equipments.Shoes(), equipments.Second_Whip()]
 
     for i in range(3):
         for j in range(3):

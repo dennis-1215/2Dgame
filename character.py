@@ -302,11 +302,7 @@ class Character:
         self.max_exp = 100
         self.exp = 0
         self.damage = 0
-        self.atk_speed = 2
-        self.atk_range = 60
-        self.move = 0
         self.frame = 0
-        self.atk_frame = 1
         self.event_que = []
         self.cur_state = IDLE
         self.cur_state.enter(self, None)
