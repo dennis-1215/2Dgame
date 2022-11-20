@@ -28,11 +28,17 @@ def enter():
     random_item[2] = randint(0, len(play_state.equipment_list) - 2)
 
     while True:
+        if play_state.equipment_list[random_item[0]].level > 6:
+            random_item[0] = randint(0, len(play_state.equipment_list) - 2)
         if random_item[0] == random_item[1]:
             random_item[1] = randint(0, len(play_state.equipment_list) - 2)
+            if play_state.equipment_list[random_item[1]].level > 6:
+                random_item[1] = randint(0, len(play_state.equipment_list) - 2)
             continue
         if random_item[2] == random_item[1] or random_item[2] == random_item[0]:
             random_item[2] = randint(0, len(play_state.equipment_list) - 2)
+            if play_state.equipment_list[random_item[2]].level > 6:
+                random_item[2] = randint(0, len(play_state.equipment_list) - 2)
         else:
             break
 def exit():

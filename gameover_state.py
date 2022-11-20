@@ -2,6 +2,7 @@ from pico2d import *
 import game_framework
 import game_world
 import play_state
+import character
 import title_state
 
 WIDTH, HEIGHT = 1024, 1024
@@ -16,6 +17,7 @@ def enter():
 def exit():
     game_world.clear()
     play_state.play_time = 0
+    character.RUN_SPEED_KMPH = 10.0
     print(game_world.objects)
     print(game_world.collision_group)
     global image

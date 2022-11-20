@@ -10,7 +10,7 @@ WIDTH, HEIGHT = 1024, 1024
 
 # Player Run Speed
 PIXEL_PER_METER = (32.0 / 1.0) # 32 pixel = 100 cm
-RUN_SPEED_KMPH = 20.0
+RUN_SPEED_KMPH = 10.0
 RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000.0 / 60.0)
 RUN_SPEED_MPS = (RUN_SPEED_MPM / 60.0)
 RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
@@ -89,25 +89,25 @@ class RUN: # 수평 이동
     def do(self):
         # move about map + enemy
         if self.dir == 1:
-            self.x += RUN_SPEED_PPS * game_framework.frame_time
+            self.x += RUN_SPEED_PPS * game_framework.frame_time * self.move
         elif self.dir == 2:
-            self.x -= RUN_SPEED_PPS * game_framework.frame_time
-            self.y += RUN_SPEED_PPS * game_framework.frame_time
+            self.x -= RUN_SPEED_PPS * game_framework.frame_time * self.move
+            self.y += RUN_SPEED_PPS * game_framework.frame_time * self.move
         elif self.dir == 3:
-            self.y += RUN_SPEED_PPS * game_framework.frame_time
+            self.y += RUN_SPEED_PPS * game_framework.frame_time * self.move
         elif self.dir == 4:
-            self.x += RUN_SPEED_PPS * game_framework.frame_time
-            self.y += RUN_SPEED_PPS * game_framework.frame_time
+            self.x += RUN_SPEED_PPS * game_framework.frame_time * self.move
+            self.y += RUN_SPEED_PPS * game_framework.frame_time * self.move
         elif self.dir == -1:
-            self.x -= RUN_SPEED_PPS * game_framework.frame_time
+            self.x -= RUN_SPEED_PPS * game_framework.frame_time * self.move
         elif self.dir == -2:
-            self.x += RUN_SPEED_PPS * game_framework.frame_time
-            self.y -= RUN_SPEED_PPS * game_framework.frame_time
+            self.x += RUN_SPEED_PPS * game_framework.frame_time * self.move
+            self.y -= RUN_SPEED_PPS * game_framework.frame_time * self.move
         elif self.dir == -3:
-            self.y -= RUN_SPEED_PPS * game_framework.frame_time
+            self.y -= RUN_SPEED_PPS * game_framework.frame_time * self.move
         elif self.dir == -4:
-            self.x -= RUN_SPEED_PPS * game_framework.frame_time
-            self.y -= RUN_SPEED_PPS * game_framework.frame_time
+            self.x -= RUN_SPEED_PPS * game_framework.frame_time * self.move
+            self.y -= RUN_SPEED_PPS * game_framework.frame_time * self.move
 
         # map cycle
         if self.x >= 2 * WIDTH:
@@ -163,25 +163,25 @@ class RUN2: # 수직 이동
     def do(self):
         # move about map + enemy
         if self.dir == 1:
-            self.x += RUN_SPEED_PPS * game_framework.frame_time
+            self.x += RUN_SPEED_PPS * game_framework.frame_time * self.move
         elif self.dir == 2:
-            self.x -= RUN_SPEED_PPS * game_framework.frame_time
-            self.y += RUN_SPEED_PPS * game_framework.frame_time
+            self.x -= RUN_SPEED_PPS * game_framework.frame_time * self.move
+            self.y += RUN_SPEED_PPS * game_framework.frame_time * self.move
         elif self.dir == 3:
-            self.y += RUN_SPEED_PPS * game_framework.frame_time
+            self.y += RUN_SPEED_PPS * game_framework.frame_time * self.move
         elif self.dir == 4:
-            self.x += RUN_SPEED_PPS * game_framework.frame_time
-            self.y += RUN_SPEED_PPS * game_framework.frame_time
+            self.x += RUN_SPEED_PPS * game_framework.frame_time * self.move
+            self.y += RUN_SPEED_PPS * game_framework.frame_time * self.move
         elif self.dir == -1:
-            self.x -= RUN_SPEED_PPS * game_framework.frame_time
+            self.x -= RUN_SPEED_PPS * game_framework.frame_time * self.move
         elif self.dir == -2:
-            self.x += RUN_SPEED_PPS * game_framework.frame_time
-            self.y -= RUN_SPEED_PPS * game_framework.frame_time
+            self.x += RUN_SPEED_PPS * game_framework.frame_time * self.move
+            self.y -= RUN_SPEED_PPS * game_framework.frame_time * self.move
         elif self.dir == -3:
-            self.y -= RUN_SPEED_PPS * game_framework.frame_time
+            self.y -= RUN_SPEED_PPS * game_framework.frame_time * self.move
         elif self.dir == -4:
-            self.x -= RUN_SPEED_PPS * game_framework.frame_time
-            self.y -= RUN_SPEED_PPS * game_framework.frame_time
+            self.x -= RUN_SPEED_PPS * game_framework.frame_time * self.move
+            self.y -= RUN_SPEED_PPS * game_framework.frame_time * self.move
 
         # map cycle
         if self.x >= 2 * WIDTH:
@@ -237,25 +237,25 @@ class RUN3: # 대각 이동
     def do(self):
         # move about map + enemy
         if self.dir == 1:
-            self.x += RUN_SPEED_PPS * game_framework.frame_time
+            self.x += RUN_SPEED_PPS * game_framework.frame_time * self.move
         elif self.dir == 2:
-            self.x -= RUN_SPEED_PPS * game_framework.frame_time
-            self.y += RUN_SPEED_PPS * game_framework.frame_time
+            self.x -= RUN_SPEED_PPS * game_framework.frame_time * self.move
+            self.y += RUN_SPEED_PPS * game_framework.frame_time * self.move
         elif self.dir == 3:
-            self.y += RUN_SPEED_PPS * game_framework.frame_time
+            self.y += RUN_SPEED_PPS * game_framework.frame_time * self.move
         elif self.dir == 4:
-            self.x += RUN_SPEED_PPS * game_framework.frame_time
-            self.y += RUN_SPEED_PPS * game_framework.frame_time
+            self.x += RUN_SPEED_PPS * game_framework.frame_time * self.move
+            self.y += RUN_SPEED_PPS * game_framework.frame_time * self.move
         elif self.dir == -1:
-            self.x -= RUN_SPEED_PPS * game_framework.frame_time
+            self.x -= RUN_SPEED_PPS * game_framework.frame_time * self.move
         elif self.dir == -2:
-            self.x += RUN_SPEED_PPS * game_framework.frame_time
-            self.y -= RUN_SPEED_PPS * game_framework.frame_time
+            self.x += RUN_SPEED_PPS * game_framework.frame_time * self.move
+            self.y -= RUN_SPEED_PPS * game_framework.frame_time * self.move
         elif self.dir == -3:
-            self.y -= RUN_SPEED_PPS * game_framework.frame_time
+            self.y -= RUN_SPEED_PPS * game_framework.frame_time * self.move
         elif self.dir == -4:
-            self.x -= RUN_SPEED_PPS * game_framework.frame_time
-            self.y -= RUN_SPEED_PPS * game_framework.frame_time
+            self.x -= RUN_SPEED_PPS * game_framework.frame_time * self.move
+            self.y -= RUN_SPEED_PPS * game_framework.frame_time * self.move
 
         # map cycle
         if self.x >= 2 * WIDTH:
@@ -297,6 +297,8 @@ class Character:
         self.w, self.h = 50, 55
         self.dir, self.face_dir = 0, 1
         self.max_hp = 1000
+        self.hit = 1.0
+        self.move = 1.0
         self.hp = 1000
         self.level = 0
         self.max_exp = 100

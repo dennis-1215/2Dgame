@@ -363,3 +363,48 @@ class Shoes(Whip):
             play_state.player.move += 0.4
     def update(self, player):
         pass
+class Damage_up(Whip):
+    image = None
+    def __init__(self):
+        if Heal.image == None:
+            self.image = load_image('sprites/characters/items.png')
+            self.font = load_font('font/KO.ttf', 20)
+        self.name = 'Damage Up'
+        self.damage = 10
+        self.time = 0
+        self.cooltime = 2.0
+        self.level = 0
+        self.description = ['입히는 피해량이 상승합니다.',
+                            '입히는 피해량이 상승합니다.',
+                            '입히는 피해량이 상승합니다.',
+                            '입히는 피해량이 상승합니다.',
+                            '입히는 피해량이 상승합니다.',
+                            '입히는 피해량이 상승합니다.',
+                            '입히는 피해량이 상승합니다.',
+                            ]
+        self.x, self.y = 177, 392 - 361
+        self.width, self.height = 14, 14
+
+    def draw(self, player):
+        pass
+
+    def get_bb(self, player):
+        pass
+
+    def choiced(self):
+        if self.level == 1:
+            play_state.player.hit += 0.1
+        if self.level == 2:
+            play_state.player.hit += 0.1
+        if self.level == 3:
+            play_state.player.hit += 0.1
+        if self.level == 4:
+            play_state.player.hit += 0.1
+        if self.level == 5:
+            play_state.player.hit += 0.1
+        if self.level == 6:
+            play_state.player.hit += 0.1
+        if self.level == 7:
+            play_state.player.hit += 0.1
+    def update(self, player):
+        pass

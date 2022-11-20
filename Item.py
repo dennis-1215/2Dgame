@@ -24,25 +24,25 @@ class Item:
 
     def update(item, player):
         if player.dir == 1:
-            item.x -= character.RUN_SPEED_PPS * game_framework.frame_time
+            item.x -= character.RUN_SPEED_PPS * game_framework.frame_time * player.move
         elif player.dir == 2:
-            item.x += character.RUN_SPEED_PPS * game_framework.frame_time
-            item.y -= character.RUN_SPEED_PPS * game_framework.frame_time
+            item.x += character.RUN_SPEED_PPS * game_framework.frame_time * player.move
+            item.y -= character.RUN_SPEED_PPS * game_framework.frame_time * player.move
         elif player.dir == 3:
-            item.y -= character.RUN_SPEED_PPS * game_framework.frame_time
+            item.y -= character.RUN_SPEED_PPS * game_framework.frame_time * player.move
         elif player.dir == 4:
-            item.x -= character.RUN_SPEED_PPS * game_framework.frame_time
-            item.y -= character.RUN_SPEED_PPS * game_framework.frame_time
+            item.x -= character.RUN_SPEED_PPS * game_framework.frame_time * player.move
+            item.y -= character.RUN_SPEED_PPS * game_framework.frame_time * player.move
         elif player.dir == -1:
-            item.x += character.RUN_SPEED_PPS * game_framework.frame_time
+            item.x += character.RUN_SPEED_PPS * game_framework.frame_time * player.move
         elif player.dir == -2:
-            item.x -= character.RUN_SPEED_PPS * game_framework.frame_time
-            item.y += character.RUN_SPEED_PPS * game_framework.frame_time
+            item.x -= character.RUN_SPEED_PPS * game_framework.frame_time * player.move
+            item.y += character.RUN_SPEED_PPS * game_framework.frame_time * player.move
         elif player.dir == -3:
-            item.y += character.RUN_SPEED_PPS * game_framework.frame_time
+            item.y += character.RUN_SPEED_PPS * game_framework.frame_time * player.move
         elif player.dir == -4:
-            item.x += character.RUN_SPEED_PPS * game_framework.frame_time
-            item.y += character.RUN_SPEED_PPS * game_framework.frame_time
+            item.x += character.RUN_SPEED_PPS * game_framework.frame_time * player.move
+            item.y += character.RUN_SPEED_PPS * game_framework.frame_time * player.move
 
         if abs(item.x - WIDTH/2) < 16 and abs(item.y - HEIGHT/2) < 25:
             player.exp += item.exp
