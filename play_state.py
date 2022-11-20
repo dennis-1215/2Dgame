@@ -35,7 +35,7 @@ def enter():
     play_time = 0
     player = character.Character()
     backgrounds = [back_ground.BG() for i in range(9)]
-    equipment_list = [equipments.Whip(), equipments.Heal(), equipments.Hp(), equipments.Garlic(), equipments.Shoes(), equipments.Second_Whip()]
+    equipment_list = [equipments.Whip(), equipments.Heal(), equipments.Hp(), equipments.Garlic(), equipments.Shoes(), equipments.Damage_up(), equipments.Second_Whip()]
 
     for i in range(3):
         for j in range(3):
@@ -87,12 +87,11 @@ def resume():
     pass
 
 def enemy_on():
-    game_world.add_object(enemy.Enemy(play_time), 3)
+    game_world.add_object(enemy.Enemy(), 3)
     game_world.add_collision_pairs(None, game_world.objects[3][-1], 'player:enemy')
     game_world.add_collision_pairs(None, game_world.objects[3][-1], 'whip:enemy')
     game_world.add_collision_pairs(None, game_world.objects[3][-1], 'whip2:enemy')
     game_world.add_collision_pairs(None, game_world.objects[3][-1], 'garlic:enemy')
-    print(game_world.collision_group)
 
 
 def collide(a, b, player):

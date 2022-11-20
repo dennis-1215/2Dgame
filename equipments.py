@@ -1,6 +1,7 @@
 from pico2d import *
 import game_framework
 import play_state
+import enemy
 import character
 
 WIDTH, HEIGHT = 1024, 1024
@@ -347,18 +348,18 @@ class Shoes(Whip):
 
     def choiced(self):
         if self.level == 1:
-            character.RUN_SPEED_KMPH += 0.5
+            play_state.player.move += 0.1
         if self.level == 2:
-            character.RUN_SPEED_KMPH += 0.5
+            play_state.player.move += 0.1
         if self.level == 3:
-            character.RUN_SPEED_KMPH += 1.0
+            play_state.player.move += 0.1
         if self.level == 4:
-            character.RUN_SPEED_KMPH += 1.0
+            play_state.player.move += 0.1
         if self.level == 5:
-            character.RUN_SPEED_KMPH += 2.0
+            play_state.player.move += 0.1
         if self.level == 6:
-            character.RUN_SPEED_KMPH += 2.0
+            play_state.player.move += 0.1
         if self.level == 7:
-            character.RUN_SPEED_KMPH += 5.0
+            play_state.player.move += 0.4
     def update(self, player):
         pass
