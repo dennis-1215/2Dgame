@@ -1,15 +1,11 @@
 from pico2d import *
-import Item
-import schedule
 import game_framework
 import gameover_state
-import game_world
-import play_state
 
 WIDTH, HEIGHT = 1024, 1024
 
 # Player Run Speed
-PIXEL_PER_METER = (32.0 / 1.0) # 32 pixel = 100 cm
+PIXEL_PER_METER = (32.0 / 1.0) # 32 pixel = 1 m
 RUN_SPEED_KMPH = 18.0
 RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000.0 / 60.0)
 RUN_SPEED_MPS = (RUN_SPEED_MPM / 60.0)
@@ -300,7 +296,7 @@ class Character:
         self.image.clip_draw(2, 448, 2, 1, WIDTH / 2 - 17, HEIGHT / 2 - 20, 80 * self.hp / self.max_hp, 4)  # 현재 체력바
         self.image.clip_draw(0, 1077, 2, 1, 0, HEIGHT - 5, WIDTH * 2, 10)  # 최대 경험치 바
         self.image.clip_draw(0, 1, 2, 1, 0, HEIGHT - 5, WIDTH * 2 * self.exp / self.max_exp, 10)  # 현재 경험치 바
-        draw_rectangle(*self.get_bb(player))
+        draw_rectangle(*self.get_bb())
 
     def add_event(self, event):
         self.event_que.insert(0, event)
@@ -318,6 +314,6 @@ class Character:
             if self.hp <= 0:
                 game_framework.push_state(gameover_state)
 
-    def get_bb(self, player):
+    def get_bb(self):
         return WIDTH/2 - self.w/2, HEIGHT/2 - self.h/2, WIDTH/2 + self.w/2, HEIGHT/2 + self.h/2
 

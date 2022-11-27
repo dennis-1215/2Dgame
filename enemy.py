@@ -3,7 +3,6 @@ from random import *
 import Item
 import character
 import game_framework
-import gameover_state
 import game_world
 import play_state
 
@@ -55,6 +54,9 @@ class Enemy:
         self.running = True
     def update(self, player):
         self.time += game_framework.frame_time
+        self.whip_time += game_framework.frame_time
+        self.whip2_time += game_framework.frame_time
+
 
         if self.x < WIDTH / 2:
             self.x += RUN_SPEED_PPS * game_framework.frame_time
@@ -124,7 +126,7 @@ class Enemy:
         else:
             self.imageR.clip_draw(203, 615 - int(self.frame) * 75, 63, 72, self.x, self.y, self.w, self.h)
             self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 2
-        draw_rectangle(*self.get_bb(player))
+        draw_rectangle(*self.get_bb())
 
     def handle_collision(self, other, group):
         if group == 'player:enemy':
@@ -161,7 +163,7 @@ class Enemy:
                 game_world.remove_object(self)
 
 
-    def get_bb(self, player):
+    def get_bb(self):
         return self.x - self.w/2 + 10, self.y - self.h/2 + 10, self.x + self.w/2 - 10, self.y + self.h/2 - 10
 
 

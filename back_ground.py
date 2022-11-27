@@ -1,6 +1,7 @@
 from pico2d import *
 import play_state
 
+
 class BG:
     image = None
     def __init__(self):

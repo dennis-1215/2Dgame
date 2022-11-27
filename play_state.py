@@ -1,15 +1,11 @@
 from pico2d import *
 import game_framework
 import game_world
-import level_up_state
 import win_state
 import enemy
-import Item
 import character
 import back_ground
 import equipments
-import schedule
-import time
 
 WIDTH, HEIGHT = 1024, 1024
 
@@ -62,11 +58,11 @@ def update():
 
 
     for a, b, group in game_world.all_collision_pairs():
-        if collide(a, b, player):
+        if collide(a, b):
             a.handle_collision(b, group)
             b.handle_collision(a, group)
 
-    if play_time % 3 == 0:
+    if play_time % 3.0 <= 0.01:
         enemy_on()
 
     if play_time >= 1800.0:
@@ -94,11 +90,32 @@ def enemy_on():
     game_world.add_collision_pairs(None, new_enemy, 'whip2:enemy')
     game_world.add_collision_pairs(None, new_enemy, 'garlic:enemy')
 
-def collide(a, b, player):
-    left_a, bottom_a, right_a, top_a = a.get_bb(player)
-    left_b, bottom_b, right_b, top_b = b.get_bb(player)
-    if left_a > right_b: return False
-    if right_a < left_b: return False
-    if top_a < bottom_b: return False
-    if bottom_a > top_b: return False
-    return True
+def collide(a, b):
+    if type(a) == equipments.Whip or type(a) == equipments.Second_Whip:
+        # dir 따라서 방향 조정
+        if player.face_dir == 1:
+            left_a, bottom_a, right_a, top_a = a.get_bb_right()
+            left_b, bottom_b, right_b, top_b = b.get_bb()
+            if left_a > right_b: return False
+            if right_a < left_b: return False
+            if top_a < bottom_b: return False
+            if bottom_a > top_b: return False
+            return True
+
+        else:
+            left_a, bottom_a, right_a, top_a = a.get_bb_left()
+            left_b, bottom_b, right_b, top_b = b.get_bb()
+            if left_a > right_b: return False
+            if right_a < left_b: return False
+            if top_a < bottom_b: return False
+            if bottom_a > top_b: return False
+            return True
+
+    else:
+        left_a, bottom_a, right_a, top_a = a.get_bb()
+        left_b, bottom_b, right_b, top_b = b.get_bb()
+        if left_a > right_b: return False
+        if right_a < left_b: return False
+        if top_a < bottom_b: return False
+        if bottom_a > top_b: return False
+        return True

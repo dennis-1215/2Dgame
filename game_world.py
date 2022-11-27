@@ -1,5 +1,3 @@
-import play_state
-import schedule
 
 objects = [[], [], [], []]
 

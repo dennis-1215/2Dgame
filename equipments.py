@@ -1,8 +1,6 @@
 from pico2d import *
 import game_framework
 import play_state
-import enemy
-import character
 
 WIDTH, HEIGHT = 1024, 1024
 
@@ -53,8 +51,11 @@ class Whip():
                 self.time = 0
                 self.frame = 0
 
+        if player.face_dir == 1:
+            draw_rectangle(*self.get_bb_right())
+        else:
+            draw_rectangle(*self.get_bb_left())
 
-        draw_rectangle(*self.get_bb(player))
     def update(self, player):
         self.time += game_framework.frame_time
         pass
@@ -85,12 +86,14 @@ class Whip():
             play_state.equipment_list[-1].range = self.range
 
 
-    def get_bb(self, player):
+    def get_bb_right(self):
         if self.time >= self.cooltime:
-            if player.face_dir == 1:
-                return WIDTH/2, HEIGHT/2 - self.frame * 3, WIDTH/2 + self.range / 2 * self.frame, HEIGHT/2 + self.frame * 3
-            if player.face_dir == -1:
-                return WIDTH/2 - self.range / 2 * self.frame, HEIGHT/2 - self.frame * 3, WIDTH / 2, HEIGHT/2 + self.frame * 3
+            return WIDTH/2, HEIGHT/2 - self.frame * 3, WIDTH/2 + self.range / 2 * self.frame, HEIGHT/2 + self.frame * 3
+        else:
+            return 0, 0, 0, 0
+    def get_bb_left(self):
+        if self.time >= self.cooltime:
+            return WIDTH/2 - self.range / 2 * self.frame, HEIGHT/2 - self.frame * 3, WIDTH / 2, HEIGHT/2 + self.frame * 3
         else:
             return 0, 0, 0, 0
 
@@ -136,24 +139,28 @@ class Second_Whip():
                     self.time = 0.29
                     self.frame = 0
 
+        if player.face_dir == 1:
+            draw_rectangle(*self.get_bb_right())
+        else:
+            draw_rectangle(*self.get_bb_left())
 
-        draw_rectangle(*self.get_bb(player))
     def update(self, player):
         self.time += game_framework.frame_time
 
     def choiced(self):
         pass
 
-    def get_bb(self, player):
-        if self.level >= 1:
-            if self.time >= self.cooltime:
-                if player.face_dir == 1:
-                    return WIDTH/2 - self.range / 2 * self.frame, HEIGHT/2 - self.frame * 3, WIDTH / 2, HEIGHT/2 + self.frame * 3
-                if player.face_dir == -1:
-                    return WIDTH/2, HEIGHT/2 - self.frame * 3, WIDTH/2 + self.range / 2 * self.frame, HEIGHT/2 + self.frame * 3
-            else:
-                return 0, 0, 0, 0
-        return 0, 0, 0, 0
+    def get_bb_right(self):
+        if self.time >= self.cooltime:
+            return WIDTH / 2 - self.range / 2 * self.frame, HEIGHT / 2 - self.frame * 3, WIDTH / 2, HEIGHT / 2 + self.frame * 3
+
+        else:
+            return 0, 0, 0, 0
+    def get_bb_left(self):
+        if self.time >= self.cooltime:
+            return WIDTH/2 - self.range / 2 * self.frame, HEIGHT/2 - self.frame * 3, WIDTH / 2, HEIGHT/2 + self.frame * 3
+        else:
+            return 0, 0, 0, 0
     def handle_collision(self, other, group):
         if group == 'whip2:enemy':
             pass
@@ -286,9 +293,9 @@ class Garlic(Whip):
         if self.level >= 1:
             self.image_vfx.clip_draw(997, 986 - 644, 57, 59, WIDTH / 2, HEIGHT / 2, self.range, self.range)
 
-            draw_rectangle(*self.get_bb(player))
+            draw_rectangle(*self.get_bb())
 
-    def get_bb(self, player):
+    def get_bb(self):
         if self.level >= 1:
             if self.time >= self.cooltime:
                 return WIDTH/2 - self.range/2, HEIGHT/2 - self.range/2, WIDTH/2 + self.range/2 , HEIGHT/2 + self.range/2
