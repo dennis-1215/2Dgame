@@ -33,10 +33,12 @@ def handle_events():
 def enter():
     global player, backgrounds, play_time, equipment_list
     play_time = 0
+
     player = character.Character()
     backgrounds = back_ground.BG()
     whip, heal, hp, garlic, shoes, damage_up, second_whip = equipments.Whip(), equipments.Heal(), equipments.Hp(), equipments.Garlic(), equipments.Shoes(), equipments.Damage_up(), equipments.Second_Whip()
     equipment_list = [whip, heal, hp, garlic, shoes, damage_up, second_whip]
+
     game_world.add_object(backgrounds, 0)
     game_world.add_objects(equipment_list, 1)
     game_world.add_object(player, 2)
@@ -53,7 +55,6 @@ def exit():
 
 def update():
     global play_time
-    schedule.run_pending()
     play_time += game_framework.frame_time
 
     for game_object in game_world.all_objects():
@@ -64,6 +65,9 @@ def update():
         if collide(a, b, player):
             a.handle_collision(b, group)
             b.handle_collision(a, group)
+
+    if play_time % 3 == 0:
+        enemy_on()
 
     if play_time >= 1800.0:
         game_framework.push_state(win_state)
@@ -83,12 +87,12 @@ def resume():
     pass
 
 def enemy_on():
-    game_world.add_object(enemy.Enemy(), 3)
-    game_world.add_collision_pairs(None, game_world.objects[3][-1], 'player:enemy')
-    game_world.add_collision_pairs(None, game_world.objects[3][-1], 'whip:enemy')
-    game_world.add_collision_pairs(None, game_world.objects[3][-1], 'whip2:enemy')
-    game_world.add_collision_pairs(None, game_world.objects[3][-1], 'garlic:enemy')
-
+    new_enemy = enemy.Enemy()
+    game_world.add_object(new_enemy, 3)
+    game_world.add_collision_pairs(None, new_enemy, 'player:enemy')
+    game_world.add_collision_pairs(None, new_enemy, 'whip:enemy')
+    game_world.add_collision_pairs(None, new_enemy, 'whip2:enemy')
+    game_world.add_collision_pairs(None, new_enemy, 'garlic:enemy')
 
 def collide(a, b, player):
     left_a, bottom_a, right_a, top_a = a.get_bb(player)
@@ -98,5 +102,3 @@ def collide(a, b, player):
     if top_a < bottom_b: return False
     if bottom_a > top_b: return False
     return True
-
-job1 = schedule.every(2).seconds.do(enemy_on)
