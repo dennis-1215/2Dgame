@@ -10,7 +10,7 @@ WIDTH, HEIGHT = 1024, 1024
 
 # Player Run Speed
 PIXEL_PER_METER = (32.0 / 1.0) # 32 pixel = 100 cm
-RUN_SPEED_KMPH = 10.0
+RUN_SPEED_KMPH = 18.0
 RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000.0 / 60.0)
 RUN_SPEED_MPS = (RUN_SPEED_MPM / 60.0)
 RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
@@ -109,16 +109,6 @@ class RUN: # 수평 이동
             self.x -= RUN_SPEED_PPS * game_framework.frame_time * self.move
             self.y -= RUN_SPEED_PPS * game_framework.frame_time * self.move
 
-        # map cycle
-        if self.x >= 2 * WIDTH:
-            self.x = self.x - 2 * WIDTH
-        if self.y >= 2 * HEIGHT:
-            self.y = self.y - 2 * HEIGHT
-        if self.x <= -2 * WIDTH:
-            self.x = 2 * WIDTH + self.x
-        if self.y <= -2 * HEIGHT:
-            self.y = 2 * HEIGHT + self.y
-        pass
     def draw(self):
         if self.dir == 1 or self.dir == 4 or self.dir == -2:
             self.image.clip_draw(72 + int(self.frame) * 35, 171, 35, 34, WIDTH / 2, HEIGHT / 2, self.w, self.h)
@@ -183,15 +173,6 @@ class RUN2: # 수직 이동
             self.x -= RUN_SPEED_PPS * game_framework.frame_time * self.move
             self.y -= RUN_SPEED_PPS * game_framework.frame_time * self.move
 
-        # map cycle
-        if self.x >= 2 * WIDTH:
-            self.x = self.x - 2 *WIDTH
-        if self.y >= 2 * HEIGHT:
-            self.y = self.y - 2 *HEIGHT
-        if self.x <= -2 * WIDTH:
-            self.x = 2 *WIDTH + self.x
-        if self.y <= -2 * HEIGHT:
-            self.y = 2 * HEIGHT + self.y
         pass
     def draw(self):
         if self.dir == 1 or self.dir == 4 or self.dir == -2:
@@ -257,16 +238,7 @@ class RUN3: # 대각 이동
             self.x -= RUN_SPEED_PPS * game_framework.frame_time * self.move
             self.y -= RUN_SPEED_PPS * game_framework.frame_time * self.move
 
-        # map cycle
-        if self.x >= 2 * WIDTH:
-            self.x = self.x - 2 * WIDTH
-        if self.y >= 2 * HEIGHT:
-            self.y = self.y - 2 * HEIGHT
-        if self.x <= -2 * WIDTH:
-            self.x = 2 * WIDTH + self.x
-        if self.y <= -2 * HEIGHT:
-            self.y = 2 * HEIGHT + self.y
-        pass
+
     def draw(self):
         if self.dir == 1 or self.dir == 4 or self.dir == -2:
             self.image.clip_draw(72 + int(self.frame) * 35, 171, 35, 34, WIDTH / 2, HEIGHT / 2, self.w, self.h)
@@ -340,7 +312,9 @@ class Character:
 
     def handle_collision(self, other, group):
         if group == 'player:enemy':
-            self.hp -= other.atk
+            if other.time > other.attack_cooltime:
+                self.hp -= other.atk
+                other.time = 0
             if self.hp <= 0:
                 game_framework.push_state(gameover_state)
 

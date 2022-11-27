@@ -28,10 +28,13 @@ class Enemy:
         if Enemy.imageL == None:
             self.imageL = load_image('sprites/characters/enemy1L.png')
         self.speed = 2
-        self.hp = 100 * (play_state.play_time//5 + 1)
+        self.hp = 10 + (play_state.play_time//5 * 2)
         self.atk = 1
         self.hit = 1
         self.time = 0
+        self.whip_time = 0
+        self.whip2_time = 0
+        self.attack_cooltime = 0.01
         self.cooltime = 1.0
         self.drop = randint(1, 100)
         self.w, self.h = 63, 72
@@ -126,15 +129,27 @@ class Enemy:
     def handle_collision(self, other, group):
         if group == 'player:enemy':
             pass
-        if group == 'whip:enemy' or group == 'whip2:enemy':
+
+        if group == 'whip:enemy':
             print(self.hp)
-            if self.time > self.cooltime:
+            if self.whip_time > self.cooltime:
                 self.hp -= other.damage * play_state.player.hit
-                self.time = 0
+                self.whip_time = 0
             if self.hp <= 0:
                 if self.drop <= 80:
                     game_world.add_object(Item.Item(self.x, self.y), 2)
                 game_world.remove_object(self)
+
+        if group == 'whip2:enemy':
+            print(self.hp)
+            if self.whip2_time > self.cooltime:
+                self.hp -= other.damage * play_state.player.hit
+                self.whip2_time = 0
+            if self.hp <= 0:
+                if self.drop <= 80:
+                    game_world.add_object(Item.Item(self.x, self.y), 2)
+                game_world.remove_object(self)
+
         if group == 'garlic:enemy':
             print(self.hp)
             if self.time > self.cooltime:

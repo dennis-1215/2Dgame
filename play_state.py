@@ -34,20 +34,17 @@ def enter():
     global player, backgrounds, play_time, equipment_list
     play_time = 0
     player = character.Character()
-    backgrounds = [back_ground.BG() for i in range(9)]
-    equipment_list = [equipments.Whip(), equipments.Heal(), equipments.Hp(), equipments.Garlic(), equipments.Shoes(), equipments.Damage_up(), equipments.Second_Whip()]
-
-    for i in range(3):
-        for j in range(3):
-            backgrounds[i*3+j].x, backgrounds[i*3+j].y =  (-1 * WIDTH) + (j * 2 * WIDTH), (-1 * HEIGHT) + (i * 2 * HEIGHT)
-    game_world.add_objects(backgrounds, 0)
+    backgrounds = back_ground.BG()
+    whip, heal, hp, garlic, shoes, damage_up, second_whip = equipments.Whip(), equipments.Heal(), equipments.Hp(), equipments.Garlic(), equipments.Shoes(), equipments.Damage_up(), equipments.Second_Whip()
+    equipment_list = [whip, heal, hp, garlic, shoes, damage_up, second_whip]
+    game_world.add_object(backgrounds, 0)
     game_world.add_objects(equipment_list, 1)
     game_world.add_object(player, 2)
 
     game_world.add_collision_pairs(player, None, 'player:enemy')
-    game_world.add_collision_pairs(equipment_list[0], None, 'whip:enemy')
-    game_world.add_collision_pairs(equipment_list[-1], None, 'whip2:enemy')
-    game_world.add_collision_pairs(equipment_list[3], None, 'garlic:enemy')
+    game_world.add_collision_pairs(whip, None, 'whip:enemy')
+    game_world.add_collision_pairs(second_whip, None, 'whip2:enemy')
+    game_world.add_collision_pairs(garlic, None, 'garlic:enemy')
 
 
 # finalization code
@@ -65,7 +62,6 @@ def update():
 
     for a, b, group in game_world.all_collision_pairs():
         if collide(a, b, player):
-            #print('COLLISION ', group)
             a.handle_collision(b, group)
             b.handle_collision(a, group)
 
