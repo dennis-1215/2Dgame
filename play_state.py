@@ -67,7 +67,8 @@ def update():
 
     if play_time > 30 and play_time % 3.0 <= 0.01:
         spawn_myutal()
-    if play_time >= 1800.0:
+
+    if play_time >= 600.0:
         game_framework.push_state(win_state)
 
 def draw_world():

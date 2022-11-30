@@ -185,7 +185,7 @@ class Bat: # 가로 세로 2m
     def __init__(self):
         if Bat.image == None:
             self.image = load_image('sprites/characters/enemies.png')
-        self.hp = 10 + (play_state.play_time//30 * 2)
+        self.hp = 10
         self.atk = 1
         self.hit = 1
         self.time = 0
@@ -250,13 +250,20 @@ class Bat: # 가로 세로 2m
 
 
     def draw(self, player):
-        if int(self.frame) == 0:
-            self.image.clip_draw(1198, 3, 27, 24, self.x, self.y, self.w, self.h)
-        elif int(self.frame) == 1:
-            self.image.clip_draw(1400, 3, 24, 27, self.x, self.y, self.w, self.h)
-        elif int(self.frame) == 2:
-            self.image.clip_draw(1385, 70, 21, 25, self.x, self.y, self.w, self.h)
-
+        if self.x > WIDTH/2:
+            if int(self.frame) == 0:
+                self.image.clip_draw(1198, 3, 27, 24, self.x, self.y, self.w, self.h)
+            elif int(self.frame) == 1:
+                self.image.clip_draw(1400, 3, 24, 27, self.x, self.y, self.w, self.h)
+            elif int(self.frame) == 2:
+                self.image.clip_draw(1385, 70, 21, 25, self.x, self.y, self.w, self.h)
+        else:
+            if int(self.frame) == 0:
+                self.image.clip_composite_draw(1198, 3, 27, 24, 0, 'h', self.x, self.y, self.w, self.h)
+            elif int(self.frame) == 1:
+                self.image.clip_composite_draw(1400, 3, 24, 27, 0, 'h', self.x, self.y, self.w, self.h)
+            elif int(self.frame) == 2:
+                self.image.clip_composite_draw(1385, 70, 21, 25, 0, 'h', self.x, self.y, self.w, self.h)
 
         self.frame = (self.frame + BAT_FRAMES_PER_ACTION * BAT_ACTION_PER_TIME * game_framework.frame_time) % 3
         draw_rectangle(*self.get_bb())

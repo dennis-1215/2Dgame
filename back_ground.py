@@ -21,6 +21,8 @@ class BG:
         self.image.clip_draw_to_origin(self.q2l, self.q2b, self.q2w, self.q2h, 0, self.q3h)  # quadrant 2
         self.image.clip_draw_to_origin(self.q4l, self.q4b, self.q4w, self.q4h, self.q3w, 0)  # quadrant 4
         self.image.clip_draw_to_origin(self.q1l, self.q1b, self.q1w, self.q1h, self.q3w, self.q3h)  # quadrant 1
+        self.font.draw(self.canvas_width / 2, self.canvas_height - 50, f'{int(play_state.play_time // 60)}:{int(play_state.play_time % 60)}',
+                       (255, 255, 255))
 
     def update(self, player):
         # quadrant 3

@@ -17,9 +17,6 @@ def enter():
 def exit():
     game_world.clear()
     play_state.play_time = 0
-    character.RUN_SPEED_KMPH = 10.0
-    print(game_world.objects)
-    print(game_world.collision_group)
     global image
     del image
 
