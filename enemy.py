@@ -63,7 +63,7 @@ class Enemy:
             else:
                 self.x = WIDTH + 10
         self.frame = randint(0, 5)
-        self.running = True
+
     def update(self, player):
         self.time += game_framework.frame_time
         self.whip_time += game_framework.frame_time
@@ -153,6 +153,8 @@ class Enemy:
                 if self.drop <= 80:
                     game_world.add_object(Item.Item(self.x, self.y), 2)
                 game_world.remove_object(self)
+                play_state.player.kill_count += 1
+
 
         if group == 'whip2:enemy':
             print(self.hp)
@@ -163,6 +165,8 @@ class Enemy:
                 if self.drop <= 80:
                     game_world.add_object(Item.Item(self.x, self.y), 2)
                 game_world.remove_object(self)
+                play_state.player.kill_count += 1
+
 
         if group == 'garlic:enemy':
             print(self.hp)
@@ -173,6 +177,8 @@ class Enemy:
                 if self.drop <= 80:
                     game_world.add_object(Item.Item(self.x, self.y), 2)
                 game_world.remove_object(self)
+                play_state.player.kill_count += 1
+
 
 
     def get_bb(self):
@@ -180,7 +186,7 @@ class Enemy:
 
 
 
-class Bat: # 가로 세로 2m
+class Bat(Enemy): # 가로 세로 2m
     image = None
     def __init__(self):
         if Bat.image == None:
@@ -210,7 +216,6 @@ class Bat: # 가로 세로 2m
             else:
                 self.x = WIDTH + 10
         self.frame = randint(0, 5)
-        self.running = True
     def update(self, player):
         self.time += game_framework.frame_time
         self.whip_time += game_framework.frame_time
@@ -267,41 +272,6 @@ class Bat: # 가로 세로 2m
 
         self.frame = (self.frame + BAT_FRAMES_PER_ACTION * BAT_ACTION_PER_TIME * game_framework.frame_time) % 3
         draw_rectangle(*self.get_bb())
-
-    def handle_collision(self, other, group):
-        if group == 'player:enemy':
-            pass
-
-        if group == 'whip:enemy':
-            print(self.hp)
-            if self.whip_time > self.cooltime:
-                self.hp -= other.damage * play_state.player.hit
-                self.whip_time = 0
-            if self.hp <= 0:
-                if self.drop <= 80:
-                    game_world.add_object(Item.Item(self.x, self.y), 2)
-                game_world.remove_object(self)
-
-        if group == 'whip2:enemy':
-            print(self.hp)
-            if self.whip2_time > self.cooltime:
-                self.hp -= other.damage * play_state.player.hit
-                self.whip2_time = 0
-            if self.hp <= 0:
-                if self.drop <= 80:
-                    game_world.add_object(Item.Item(self.x, self.y), 2)
-                game_world.remove_object(self)
-
-        if group == 'garlic:enemy':
-            print(self.hp)
-            if self.garlic_time > self.cooltime:
-                self.hp -= other.damage * play_state.player.hit
-                self.time = 0
-            if self.hp <= 0:
-                if self.drop <= 80:
-                    game_world.add_object(Item.Item(self.x, self.y), 2)
-                game_world.remove_object(self)
-
 
     def get_bb(self):
         return self.x - self.w/2 + 10, self.y - self.h/2 + 10, self.x + self.w/2 - 10, self.y + self.h/2 - 10

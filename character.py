@@ -270,6 +270,7 @@ class Character:
         self.hp = 1000
         self.level = 0
         self.max_exp = 100
+        self.kill_count = 0
         self.exp = 0
         self.damage = 0
         self.frame = 0
@@ -292,10 +293,6 @@ class Character:
         self.cur_state.draw(self)
         debug_print('PPPP')
         debug_print(f'Face Dir: {self.face_dir}, Dir: {self.dir}')
-        self.image.clip_draw(0, 1077, 2, 1, WIDTH / 2 - 17, HEIGHT / 2 - 20, 80, 4)  # 최대 체력바
-        self.image.clip_draw(2, 448, 2, 1, WIDTH / 2 - 17, HEIGHT / 2 - 20, 80 * self.hp / self.max_hp, 4)  # 현재 체력바
-        self.image.clip_draw(0, 1077, 2, 1, 0, HEIGHT - 5, WIDTH * 2, 10)  # 최대 경험치 바
-        self.image.clip_draw(0, 1, 2, 1, 0, HEIGHT - 5, WIDTH * 2 * self.exp / self.max_exp, 10)  # 현재 경험치 바
         draw_rectangle(*self.get_bb())
 
     def add_event(self, event):

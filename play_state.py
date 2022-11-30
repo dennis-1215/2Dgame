@@ -14,8 +14,11 @@ WIDTH, HEIGHT = 1024, 1024
 
 player = None # c로 따지믄 NULL
 backgrounds = None
+ui_image = None
+time_font, ui_font = None, None
 play_time = 0
 equipment_list = []
+
 
 def handle_events():
     events = get_events()
@@ -29,8 +32,12 @@ def handle_events():
 
 
 def enter():
-    global player, backgrounds, play_time, equipment_list
+    global player, backgrounds, play_time, equipment_list, time_font, ui_font, ui_image
     play_time = 0
+
+    time_font = load_font('KO.ttf', 30)
+    ui_font = load_font('KO.ttf', 10)
+    ui_image = load_image('sprites/framework/UI.png')
 
     player = character.Character()
     player.handle_event(title_state.event_key)
@@ -77,6 +84,7 @@ def update():
 def draw_world():
     for game_object in game_world.all_objects():
         game_object.draw(player)
+    draw_ui()
 
 def draw():
     clear_canvas()
@@ -103,6 +111,24 @@ def spawn_bat():
     game_world.add_collision_pairs(None, new_enemy, 'whip:enemy')
     game_world.add_collision_pairs(None, new_enemy, 'whip2:enemy')
     game_world.add_collision_pairs(None, new_enemy, 'garlic:enemy')
+
+def draw_ui():
+    # 화면 중앙 위에 시간 표시
+    time_font.draw(backgrounds.canvas_width / 2, backgrounds.canvas_height - 50, f'{int(play_time // 60)}:{int(play_time % 60)}', (255, 255, 255))
+
+    # 화면 중앙 오른쪽에 킬 수 + 먹은 돈 표시
+    ui_image.clip_draw(288, 1024 - 371, 8, 7, backgrounds.canvas_width - 200, backgrounds.canvas_height - 30, 16, 14)
+    ui_font.draw(backgrounds.canvas_width - 170, backgrounds.canvas_height - 30, f'{player.kill_count}', (255,255,255))
+
+    ui_image.clip_draw(241, 1024 - 373, 10, 10, backgrounds.canvas_width - 100, backgrounds.canvas_height - 30, 15, 15)
+    ui_font.draw(backgrounds.canvas_width - 70, backgrounds.canvas_height - 30, '0', (255, 255, 255))
+
+    player.image.clip_draw(0, 1077, 2, 1, WIDTH / 2 - 17, HEIGHT / 2 - 20, 80, 4)  # 최대 체력바
+    player.image.clip_draw(2, 448, 2, 1, WIDTH / 2 - 17, HEIGHT / 2 - 20, 80 * player.hp / player.max_hp, 4)  # 현재 체력바
+    player.image.clip_draw(0, 1077, 2, 1, 0, HEIGHT - 5, WIDTH * 2, 10)  # 최대 경험치 바
+    player.image.clip_draw(0, 1, 2, 1, 0, HEIGHT - 5, WIDTH * 2 * player.exp / player.max_exp, 10)  # 현재 경험치 바
+    ui_font.draw(backgrounds.canvas_width - 25, backgrounds.canvas_height - 5, f'LV.{player.level}', (255, 255, 255))
+
 
 def collide(a, b):
     if type(a) == equipments.Whip or type(a) == equipments.Second_Whip:
