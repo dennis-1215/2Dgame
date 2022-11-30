@@ -17,6 +17,8 @@ backgrounds = None
 ui_image = None
 time_font, ui_font = None, None
 play_time = 0
+spawn_bat_time = 0
+spawn_myutal_time = 0
 equipment_list = []
 
 
@@ -60,9 +62,7 @@ def exit():
     game_world.clear()
 
 def update():
-    global play_time
-    play_time += game_framework.frame_time
-
+    time_update()
     for game_object in game_world.all_objects():
         game_object.update(player)
 
@@ -72,11 +72,7 @@ def update():
             a.handle_collision(b, group)
             b.handle_collision(a, group)
 
-    if play_time < 300 and play_time % 3.0 <= 0.02:
-        spawn_bat()
-
-    if play_time > 30 and play_time % 3.0 <= 0.01:
-        spawn_myutal()
+    monster_spawn()
 
     if play_time >= 600.0:
         game_framework.push_state(win_state)
@@ -112,6 +108,19 @@ def spawn_bat():
     game_world.add_collision_pairs(None, new_enemy, 'whip2:enemy')
     game_world.add_collision_pairs(None, new_enemy, 'garlic:enemy')
 
+def monster_spawn():
+    global spawn_bat_time, spawn_myutal_time
+
+    if play_time < 300:
+        if spawn_bat_time >= 1.5:
+            spawn_bat()
+            spawn_bat_time = 0
+
+    if play_time > 30 and play_time < 600:
+        if spawn_myutal_time >= 3.0:
+            spawn_myutal()
+            spawn_myutal_time = 0
+
 def draw_ui():
     # 화면 중앙 위에 시간 표시
     time_font.draw(backgrounds.canvas_width / 2, backgrounds.canvas_height - 50, f'{int(play_time // 60)}:{int(play_time % 60)}', (255, 255, 255))
@@ -123,12 +132,20 @@ def draw_ui():
     ui_image.clip_draw(241, 1024 - 373, 10, 10, backgrounds.canvas_width - 100, backgrounds.canvas_height - 30, 15, 15)
     ui_font.draw(backgrounds.canvas_width - 70, backgrounds.canvas_height - 30, '0', (255, 255, 255))
 
+    ui_font.draw(backgrounds.canvas_width - 25, backgrounds.canvas_height - 5, f'LV.{player.level}', (255, 255, 255))
+
+    # 플레이어의 체력, 경험치 표시
     player.image.clip_draw(0, 1077, 2, 1, WIDTH / 2 - 17, HEIGHT / 2 - 20, 80, 4)  # 최대 체력바
     player.image.clip_draw(2, 448, 2, 1, WIDTH / 2 - 17, HEIGHT / 2 - 20, 80 * player.hp / player.max_hp, 4)  # 현재 체력바
     player.image.clip_draw(0, 1077, 2, 1, 0, HEIGHT - 5, WIDTH * 2, 10)  # 최대 경험치 바
     player.image.clip_draw(0, 1, 2, 1, 0, HEIGHT - 5, WIDTH * 2 * player.exp / player.max_exp, 10)  # 현재 경험치 바
-    ui_font.draw(backgrounds.canvas_width - 25, backgrounds.canvas_height - 5, f'LV.{player.level}', (255, 255, 255))
 
+def time_update():
+    global play_time, spawn_bat_time, spawn_myutal_time
+
+    play_time += game_framework.frame_time
+    spawn_bat_time += game_framework.frame_time
+    spawn_myutal_time += game_framework.frame_time
 
 def collide(a, b):
     if type(a) == equipments.Whip or type(a) == equipments.Second_Whip:

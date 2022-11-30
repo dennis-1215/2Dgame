@@ -1,6 +1,6 @@
 from pico2d import *
 import game_framework
-import play_state
+import main_state
 
 WIDTH, HEIGHT = 1024, 1024
 
@@ -30,9 +30,8 @@ def handle_events():
             game_framework.quit()
         elif event.type == SDL_KEYDOWN:
             event_key = event
-            game_framework.change_state(play_state)
+            game_framework.change_state(main_state)
 
-    pass
 
 def draw():
     clear_canvas()

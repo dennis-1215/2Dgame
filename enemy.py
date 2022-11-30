@@ -38,7 +38,7 @@ class Enemy:
             self.imageR = load_image('sprites/characters/enemy1R.png')
         if Enemy.imageL == None:
             self.imageL = load_image('sprites/characters/enemy1L.png')
-        self.hp = 10 + (play_state.play_time//5 * 2)
+        self.hp = 10 + (play_state.play_time//10 * 2)
         self.atk = 1
         self.hit = 1
         self.time = 0
