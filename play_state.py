@@ -1,11 +1,13 @@
 from pico2d import *
 import game_framework
 import game_world
+import title_state
 import win_state
 import enemy
 import character
 import back_ground
 import equipments
+import pause_state
 
 WIDTH, HEIGHT = 1024, 1024
 
@@ -21,7 +23,7 @@ def handle_events():
         if event.type == SDL_QUIT:
             game_framework.quit()
         elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_ESCAPE):
-            game_framework.quit()
+            game_framework.push_state(pause_state)
         else:
             player.handle_event(event)
 
@@ -31,6 +33,7 @@ def enter():
     play_time = 0
 
     player = character.Character()
+    player.handle_event(title_state.event_key)
     backgrounds = back_ground.BG()
     whip, heal, hp, garlic, shoes, damage_up, second_whip = equipments.Whip(), equipments.Heal(), equipments.Hp(), equipments.Garlic(), equipments.Shoes(), equipments.Damage_up(), equipments.Second_Whip()
     equipment_list = [whip, heal, hp, garlic, shoes, damage_up, second_whip]

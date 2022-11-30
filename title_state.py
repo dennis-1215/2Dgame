@@ -1,12 +1,16 @@
 from pico2d import *
 import game_framework
 import play_state
-import game_world
 
 WIDTH, HEIGHT = 1024, 1024
 
 image_bg, image_sub = None, None
 title_frame = 0
+event_key = None
+
+TIME_PER_ACTION = 1.0
+ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
+FRAMES_PER_ACTION = 2
 
 def enter():
     global image_bg, image_sub, title_frame
@@ -15,33 +19,32 @@ def enter():
 
 def exit():
     global image_bg, image_sub
-    print(game_world.objects)
-    print(game_world.collision_group)
     del image_bg
     del image_sub
 
 def handle_events():
+    global event_key
     events = get_events()
     for event in events:
         if event.type == SDL_QUIT:
             game_framework.quit()
-        elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
-            game_framework.quit()
-        elif event.type == SDL_KEYDOWN and event.key == SDLK_RETURN:
+        elif event.type == SDL_KEYDOWN:
+            event_key = event
             game_framework.change_state(play_state)
+
     pass
 
 def draw():
     clear_canvas()
     image_bg.clip_draw(0, 0, 400, 300, WIDTH/2, HEIGHT/2, WIDTH, HEIGHT)
-    if title_frame % 2 == 0:
+    if int(title_frame) == 0:
         image_sub.clip_draw(0, 0, 400, 300, WIDTH / 2, HEIGHT / 2, WIDTH, HEIGHT)
     update_canvas()
 
 def update():
     global title_frame
-    title_frame = (title_frame + 1) % 2
-    delay(0.5)
+    title_frame = (title_frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 2
+
 
 def pause():
     pass
