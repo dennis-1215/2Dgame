@@ -145,7 +145,6 @@ class Enemy:
             pass
 
         if group == 'whip:enemy':
-            print(self.hp)
             if self.whip_time > self.cooltime:
                 self.hp -= other.damage * play_state.player.hit
                 self.whip_time = 0
@@ -157,7 +156,6 @@ class Enemy:
 
 
         if group == 'whip2:enemy':
-            print(self.hp)
             if self.whip2_time > self.cooltime:
                 self.hp -= other.damage * play_state.player.hit
                 self.whip2_time = 0
@@ -169,7 +167,6 @@ class Enemy:
 
 
         if group == 'garlic:enemy':
-            print(self.hp)
             if self.garlic_time > self.cooltime:
                 self.hp -= other.damage * play_state.player.hit
                 self.time = 0

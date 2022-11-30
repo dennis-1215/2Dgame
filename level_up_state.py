@@ -1,11 +1,10 @@
 from pico2d import *
 from random import *
 
-import equipments
 import game_framework
 import game_world
 import play_state
-import character
+import pause_state
 
 WIDTH, HEIGHT = 1024, 1024
 
@@ -17,6 +16,7 @@ image_LU, image_choice = None, None
 choice = 0
 frame = 0
 random_item = [None, None, None]
+
 def enter():
     global image_LU, image_choice, choice, random_item
 
@@ -51,7 +51,7 @@ def handle_events():
         if event.type == SDL_QUIT:
             game_framework.quit()
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
-            game_framework.quit()
+            game_framework.push_state(pause_state)
         elif event.type == SDL_KEYDOWN and event.key == SDLK_RETURN or event.key == SDLK_SPACE:
             play_state.equipment_list[random_item[choice]].level += 1
             play_state.equipment_list[random_item[choice]].choiced()

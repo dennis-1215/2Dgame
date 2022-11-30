@@ -66,7 +66,6 @@ def update():
     for game_object in game_world.all_objects():
         game_object.update(player)
 
-
     for a, b, group in game_world.all_collision_pairs():
         if collide(a, b):
             a.handle_collision(b, group)
@@ -130,15 +129,17 @@ def draw_ui():
     ui_font.draw(backgrounds.canvas_width - 170, backgrounds.canvas_height - 30, f'{player.kill_count}', (255,255,255))
 
     ui_image.clip_draw(241, 1024 - 373, 10, 10, backgrounds.canvas_width - 100, backgrounds.canvas_height - 30, 15, 15)
-    ui_font.draw(backgrounds.canvas_width - 70, backgrounds.canvas_height - 30, '0', (255, 255, 255))
+    ui_font.draw(backgrounds.canvas_width - 70, backgrounds.canvas_height - 30, f'{player.gold}', (255, 255, 255))
 
-    ui_font.draw(backgrounds.canvas_width - 25, backgrounds.canvas_height - 5, f'LV.{player.level}', (255, 255, 255))
 
     # 플레이어의 체력, 경험치 표시
     player.image.clip_draw(0, 1077, 2, 1, WIDTH / 2 - 17, HEIGHT / 2 - 20, 80, 4)  # 최대 체력바
     player.image.clip_draw(2, 448, 2, 1, WIDTH / 2 - 17, HEIGHT / 2 - 20, 80 * player.hp / player.max_hp, 4)  # 현재 체력바
     player.image.clip_draw(0, 1077, 2, 1, 0, HEIGHT - 5, WIDTH * 2, 10)  # 최대 경험치 바
     player.image.clip_draw(0, 1, 2, 1, 0, HEIGHT - 5, WIDTH * 2 * player.exp / player.max_exp, 10)  # 현재 경험치 바
+
+    # 경험치 바 위에 레벨 표시
+    ui_font.draw(backgrounds.canvas_width - 25, backgrounds.canvas_height - 5, f'LV.{player.level}', (255, 255, 255))
 
 def time_update():
     global play_time, spawn_bat_time, spawn_myutal_time

@@ -1,6 +1,6 @@
 from pico2d import *
 import game_framework
-import game_world
+import shop_state
 import play_state
 
 WIDTH, HEIGHT = 1024, 1024
@@ -16,8 +16,7 @@ frame = 0
 def enter():
     global image, image_bg, image_choice, font, choice
     choice = 0
-    image_bg = load_image('sprites/framework/main_bg.png')
-    image = load_image('sprites/framework/pause.png')
+    image_bg = load_image('sprites/framework/title.png')
     image_choice = load_image('sprites/framework/UI.png')
     font = load_font('KO.ttf', 20)
 def exit():
@@ -36,8 +35,7 @@ def handle_events():
             if choice == 0:
                 game_framework.change_state(play_state)
             elif choice == 1:
-                # game_framework.push_state(shop_state)
-                pass
+                game_framework.push_state(shop_state)
             elif choice == 2:
                 # game_framework.push_state(option_state)
                 pass

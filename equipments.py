@@ -9,7 +9,7 @@ Whip_TIME_PER_ACTION = 0.5
 Whip_ACTION_PER_TIME = 1.0 / Whip_TIME_PER_ACTION
 Whip_FRAMES_PER_ACTION = 5
 
-class Whip():
+class Whip:
     image = None
     def __init__(self):
         if Whip.image == None:

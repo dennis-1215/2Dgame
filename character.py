@@ -271,6 +271,7 @@ class Character:
         self.level = 0
         self.max_exp = 100
         self.kill_count = 0
+        self.gold = 0
         self.exp = 0
         self.damage = 0
         self.frame = 0
