@@ -152,13 +152,13 @@ class Second_Whip():
 
     def get_bb_right(self):
         if self.time >= self.cooltime:
-            return WIDTH / 2 - self.range / 2 * self.frame, HEIGHT / 2 - self.frame * 3, WIDTH / 2, HEIGHT / 2 + self.frame * 3
+            return WIDTH/2 - self.range / 2 * self.frame, HEIGHT/2 - self.frame * 3, WIDTH / 2, HEIGHT/2 + self.frame * 3
 
         else:
             return 0, 0, 0, 0
     def get_bb_left(self):
         if self.time >= self.cooltime:
-            return WIDTH/2 - self.range / 2 * self.frame, HEIGHT/2 - self.frame * 3, WIDTH / 2, HEIGHT/2 + self.frame * 3
+            return WIDTH/2, HEIGHT/2 - self.frame * 3, WIDTH/2 + self.range / 2 * self.frame, HEIGHT/2 + self.frame * 3
         else:
             return 0, 0, 0, 0
     def handle_collision(self, other, group):
@@ -291,7 +291,8 @@ class Garlic(Whip):
         self.width, self.height = 11, 11
     def draw(self, player):
         if self.level >= 1:
-            self.image_vfx.clip_draw(997, 986 - 644, 57, 59, WIDTH / 2, HEIGHT / 2, self.range, self.range)
+            if self.time >= self.cooltime:
+                self.image_vfx.clip_draw(997, 986 - 644, 57, 59, WIDTH / 2, HEIGHT / 2, self.range, self.range)
 
             draw_rectangle(*self.get_bb())
 
@@ -303,7 +304,8 @@ class Garlic(Whip):
     def handle_collision(self, other, group):
         if group == 'garlic:enemy':
             if self.level > 0:
-                other.hp -= self.damage
+                if self.time - self.cooltime > 0.9:
+                    other.hp -= self.damage
     def update(self, player):
         self.time += game_framework.frame_time
         if self.time - self.cooltime > 1.0:

@@ -62,9 +62,11 @@ def update():
             a.handle_collision(b, group)
             b.handle_collision(a, group)
 
-    if play_time % 3.0 <= 0.01:
-        enemy_on()
+    if play_time < 300 and play_time % 3.0 <= 0.02:
+        spawn_bat()
 
+    if play_time > 30 and play_time % 3.0 <= 0.01:
+        spawn_myutal()
     if play_time >= 1800.0:
         game_framework.push_state(win_state)
 
@@ -82,8 +84,16 @@ def pause():
 def resume():
     pass
 
-def enemy_on():
+def spawn_myutal():
     new_enemy = enemy.Enemy()
+    game_world.add_object(new_enemy, 3)
+    game_world.add_collision_pairs(None, new_enemy, 'player:enemy')
+    game_world.add_collision_pairs(None, new_enemy, 'whip:enemy')
+    game_world.add_collision_pairs(None, new_enemy, 'whip2:enemy')
+    game_world.add_collision_pairs(None, new_enemy, 'garlic:enemy')
+
+def spawn_bat():
+    new_enemy = enemy.Bat()
     game_world.add_object(new_enemy, 3)
     game_world.add_collision_pairs(None, new_enemy, 'player:enemy')
     game_world.add_collision_pairs(None, new_enemy, 'whip:enemy')

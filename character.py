@@ -5,7 +5,7 @@ import gameover_state
 WIDTH, HEIGHT = 1024, 1024
 
 # Player Run Speed
-PIXEL_PER_METER = (32.0 / 1.0) # 32 pixel = 1 m
+PIXEL_PER_METER = (55.0 / 2.0) # 55 pixel = 2 m
 RUN_SPEED_KMPH = 18.0
 RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000.0 / 60.0)
 RUN_SPEED_MPS = (RUN_SPEED_MPM / 60.0)
