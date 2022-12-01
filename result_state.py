@@ -32,23 +32,26 @@ def enter():
 
 
 def exit():
-    global image, image_choice, font
+    global image, image_choice, font, time
     del image, image_choice, font
 
     game_world.clear()
     play_state.play_time = 0
-
+    time = 0
     main_state.account_save()
 
 def handle_events():
-    global choice, gold
+    global choice, gold, time
     events = get_events()
     for event in events:
         if event.type == SDL_QUIT:
             game_framework.quit()
         elif event.type == SDL_KEYDOWN and event.key == SDLK_RETURN or event.key == SDLK_SPACE:
-            main_state.account.account_gold += gold
-            game_framework.change_state(main_state)
+            if time < 5.0:
+                time = 5.0
+            elif time > 6.0:
+                main_state.account.account_gold += gold
+                game_framework.change_state(main_state)
 
 
 def draw():

@@ -20,6 +20,7 @@ whip, heal, hp, garlic, shoes, damage_up, second_whip = None, None, None, None, 
 play_time = 0
 spawn_bat_time = 0
 spawn_myutal_time = 0
+spawn_golem_time = 0
 equipment_list = []
 get_gold = 0
 
@@ -112,14 +113,29 @@ def spawn_bat():
     game_world.add_collision_pairs(None, new_enemy, 'whip2:enemy')
     game_world.add_collision_pairs(None, new_enemy, 'garlic:enemy')
 
+def spawn_golem():
+    new_enemy = enemy.Golem()
+    game_world.add_object(new_enemy, 3)
+    game_world.add_collision_pairs(None, new_enemy, 'player:enemy')
+    game_world.add_collision_pairs(None, new_enemy, 'whip:enemy')
+    game_world.add_collision_pairs(None, new_enemy, 'whip2:enemy')
+    game_world.add_collision_pairs(None, new_enemy, 'garlic:enemy')
+
 def monster_spawn():
-    global spawn_bat_time, spawn_myutal_time
+    global spawn_bat_time, spawn_myutal_time, spawn_golem_time
 
     if play_time < 300:
         if spawn_bat_time >= 1.5:
             spawn_bat()
             spawn_bat_time = 0
-
+            if play_time > 150:
+                spawn_bat()
+                spawn_bat()
+    if play_time > 300:
+        if spawn_golem_time >= 3.0:
+            spawn_myutal()
+            spawn_golem()
+            spawn_golem_time = 0
     if play_time > 30 and play_time < 600:
         if spawn_myutal_time >= 3.0:
             spawn_myutal()
@@ -147,11 +163,12 @@ def draw_ui():
     ui_font.draw(backgrounds.canvas_width - 25, backgrounds.canvas_height - 5, f'LV.{player.level}', (255, 255, 255))
 
 def time_update():
-    global play_time, spawn_bat_time, spawn_myutal_time
+    global play_time, spawn_bat_time, spawn_myutal_time, spawn_golem_time
 
     play_time += game_framework.frame_time
     spawn_bat_time += game_framework.frame_time
     spawn_myutal_time += game_framework.frame_time
+    spawn_golem_time += game_framework.frame_time
 
 def get_money():
     global play_time, get_gold

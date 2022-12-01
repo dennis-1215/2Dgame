@@ -28,7 +28,6 @@ class Item:
     def draw(self, player):
         if self.level == 1:
             self.imageItem.clip_draw(166, 8, 10, 12, self.x, self.y, 20, 24)
-        draw_rectangle(*self.get_bb())
 
     def animation(self, player):
         if self.x > WIDTH/2:
@@ -105,7 +104,6 @@ class Gold(Item):
     def draw(self, player):
         if self.level == 1:
             self.image.clip_draw(420, 392 - 135, 10, 12, self.x, self.y, 20, 24)
-        draw_rectangle(*self.get_bb())
 
     def animation(self, player):
         if self.x > WIDTH/2:

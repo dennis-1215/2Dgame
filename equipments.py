@@ -26,13 +26,13 @@ class Whip:
         self.cooltime = 2.0
         self.range = 80
         self.level = 0
-        self.description = ['바라보는 방향의 반대 방향으로도 1회 공격합니다.',
-                            '공격력이 10% 증가합니다.',
+        self.description = ['공격력이 10% 증가합니다.',
                             '공격 사거리가 20% 증가합니다.',
                             '공격력이 20% 증가합니다.',
                             '공격 속도가 20% 상승합니다.',
                             '공격력이 30% 증가합니다.',
                             '공격 사거리가 30% 증가합니다.',
+                            '바라보는 방향의 반대 방향으로도 1회 공격합니다.',
                             ]
         self.x, self.y = 362, 392 - 171
         self.width, self.height = 15, 15
@@ -57,37 +57,32 @@ class Whip:
         if self.frame > 1.1 and self.frame < 2.5:
             self.attack_sound.play()
 
-        if player.face_dir == 1:
-            draw_rectangle(*self.get_bb_right())
-        else:
-            draw_rectangle(*self.get_bb_left())
-
     def update(self, player):
         self.time += game_framework.frame_time
         pass
 
     def choiced(self):
         if self.level == 1:
-            play_state.second_whip.level = self.level
-            play_state.second_whip.time = self.time
-        if self.level == 2:
             self.damage *= 1.1
             play_state.second_whip.damage = self.damage
-        if self.level == 3:
+        if self.level == 2:
             self.range *= 1.2
             play_state.second_whip.range = self.range
-        if self.level == 4:
+        if self.level == 3:
             self.damage *= 1.2
             play_state.second_whip.damage = self.damage
-        if self.level == 5:
+        if self.level == 4:
             self.cooltime *= 0.8
             play_state.second_whip.cooltime = self.cooltime + 0.29
-        if self.level == 6:
+        if self.level == 5:
             self.damage *= 1.3
             play_state.second_whip.damage = self.damage
-        if self.level == 7:
+        if self.level == 6:
             self.range *= 1.3
             play_state.second_whip.range = self.range
+        if self.level == 7:
+            play_state.second_whip.level = self.level
+            play_state.second_whip.time = self.time
 
 
     def get_bb_right(self):
@@ -121,20 +116,13 @@ class Second_Whip():
         self.cooltime = 2.29
         self.range = 80
         self.level = 0
-        self.description = ['바라보는 방향의 반대 방향으로도 1회 공격합니다.',
-                            '공격력이 10% 증가합니다.',
-                            '공격 사거리가 20% 증가합니다.',
-                            '공격력이 20% 증가합니다.',
-                            '공격 속도가 20% 상승합니다.',
-                            '공격력이 30% 증가합니다.',
-                            '공격 사거리가 30% 증가합니다.',
-                            ]
+
         self.x, self.y = 362, 392 - 171
         self.width, self.height = 15, 15
 
     def choice_draw(self, x, y):pass
     def draw(self, player):
-        if self.level >= 1:
+        if self.level >= 7:
             if self.time >= self.cooltime:
                 if player.face_dir == -1:
                     self.image_vfx.clip_composite_draw(0, 985 - 64, 148, 20, 0, '', WIDTH / 2 + 17 + player.w, HEIGHT / 2, self.range / 2 * self.frame, 6 * self.frame)
@@ -145,10 +133,7 @@ class Second_Whip():
                     self.time = 0.29
                     self.frame = 0
 
-        if player.face_dir == 1:
-            draw_rectangle(*self.get_bb_right())
-        else:
-            draw_rectangle(*self.get_bb_left())
+
 
         if self.frame > 1.1 and self.frame < 2.5:
             self.attack_sound.play()
@@ -160,16 +145,17 @@ class Second_Whip():
         pass
 
     def get_bb_right(self):
-        if self.time >= self.cooltime:
-            return WIDTH/2 - self.range / 2 * self.frame, HEIGHT/2 - self.frame * 3, WIDTH / 2, HEIGHT/2 + self.frame * 3
+        if self.level >= 7:
+            if self.time >= self.cooltime:
+                return WIDTH/2 - self.range / 2 * self.frame, HEIGHT/2 - self.frame * 3, WIDTH / 2, HEIGHT/2 + self.frame * 3
 
-        else:
-            return 0, 0, 0, 0
+        return 0, 0, 0, 0
     def get_bb_left(self):
-        if self.time >= self.cooltime:
-            return WIDTH/2, HEIGHT/2 - self.frame * 3, WIDTH/2 + self.range / 2 * self.frame, HEIGHT/2 + self.frame * 3
-        else:
-            return 0, 0, 0, 0
+        if self.level >= 7:
+            if self.time >= self.cooltime:
+                return WIDTH/2, HEIGHT/2 - self.frame * 3, WIDTH/2 + self.range / 2 * self.frame, HEIGHT/2 + self.frame * 3
+
+        return 0, 0, 0, 0
     def handle_collision(self, other, group):
         if group == 'whip2:enemy':
             pass
@@ -303,7 +289,7 @@ class Garlic(Whip):
             if self.time >= self.cooltime:
                 self.image_vfx.clip_draw(997, 986 - 644, 57, 59, WIDTH / 2, HEIGHT / 2, self.range, self.range)
 
-            draw_rectangle(*self.get_bb())
+
 
     def get_bb(self):
         if self.level >= 1:

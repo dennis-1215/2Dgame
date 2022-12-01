@@ -7,7 +7,7 @@ WIDTH, HEIGHT = 1024, 1024
 
 # Player Run Speed
 PIXEL_PER_METER = (55.0 / 2.0) # 55 pixel = 2 m
-RUN_SPEED_KMPH = 18.0
+RUN_SPEED_KMPH = 15.0
 RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000.0 / 60.0)
 RUN_SPEED_MPS = (RUN_SPEED_MPM / 60.0)
 RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
@@ -265,10 +265,10 @@ class Character:
         self.x, self.y = 0, 0
         self.w, self.h = 50, 55
         self.dir, self.face_dir = 0, 1
-        self.max_hp = 300 + main_state.hp.add_hp
+        self.max_hp = 100 + main_state.hp.add_hp
         self.hit = 1.0
         self.move = 1.0
-        self.hp = 300 + main_state.hp.add_hp
+        self.hp = 100 + main_state.hp.add_hp
         self.level = 0
         self.max_exp = 100
         self.kill_count = 0
@@ -295,7 +295,6 @@ class Character:
         self.cur_state.draw(self)
         debug_print('PPPP')
         debug_print(f'Face Dir: {self.face_dir}, Dir: {self.dir}')
-        draw_rectangle(*self.get_bb())
 
     def add_event(self, event):
         self.event_que.insert(0, event)

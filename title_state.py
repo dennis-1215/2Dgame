@@ -16,7 +16,7 @@ def enter():
     image_bg = load_image('sprites/framework/title.png')
     image_sub = load_image('sprites/framework/title_sub.png')
     intro_music = load_music('sounds/titleintro.ogg')
-    intro_music.set_volume(32)
+    intro_music.set_volume(22)
     intro_music.play()
 
 def exit():

@@ -2,6 +2,7 @@ from pico2d import *
 import game_framework
 import shop_state
 import play_state
+import title_state
 import account_items
 import pickle
 
@@ -28,7 +29,7 @@ class Account_data:
         self.bonus_gold_level = 0
         self.damage_up_level = 0
         self.armor_level = 0
-        self.account_gold = 1000
+        self.account_gold = 300
         self.bgm_volume = 16
         self.sfx_volume = 16
     def __getstate__(self):
@@ -54,6 +55,7 @@ def enter():
     image_choice = load_image('sprites/framework/UI.png')
     font = load_font('font/KO.ttf', 20)
     account = Account_data()
+
     with open('account.sav', 'rb') as f:
         try:
             data_check = pickle.load(f)
@@ -79,7 +81,7 @@ def handle_events():
         if event.type == SDL_QUIT:
             game_framework.quit()
         elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_ESCAPE):
-            game_framework.pop_state()
+            game_framework.change_state(title_state)
         elif event.type == SDL_KEYDOWN and event.key == SDLK_RETURN or event.key == SDLK_SPACE:
             if choice == 0:
                 game_framework.change_state(play_state)
