@@ -21,6 +21,7 @@ class Account_hp:
         self.font.draw(400, 200, f'{self.description}')
         self.font.draw(280, 240, f'{self.name}')
         self.font.draw(700, 200, f'Lv. {self.level}')
+        self.font.draw(680, 240, f'가격: {self.need_gold}')
 
     def choiced(self):
         self.level += 1

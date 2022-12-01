@@ -18,7 +18,7 @@ def enter():
     choice = 1
     image = load_image('sprites/framework/pause.png')
     image_choice = load_image('sprites/framework/UI.png')
-    font = load_font('KO.ttf', 20)
+    font = load_font('font/KO.ttf', 20)
 def exit():
     global image, image_choice, font
     del image, image_choice, font

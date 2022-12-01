@@ -8,7 +8,7 @@ TIME_PER_ACTION = 1.0
 ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
 FRAMES_PER_ACTION = 7
 
-image, image_bg, image_choice, font = None, None, None, None
+image, image_bg, image_choice, font , big_font = None, None, None, None, None
 choice = 0
 frame = 0
 account_item_list = []
@@ -16,12 +16,13 @@ account_item_list = []
 
 
 def enter():
-    global image, image_bg, image_choice, font, choice, account_item_list, hp, speed, bonus_exp, bonus_gold, damage_up, armor
+    global image, image_bg, image_choice, font, choice, account_item_list, hp, speed, bonus_exp, bonus_gold, damage_up, armor, big_font
     choice = 0
     image_bg = load_image('sprites/framework/main_bg.png')
     image = load_image('sprites/framework/shop.png')
     image_choice = load_image('sprites/framework/UI.png')
     font = load_font('font/KO.ttf', 20)
+    big_font = load_font('font/KO.ttf', 40)
 
 
 
@@ -47,31 +48,37 @@ def handle_events():
                 if main_state.account.account_gold >= main_state.hp.need_gold:
                     main_state.account.account_gold -= main_state.hp.need_gold
                     main_state.hp.level += 1
+                    main_state.hp.need_gold = 400 * (1 + main_state.hp.level)
                     main_state.account.hp_level += 1
             elif choice == 2:
                 if main_state.account.account_gold >= main_state.speed.need_gold:
                     main_state.account.account_gold -= main_state.speed.need_gold
                     main_state.speed.level += 1
+                    main_state.speed.need_gold = 400 * (1 + main_state.speed.level)
                     main_state.account.speed_level += 1
             elif choice == 3:
                 if main_state.account.account_gold >= main_state.bonus_exp.need_gold:
                     main_state.account.account_gold -= main_state.bonus_exp.need_gold
                     main_state.bonus_exp.level += 1
+                    main_state.bonus_exp.need_gold = 400 * (1 + main_state.bonus_exp.level)
                     main_state.account.bonus_exp_level += 1
             elif choice == 4:
                 if main_state.account.account_gold >= main_state.bonus_gold.need_gold:
                     main_state.account.account_gold -= main_state.bonus_gold.need_gold
                     main_state.bonus_gold.level += 1
+                    main_state.bonus_gold.need_gold = 400 * (1 + main_state.bonus_gold.level)
                     main_state.account.bonus_gold_level += 1
             elif choice == 5:
                 if main_state.account.account_gold >= main_state.damage_up.need_gold:
                     main_state.account.account_gold -= main_state.damage_up.need_gold
                     main_state.damage_up.level += 1
+                    main_state.damage_up.need_gold = 400 * (1 + main_state.damage_up.level)
                     main_state.account.damage_up_level += 1
             elif choice == 6:
                 if main_state.account.account_gold >= main_state.armor.need_gold:
                     main_state.account.account_gold -= main_state.armor.need_gold
                     main_state.armor.level += 1
+                    main_state.armor.need_gold = 400 * (1 + main_state.armor.level)
                     main_state.account.armor_level += 1
 
         elif event.type == SDL_KEYDOWN and event.key == SDLK_LEFT:
@@ -105,6 +112,9 @@ def draw():
     image_choice.clip_draw(464, 1024 - 553, 47, 31, WIDTH * 3 / 4, HEIGHT - 50, 100, 60)
     font.draw(WIDTH * 3 / 4 - 15, HEIGHT - 50, '뒤로', (255, 255, 255))
 
+    # 소지한 골드량
+    image_choice.clip_draw(228, 1024 - 404, 29, 27, WIDTH / 2 - 120, HEIGHT - 50, 60, 60)
+    big_font.draw(WIDTH / 2 - 30, HEIGHT - 50, f'{main_state.account.account_gold}', (255, 255, 255))
 
     # 선택 중인 상자 표시
     if choice == 0:
