@@ -4,6 +4,7 @@ import Item
 import character
 import game_framework
 import game_world
+import main_state
 import play_state
 
 # Myutal Run Speed
@@ -80,25 +81,25 @@ class Enemy:
             self.y -= RUN_SPEED_PPS * game_framework.frame_time
 
         if player.dir == 1:
-            self.x -= character.RUN_SPEED_PPS * game_framework.frame_time * player.move
+            self.x -= character.RUN_SPEED_PPS * game_framework.frame_time * (player.move * main_state.speed.multiply_speed)
         elif player.dir == 2:
-            self.x += character.RUN_SPEED_PPS * game_framework.frame_time * player.move
-            self.y -= character.RUN_SPEED_PPS * game_framework.frame_time * player.move
+            self.x += character.RUN_SPEED_PPS * game_framework.frame_time * (player.move * main_state.speed.multiply_speed)
+            self.y -= character.RUN_SPEED_PPS * game_framework.frame_time * (player.move * main_state.speed.multiply_speed)
         elif player.dir == 3:
-            self.y -= character.RUN_SPEED_PPS * game_framework.frame_time * player.move
+            self.y -= character.RUN_SPEED_PPS * game_framework.frame_time * (player.move * main_state.speed.multiply_speed)
         elif player.dir == 4:
-            self.x -= character.RUN_SPEED_PPS * game_framework.frame_time * player.move
-            self.y -= character.RUN_SPEED_PPS * game_framework.frame_time * player.move
+            self.x -= character.RUN_SPEED_PPS * game_framework.frame_time * (player.move * main_state.speed.multiply_speed)
+            self.y -= character.RUN_SPEED_PPS * game_framework.frame_time * (player.move * main_state.speed.multiply_speed)
         elif player.dir == -1:
-            self.x += character.RUN_SPEED_PPS * game_framework.frame_time * player.move
+            self.x += character.RUN_SPEED_PPS * game_framework.frame_time * (player.move * main_state.speed.multiply_speed)
         elif player.dir == -2:
-            self.x -= character.RUN_SPEED_PPS * game_framework.frame_time * player.move
-            self.y += character.RUN_SPEED_PPS * game_framework.frame_time * player.move
+            self.x -= character.RUN_SPEED_PPS * game_framework.frame_time * (player.move * main_state.speed.multiply_speed)
+            self.y += character.RUN_SPEED_PPS * game_framework.frame_time * (player.move * main_state.speed.multiply_speed)
         elif player.dir == -3:
-            self.y += character.RUN_SPEED_PPS * game_framework.frame_time * player.move
+            self.y += character.RUN_SPEED_PPS * game_framework.frame_time * (player.move * main_state.speed.multiply_speed)
         elif player.dir == -4:
-            self.x += character.RUN_SPEED_PPS * game_framework.frame_time * player.move
-            self.y += character.RUN_SPEED_PPS * game_framework.frame_time * player.move
+            self.x += character.RUN_SPEED_PPS * game_framework.frame_time * (player.move * main_state.speed.multiply_speed)
+            self.y += character.RUN_SPEED_PPS * game_framework.frame_time * (player.move * main_state.speed.multiply_speed)
 
 
 
@@ -146,7 +147,7 @@ class Enemy:
 
         if group == 'whip:enemy':
             if self.whip_time > self.cooltime:
-                self.hp -= other.damage * play_state.player.hit
+                self.hp -= other.damage * play_state.player.hit + main_state.damage_up.plus_damage
                 self.whip_time = 0
             if self.hp <= 0:
                 if self.drop <= 80:
@@ -157,7 +158,7 @@ class Enemy:
 
         if group == 'whip2:enemy':
             if self.whip2_time > self.cooltime:
-                self.hp -= other.damage * play_state.player.hit
+                self.hp -= other.damage * play_state.player.hit + main_state.damage_up.plus_damage
                 self.whip2_time = 0
             if self.hp <= 0:
                 if self.drop <= 80:
@@ -168,7 +169,7 @@ class Enemy:
 
         if group == 'garlic:enemy':
             if self.garlic_time > self.cooltime:
-                self.hp -= other.damage * play_state.player.hit
+                self.hp -= other.damage * play_state.player.hit + main_state.damage_up.plus_damage
                 self.time = 0
             if self.hp <= 0:
                 if self.drop <= 80:
@@ -213,42 +214,6 @@ class Bat(Enemy): # 가로 세로 2m
             else:
                 self.x = WIDTH + 10
         self.frame = randint(0, 5)
-    def update(self, player):
-        self.time += game_framework.frame_time
-        self.whip_time += game_framework.frame_time
-        self.whip2_time += game_framework.frame_time
-
-
-        if self.x < WIDTH / 2:
-            self.x += RUN_SPEED_PPS * game_framework.frame_time
-        if self.x > WIDTH / 2:
-            self.x -= RUN_SPEED_PPS * game_framework.frame_time
-        if self.y < HEIGHT / 2:
-            self.y += RUN_SPEED_PPS * game_framework.frame_time
-        if self.y > HEIGHT / 2:
-            self.y -= RUN_SPEED_PPS * game_framework.frame_time
-
-        if player.dir == 1:
-            self.x -= character.RUN_SPEED_PPS * game_framework.frame_time * player.move
-        elif player.dir == 2:
-            self.x += character.RUN_SPEED_PPS * game_framework.frame_time * player.move
-            self.y -= character.RUN_SPEED_PPS * game_framework.frame_time * player.move
-        elif player.dir == 3:
-            self.y -= character.RUN_SPEED_PPS * game_framework.frame_time * player.move
-        elif player.dir == 4:
-            self.x -= character.RUN_SPEED_PPS * game_framework.frame_time * player.move
-            self.y -= character.RUN_SPEED_PPS * game_framework.frame_time * player.move
-        elif player.dir == -1:
-            self.x += character.RUN_SPEED_PPS * game_framework.frame_time * player.move
-        elif player.dir == -2:
-            self.x -= character.RUN_SPEED_PPS * game_framework.frame_time * player.move
-            self.y += character.RUN_SPEED_PPS * game_framework.frame_time * player.move
-        elif player.dir == -3:
-            self.y += character.RUN_SPEED_PPS * game_framework.frame_time * player.move
-        elif player.dir == -4:
-            self.x += character.RUN_SPEED_PPS * game_framework.frame_time * player.move
-            self.y += character.RUN_SPEED_PPS * game_framework.frame_time * player.move
-
 
 
     def draw(self, player):

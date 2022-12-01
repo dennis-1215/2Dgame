@@ -9,7 +9,6 @@ ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
 FRAMES_PER_ACTION = 7
 
 image, image_bg, image_choice, font = None, None, None, None
-hp, speed, bonus_exp, bonus_gold, damage_up, armor = None, None, None, None, None, None
 choice = 0
 frame = 0
 account_item_list = []
@@ -27,8 +26,7 @@ def enter():
     image_choice = load_image('sprites/framework/UI.png')
     font = load_font('KO.ttf', 20)
 
-    hp, speed, bonus_exp, bonus_gold, damage_up, armor = account_items.Account_hp(0), account_items.Account_speed(0), account_items.Account_bonus_exp(0), account_items.Account_bonus_gold(0), account_items.Account_damage(0), account_items.Account_armor(0)
-    account_item_list = [hp, speed, bonus_exp, bonus_gold, damage_up, armor]
+
 
 
 def exit():

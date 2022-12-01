@@ -2,6 +2,7 @@ from pico2d import *
 import game_framework
 import shop_state
 import play_state
+import account_items
 
 WIDTH, HEIGHT = 1024, 1024
 
@@ -10,15 +11,19 @@ ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
 FRAMES_PER_ACTION = 7
 
 image, image_bg, image_choice, font = None, None, None, None
+hp, speed, bonus_exp, bonus_gold, damage_up, armor = None, None, None, None, None, None
+
 choice = 0
 frame = 0
 
 def enter():
-    global image, image_bg, image_choice, font, choice
+    global image, image_bg, image_choice, font, choice, hp, speed, bonus_exp, bonus_gold, damage_up, armor
     choice = 0
     image_bg = load_image('sprites/framework/title.png')
     image_choice = load_image('sprites/framework/UI.png')
     font = load_font('KO.ttf', 20)
+    hp, speed, bonus_exp, bonus_gold, damage_up, armor = account_items.Account_hp(0), account_items.Account_speed(0), account_items.Account_bonus_exp(0), account_items.Account_bonus_gold(0), account_items.Account_damage(
+        0), account_items.Account_armor(0)
 def exit():
     global image, image_choice, font
     del image, image_choice, font

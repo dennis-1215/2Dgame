@@ -23,24 +23,7 @@ def enter():
     image_LU = load_image('sprites/framework/level_up.png')
     image_choice = load_image('sprites/framework/UI.png')
     choice = 0
-    random_item[0] = randint(0, len(play_state.equipment_list) - 2)
-    random_item[1] = randint(0, len(play_state.equipment_list) - 2)
-    random_item[2] = randint(0, len(play_state.equipment_list) - 2)
-
-    while True:
-        if play_state.equipment_list[random_item[0]].level > 6:
-            random_item[0] = randint(0, len(play_state.equipment_list) - 2)
-        if random_item[0] == random_item[1]:
-            random_item[1] = randint(0, len(play_state.equipment_list) - 2)
-            if play_state.equipment_list[random_item[1]].level > 6:
-                random_item[1] = randint(0, len(play_state.equipment_list) - 2)
-            continue
-        if random_item[2] == random_item[1] or random_item[2] == random_item[0]:
-            random_item[2] = randint(0, len(play_state.equipment_list) - 2)
-            if play_state.equipment_list[random_item[2]].level > 6:
-                random_item[2] = randint(0, len(play_state.equipment_list) - 2)
-        else:
-            break
+    mix()
 def exit():
     pass
 
@@ -55,6 +38,8 @@ def handle_events():
         elif event.type == SDL_KEYDOWN and event.key == SDLK_RETURN or event.key == SDLK_SPACE:
             play_state.equipment_list[random_item[choice]].level += 1
             play_state.equipment_list[random_item[choice]].choiced()
+
+            mix()
 
             game_framework.pop_state()
 
@@ -90,3 +75,23 @@ def pause():
 
 def resume():
     pass
+
+def mix():
+    random_item[0] = randint(0, len(play_state.equipment_list) - 2)
+    random_item[1] = randint(0, len(play_state.equipment_list) - 2)
+    random_item[2] = randint(0, len(play_state.equipment_list) - 2)
+
+    while True:
+        if play_state.equipment_list[random_item[0]].level > 6:
+            random_item[0] = randint(0, len(play_state.equipment_list) - 2)
+        if random_item[0] == random_item[1]:
+            random_item[1] = randint(0, len(play_state.equipment_list) - 2)
+            if play_state.equipment_list[random_item[1]].level > 6:
+                random_item[1] = randint(0, len(play_state.equipment_list) - 2)
+            continue
+        if random_item[2] == random_item[1] or random_item[2] == random_item[0]:
+            random_item[2] = randint(0, len(play_state.equipment_list) - 2)
+            if play_state.equipment_list[random_item[2]].level > 6:
+                random_item[2] = randint(0, len(play_state.equipment_list) - 2)
+        else:
+            break

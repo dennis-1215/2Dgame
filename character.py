@@ -1,6 +1,7 @@
 from pico2d import *
 import game_framework
 import gameover_state
+import main_state
 
 WIDTH, HEIGHT = 1024, 1024
 
@@ -85,25 +86,25 @@ class RUN: # 수평 이동
     def do(self):
         # move about map + enemy
         if self.dir == 1:
-            self.x += RUN_SPEED_PPS * game_framework.frame_time * self.move
+            self.x += RUN_SPEED_PPS * game_framework.frame_time * (self.move * main_state.speed.multiply_speed)
         elif self.dir == 2:
-            self.x -= RUN_SPEED_PPS * game_framework.frame_time * self.move
-            self.y += RUN_SPEED_PPS * game_framework.frame_time * self.move
+            self.x -= RUN_SPEED_PPS * game_framework.frame_time * (self.move * main_state.speed.multiply_speed)
+            self.y += RUN_SPEED_PPS * game_framework.frame_time * (self.move * main_state.speed.multiply_speed)
         elif self.dir == 3:
-            self.y += RUN_SPEED_PPS * game_framework.frame_time * self.move
+            self.y += RUN_SPEED_PPS * game_framework.frame_time * (self.move * main_state.speed.multiply_speed)
         elif self.dir == 4:
-            self.x += RUN_SPEED_PPS * game_framework.frame_time * self.move
-            self.y += RUN_SPEED_PPS * game_framework.frame_time * self.move
+            self.x += RUN_SPEED_PPS * game_framework.frame_time * (self.move * main_state.speed.multiply_speed)
+            self.y += RUN_SPEED_PPS * game_framework.frame_time * (self.move * main_state.speed.multiply_speed)
         elif self.dir == -1:
-            self.x -= RUN_SPEED_PPS * game_framework.frame_time * self.move
+            self.x -= RUN_SPEED_PPS * game_framework.frame_time * (self.move * main_state.speed.multiply_speed)
         elif self.dir == -2:
-            self.x += RUN_SPEED_PPS * game_framework.frame_time * self.move
-            self.y -= RUN_SPEED_PPS * game_framework.frame_time * self.move
+            self.x += RUN_SPEED_PPS * game_framework.frame_time * (self.move * main_state.speed.multiply_speed)
+            self.y -= RUN_SPEED_PPS * game_framework.frame_time * (self.move * main_state.speed.multiply_speed)
         elif self.dir == -3:
-            self.y -= RUN_SPEED_PPS * game_framework.frame_time * self.move
+            self.y -= RUN_SPEED_PPS * game_framework.frame_time * (self.move * main_state.speed.multiply_speed)
         elif self.dir == -4:
-            self.x -= RUN_SPEED_PPS * game_framework.frame_time * self.move
-            self.y -= RUN_SPEED_PPS * game_framework.frame_time * self.move
+            self.x -= RUN_SPEED_PPS * game_framework.frame_time * (self.move * main_state.speed.multiply_speed)
+            self.y -= RUN_SPEED_PPS * game_framework.frame_time * (self.move * main_state.speed.multiply_speed)
 
     def draw(self):
         if self.dir == 1 or self.dir == 4 or self.dir == -2:
@@ -149,25 +150,25 @@ class RUN2: # 수직 이동
     def do(self):
         # move about map + enemy
         if self.dir == 1:
-            self.x += RUN_SPEED_PPS * game_framework.frame_time * self.move
+            self.x += RUN_SPEED_PPS * game_framework.frame_time * (self.move * main_state.speed.multiply_speed)
         elif self.dir == 2:
-            self.x -= RUN_SPEED_PPS * game_framework.frame_time * self.move
-            self.y += RUN_SPEED_PPS * game_framework.frame_time * self.move
+            self.x -= RUN_SPEED_PPS * game_framework.frame_time * (self.move * main_state.speed.multiply_speed)
+            self.y += RUN_SPEED_PPS * game_framework.frame_time * (self.move * main_state.speed.multiply_speed)
         elif self.dir == 3:
-            self.y += RUN_SPEED_PPS * game_framework.frame_time * self.move
+            self.y += RUN_SPEED_PPS * game_framework.frame_time * (self.move * main_state.speed.multiply_speed)
         elif self.dir == 4:
-            self.x += RUN_SPEED_PPS * game_framework.frame_time * self.move
-            self.y += RUN_SPEED_PPS * game_framework.frame_time * self.move
+            self.x += RUN_SPEED_PPS * game_framework.frame_time * (self.move * main_state.speed.multiply_speed)
+            self.y += RUN_SPEED_PPS * game_framework.frame_time * (self.move * main_state.speed.multiply_speed)
         elif self.dir == -1:
-            self.x -= RUN_SPEED_PPS * game_framework.frame_time * self.move
+            self.x -= RUN_SPEED_PPS * game_framework.frame_time * (self.move * main_state.speed.multiply_speed)
         elif self.dir == -2:
-            self.x += RUN_SPEED_PPS * game_framework.frame_time * self.move
-            self.y -= RUN_SPEED_PPS * game_framework.frame_time * self.move
+            self.x += RUN_SPEED_PPS * game_framework.frame_time * (self.move * main_state.speed.multiply_speed)
+            self.y -= RUN_SPEED_PPS * game_framework.frame_time * (self.move * main_state.speed.multiply_speed)
         elif self.dir == -3:
-            self.y -= RUN_SPEED_PPS * game_framework.frame_time * self.move
+            self.y -= RUN_SPEED_PPS * game_framework.frame_time * (self.move * main_state.speed.multiply_speed)
         elif self.dir == -4:
-            self.x -= RUN_SPEED_PPS * game_framework.frame_time * self.move
-            self.y -= RUN_SPEED_PPS * game_framework.frame_time * self.move
+            self.x -= RUN_SPEED_PPS * game_framework.frame_time * (self.move * main_state.speed.multiply_speed)
+            self.y -= RUN_SPEED_PPS * game_framework.frame_time * (self.move * main_state.speed.multiply_speed)
 
         pass
     def draw(self):
@@ -214,25 +215,25 @@ class RUN3: # 대각 이동
     def do(self):
         # move about map + enemy
         if self.dir == 1:
-            self.x += RUN_SPEED_PPS * game_framework.frame_time * self.move
+            self.x += RUN_SPEED_PPS * game_framework.frame_time * (self.move * main_state.speed.multiply_speed)
         elif self.dir == 2:
-            self.x -= RUN_SPEED_PPS * game_framework.frame_time * self.move
-            self.y += RUN_SPEED_PPS * game_framework.frame_time * self.move
+            self.x -= RUN_SPEED_PPS * game_framework.frame_time * (self.move * main_state.speed.multiply_speed)
+            self.y += RUN_SPEED_PPS * game_framework.frame_time * (self.move * main_state.speed.multiply_speed)
         elif self.dir == 3:
-            self.y += RUN_SPEED_PPS * game_framework.frame_time * self.move
+            self.y += RUN_SPEED_PPS * game_framework.frame_time * (self.move * main_state.speed.multiply_speed)
         elif self.dir == 4:
-            self.x += RUN_SPEED_PPS * game_framework.frame_time * self.move
-            self.y += RUN_SPEED_PPS * game_framework.frame_time * self.move
+            self.x += RUN_SPEED_PPS * game_framework.frame_time * (self.move * main_state.speed.multiply_speed)
+            self.y += RUN_SPEED_PPS * game_framework.frame_time * (self.move * main_state.speed.multiply_speed)
         elif self.dir == -1:
-            self.x -= RUN_SPEED_PPS * game_framework.frame_time * self.move
+            self.x -= RUN_SPEED_PPS * game_framework.frame_time * (self.move * main_state.speed.multiply_speed)
         elif self.dir == -2:
-            self.x += RUN_SPEED_PPS * game_framework.frame_time * self.move
-            self.y -= RUN_SPEED_PPS * game_framework.frame_time * self.move
+            self.x += RUN_SPEED_PPS * game_framework.frame_time * (self.move * main_state.speed.multiply_speed)
+            self.y -= RUN_SPEED_PPS * game_framework.frame_time * (self.move * main_state.speed.multiply_speed)
         elif self.dir == -3:
-            self.y -= RUN_SPEED_PPS * game_framework.frame_time * self.move
+            self.y -= RUN_SPEED_PPS * game_framework.frame_time * (self.move * main_state.speed.multiply_speed)
         elif self.dir == -4:
-            self.x -= RUN_SPEED_PPS * game_framework.frame_time * self.move
-            self.y -= RUN_SPEED_PPS * game_framework.frame_time * self.move
+            self.x -= RUN_SPEED_PPS * game_framework.frame_time * (self.move * main_state.speed.multiply_speed)
+            self.y -= RUN_SPEED_PPS * game_framework.frame_time * (self.move * main_state.speed.multiply_speed)
 
 
     def draw(self):
@@ -264,10 +265,10 @@ class Character:
         self.x, self.y = 0, 0
         self.w, self.h = 50, 55
         self.dir, self.face_dir = 0, 1
-        self.max_hp = 1000
+        self.max_hp = 1000 + main_state.hp.add_hp
         self.hit = 1.0
         self.move = 1.0
-        self.hp = 1000
+        self.hp = 1000 + main_state.hp.add_hp
         self.level = 0
         self.max_exp = 100
         self.kill_count = 0
@@ -278,6 +279,7 @@ class Character:
         self.event_que = []
         self.cur_state = IDLE
         self.cur_state.enter(self, None)
+        print(self.hp)
 
     def update(self, player):
         self.cur_state.do(self)
@@ -307,7 +309,7 @@ class Character:
     def handle_collision(self, other, group):
         if group == 'player:enemy':
             if other.time > other.attack_cooltime:
-                self.hp -= other.atk
+                self.hp -= max(0, (other.atk - main_state.armor.reduce_damage))
                 other.time = 0
             if self.hp <= 0:
                 game_framework.push_state(gameover_state)

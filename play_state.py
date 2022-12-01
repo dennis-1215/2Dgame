@@ -20,6 +20,7 @@ play_time = 0
 spawn_bat_time = 0
 spawn_myutal_time = 0
 equipment_list = []
+get_gold = 0
 
 
 def handle_events():
@@ -72,6 +73,7 @@ def update():
             b.handle_collision(a, group)
 
     monster_spawn()
+    get_money()
 
     if play_time >= 600.0:
         game_framework.push_state(win_state)
@@ -148,6 +150,16 @@ def time_update():
     spawn_bat_time += game_framework.frame_time
     spawn_myutal_time += game_framework.frame_time
 
+def get_money():
+    global play_time, get_gold
+
+    if (play_time + 1) // 1 % 10 == 0:
+        if get_gold == 0:
+            player.gold += 1
+            get_gold = 1
+        return
+    else:
+        get_gold = 0
 def collide(a, b):
     if type(a) == equipments.Whip or type(a) == equipments.Second_Whip:
         # dir 따라서 방향 조정

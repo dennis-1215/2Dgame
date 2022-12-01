@@ -10,7 +10,7 @@ class Account_hp:
         self.name = '최대 체력'
         self.level = level
         self.need_gold = 400 * (1 + self.level)
-        self.add_hp = 100 * (1 + self.level)
+        self.add_hp = 100 * self.level
         self.description = "최대 체력이 증가합니다."
 
         self.x, self.y = 404, 392 - 187
@@ -35,7 +35,7 @@ class Account_speed(Account_hp):
         self.name = '이동 속도'
         self.level = level
         self.need_gold = 400 * (1 + self.level)
-        self.add_hp = 100 * (1 + self.level)
+        self.multiply_speed = 1.0 + (0.02 * self.level)
         self.description = "이동 속도가 증가합니다."
 
         self.x, self.y = 334, 392 - 295
@@ -50,7 +50,7 @@ class Account_bonus_exp(Account_hp):
         self.name = '성장'
         self.level = level
         self.need_gold = 400 * (1 + self.level)
-        self.add_hp = 100 * (1 + self.level)
+        self.multiply_bonus_exp = 1.0 + (0.1 * self.level)
         self.description = "얻는 경험치가 증가합니다."
 
         self.x, self.y = 335, 392 - 205
@@ -65,7 +65,7 @@ class Account_bonus_gold(Account_hp):
         self.name = '탐욕'
         self.level = level
         self.need_gold = 400 * (1 + self.level)
-        self.add_hp = 100 * (1 + self.level)
+        self.multiply_bonus_gold = 1.0 + (0.1 * self.level)
         self.description = "얻는 골드가 증가합니다."
 
         self.x, self.y = 418, 392 - 271
@@ -85,7 +85,7 @@ class Account_damage(Account_hp):
         self.name = '피해량'
         self.level = level
         self.need_gold = 400 * (1 + self.level)
-        self.add_hp = 100 * (1 + self.level)
+        self.plus_damage = 2 * self.level
         self.description = "주는 피해량이 증가합니다."
 
         self.x, self.y = 177, 392 - 361
@@ -100,7 +100,7 @@ class Account_armor(Account_hp):
         self.name = '방어력'
         self.level = level
         self.need_gold = 400 * (1 + self.level)
-        self.add_hp = 100 * (1 + self.level)
+        self.reduce_damage = self.level
         self.description = "받는 피해가 감소합니다."
 
         self.x, self.y = 414, 392 - 17

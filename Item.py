@@ -3,7 +3,7 @@ import game_framework
 import character
 import game_world
 import level_up_state
-import play_state
+import main_state
 
 WIDTH, HEIGHT = 1024, 1024
 
@@ -24,30 +24,30 @@ class Item:
 
     def update(item, player):
         if player.dir == 1:
-            item.x -= character.RUN_SPEED_PPS * game_framework.frame_time * player.move
+            item.x -= character.RUN_SPEED_PPS * game_framework.frame_time * (player.move * main_state.speed.multiply_speed)
         elif player.dir == 2:
-            item.x += character.RUN_SPEED_PPS * game_framework.frame_time * player.move
-            item.y -= character.RUN_SPEED_PPS * game_framework.frame_time * player.move
+            item.x += character.RUN_SPEED_PPS * game_framework.frame_time * (player.move * main_state.speed.multiply_speed)
+            item.y -= character.RUN_SPEED_PPS * game_framework.frame_time * (player.move * main_state.speed.multiply_speed)
         elif player.dir == 3:
-            item.y -= character.RUN_SPEED_PPS * game_framework.frame_time * player.move
+            item.y -= character.RUN_SPEED_PPS * game_framework.frame_time * (player.move * main_state.speed.multiply_speed)
         elif player.dir == 4:
-            item.x -= character.RUN_SPEED_PPS * game_framework.frame_time * player.move
-            item.y -= character.RUN_SPEED_PPS * game_framework.frame_time * player.move
+            item.x -= character.RUN_SPEED_PPS * game_framework.frame_time * (player.move * main_state.speed.multiply_speed)
+            item.y -= character.RUN_SPEED_PPS * game_framework.frame_time * (player.move * main_state.speed.multiply_speed)
         elif player.dir == -1:
-            item.x += character.RUN_SPEED_PPS * game_framework.frame_time * player.move
+            item.x += character.RUN_SPEED_PPS * game_framework.frame_time * (player.move * main_state.speed.multiply_speed)
         elif player.dir == -2:
-            item.x -= character.RUN_SPEED_PPS * game_framework.frame_time * player.move
-            item.y += character.RUN_SPEED_PPS * game_framework.frame_time * player.move
+            item.x -= character.RUN_SPEED_PPS * game_framework.frame_time * (player.move * main_state.speed.multiply_speed)
+            item.y += character.RUN_SPEED_PPS * game_framework.frame_time * (player.move * main_state.speed.multiply_speed)
         elif player.dir == -3:
-            item.y += character.RUN_SPEED_PPS * game_framework.frame_time * player.move
+            item.y += character.RUN_SPEED_PPS * game_framework.frame_time * (player.move * main_state.speed.multiply_speed)
         elif player.dir == -4:
-            item.x += character.RUN_SPEED_PPS * game_framework.frame_time * player.move
-            item.y += character.RUN_SPEED_PPS * game_framework.frame_time * player.move
+            item.x += character.RUN_SPEED_PPS * game_framework.frame_time * (player.move * main_state.speed.multiply_speed)
+            item.y += character.RUN_SPEED_PPS * game_framework.frame_time * (player.move * main_state.speed.multiply_speed)
 
         if abs(item.x - WIDTH/2) < 16 and abs(item.y - HEIGHT/2) < 25:
-            player.exp += item.exp
+            player.exp += item.exp * main_state.bonus_exp.multiply_bonus_exp
             game_world.remove_object(item)
-            if player.exp >= player.max_exp:
+            while player.exp >= player.max_exp:
                 player.level += 1
                 player.exp -= player.max_exp
                 player.max_exp *= 1.2
