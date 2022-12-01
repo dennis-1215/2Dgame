@@ -42,7 +42,7 @@ class Enemy:
             Enemy.imageL = load_image('sprites/characters/enemy1L.png')
         if Enemy.hit_sound == None:
             Enemy.hit_sound = load_wav('sounds/enemy_hit.ogg')
-            Enemy.hit_sound.set_volume(32)
+            Enemy.hit_sound.set_volume(main_state.account.sfx_volume)
         self.hp = 10 + (play_state.play_time//10 * 2)
         self.atk = 1
         self.hit = 1
@@ -217,7 +217,7 @@ class Bat(Enemy): # 가로 세로 2m
             Bat.image = load_image('sprites/characters/enemies.png')
         if Bat.hit_sound == None:
             Bat.hit_sound = load_wav('sounds/enemy_hit.ogg')
-            Bat.hit_sound.set_volume(32)
+            Bat.hit_sound.set_volume(main_state.account.sfx_volume)
         self.hp = 10
         self.atk = 1
         self.hit = 1

@@ -11,7 +11,7 @@ TIME_PER_ACTION = 1.0
 ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
 FRAMES_PER_ACTION = 7
 
-image, image_bg, image_choice, font = None, None, None, None
+image_bg, image_choice, font = None, None, None
 hp, speed, bonus_exp, bonus_gold, damage_up, armor = None, None, None, None, None, None
 account = None
 event_key = None
@@ -29,6 +29,8 @@ class Account_data:
         self.damage_up_level = 0
         self.armor_level = 0
         self.account_gold = 1000
+        self.bgm_volume = 16
+        self.sfx_volume = 16
     def __getstate__(self):
         state = {'hp_level': self.hp_level,
                  'speed_level': self.speed_level,
@@ -36,7 +38,9 @@ class Account_data:
                  'bonus_gold_level': self.bonus_gold_level,
                  'damage_up_level': self.damage_up_level,
                  'armor_level': self.armor_level,
-                 'account_gold': self.account_gold
+                 'account_gold': self.account_gold,
+                 'bgm_volume': self.bgm_volume,
+                 'sfx_volume': self.sfx_volume
                  }
         return state
     def __setstate__(self, state):
@@ -44,7 +48,7 @@ class Account_data:
         self.__dict__.update(state)
 
 def enter():
-    global image, image_bg, image_choice, font, choice, hp, speed, bonus_exp, bonus_gold, damage_up, armor, account
+    global image_bg, image_choice, font, choice, hp, speed, bonus_exp, bonus_gold, damage_up, armor, account
     choice = 0
     image_bg = load_image('sprites/framework/title.png')
     image_choice = load_image('sprites/framework/UI.png')
@@ -65,8 +69,8 @@ def enter():
                                                          account_items.Account_damage(account.damage_up_level), \
                                                          account_items.Account_armor(account.armor_level)
 def exit():
-    global image, image_choice, font
-    del image, image_choice, font
+    global image_choice, font
+    del image_choice, font
 
 def handle_events():
     global choice, event_key
@@ -88,12 +92,13 @@ def handle_events():
                 game_framework.quit()
                 pass
         elif event.type == SDL_KEYDOWN and (event.key == SDLK_UP or event.key == SDLK_LEFT):
+            event_key = event
             if choice > 0:
                 choice -= 1
         elif event.type == SDL_KEYDOWN and (event.key == SDLK_DOWN or event.key == SDLK_RIGHT):
+            event_key = event
             if choice < 3:
                 choice += 1
-
         event_key = event
 
 

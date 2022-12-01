@@ -1,6 +1,6 @@
 from pico2d import *
 import play_state
-
+import main_state
 
 class BG:
     image = None
@@ -8,7 +8,7 @@ class BG:
         if BG.image == None:
             BG.image = load_image('sprites/maps/bg_molise.png')
         self.bgm = load_music('sounds/bgm_beginning.ogg')
-        self.bgm.set_volume(32)
+        self.bgm.set_volume(main_state.account.bgm_volume)
         self.bgm.repeat_play()
         self.canvas_width = get_canvas_width()
         self.canvas_height = get_canvas_height()

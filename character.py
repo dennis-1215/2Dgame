@@ -279,7 +279,6 @@ class Character:
         self.event_que = []
         self.cur_state = IDLE
         self.cur_state.enter(self, None)
-        print(self.hp)
 
     def update(self, player):
         self.cur_state.do(self)

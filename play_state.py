@@ -16,6 +16,7 @@ player = None # c로 따지믄 NULL
 backgrounds = None
 ui_image = None
 time_font, ui_font = None, None
+whip, heal, hp, garlic, shoes, damage_up, second_whip = None, None, None, None, None, None, None
 play_time = 0
 spawn_bat_time = 0
 spawn_myutal_time = 0
@@ -35,7 +36,7 @@ def handle_events():
 
 
 def enter():
-    global player, backgrounds, play_time, equipment_list, time_font, ui_font, ui_image
+    global player, backgrounds, play_time, equipment_list, time_font, ui_font, ui_image, whip, heal, hp, garlic, shoes, damage_up, second_whip
     play_time = 0
 
     time_font = load_font('font/KO.ttf', 30)
@@ -44,7 +45,6 @@ def enter():
 
     player = character.Character()
     player.handle_event(main_state.event_key)
-    print(player.hp, player.max_hp)
     backgrounds = back_ground.BG()
     whip, heal, hp, garlic, shoes, damage_up, second_whip = equipments.Whip(), equipments.Heal(), equipments.Hp(), equipments.Garlic(), equipments.Shoes(), equipments.Damage_up(), equipments.Second_Whip()
     equipment_list = [whip, heal, hp, garlic, shoes, damage_up, second_whip]
@@ -134,7 +134,7 @@ def draw_ui():
     ui_font.draw(backgrounds.canvas_width - 170, backgrounds.canvas_height - 30, f'{player.kill_count}', (255,255,255))
 
     ui_image.clip_draw(241, 1024 - 373, 10, 10, backgrounds.canvas_width - 100, backgrounds.canvas_height - 30, 15, 15)
-    ui_font.draw(backgrounds.canvas_width - 70, backgrounds.canvas_height - 30, f'{player.gold}', (255, 255, 255))
+    ui_font.draw(backgrounds.canvas_width - 70, backgrounds.canvas_height - 30, f'{int(player.gold)}', (255, 255, 255))
 
 
     # 플레이어의 체력, 경험치 표시

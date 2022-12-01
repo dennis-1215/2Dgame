@@ -5,6 +5,7 @@ import game_framework
 import game_world
 import play_state
 import pause_state
+import main_state
 
 WIDTH, HEIGHT = 1024, 1024
 
@@ -23,7 +24,7 @@ def enter():
     image_LU = load_image('sprites/framework/level_up.png')
     image_choice = load_image('sprites/framework/UI.png')
     levelup_sound = load_wav('sounds/levelup.ogg')
-    levelup_sound.set_volume(32)
+    levelup_sound.set_volume(main_state.account.sfx_volume)
     levelup_sound.play()
     choice = 0
     mix()

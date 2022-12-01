@@ -1,6 +1,7 @@
 from pico2d import *
 import game_framework
 import play_state
+import main_state
 
 WIDTH, HEIGHT = 1024, 1024
 
@@ -17,7 +18,7 @@ class Whip:
             self.image_vfx = load_image('sprites/characters/vfx.png')
             self.font = load_font('font/KO.ttf', 20)
             self.attack_sound = load_wav('sounds/whip_sound.ogg')
-            self.attack_sound.set_volume(32)
+            self.attack_sound.set_volume(main_state.account.sfx_volume)
         self.name = 'Whip'
         self.damage = 15
         self.frame = 0
@@ -66,29 +67,27 @@ class Whip:
         pass
 
     def choiced(self):
-        self.time = 0
-        play_state.equipment_list[-1].time = 0
-        play_state.equipment_list[-1].level = self.level
         if self.level == 1:
-            pass
+            play_state.second_whip.level = self.level
+            play_state.second_whip.time = self.time
         if self.level == 2:
             self.damage *= 1.1
-            play_state.equipment_list[-1].damage = self.damage
+            play_state.second_whip.damage = self.damage
         if self.level == 3:
             self.range *= 1.2
-            play_state.equipment_list[-1].range = self.range
+            play_state.second_whip.range = self.range
         if self.level == 4:
             self.damage *= 1.2
-            play_state.equipment_list[-1].damage = self.damage
+            play_state.second_whip.damage = self.damage
         if self.level == 5:
             self.cooltime *= 0.8
-            play_state.equipment_list[-1].cooltime = self.cooltime
+            play_state.second_whip.cooltime = self.cooltime + 0.29
         if self.level == 6:
             self.damage *= 1.3
-            play_state.equipment_list[-1].damage = self.damage
+            play_state.second_whip.damage = self.damage
         if self.level == 7:
             self.range *= 1.3
-            play_state.equipment_list[-1].range = self.range
+            play_state.second_whip.range = self.range
 
 
     def get_bb_right(self):
@@ -114,7 +113,7 @@ class Second_Whip():
             self.image_vfx = load_image('sprites/characters/vfx.png')
             self.font = load_font('font/KO.ttf', 20)
             self.attack_sound = load_wav('sounds/whip_sound.ogg')
-            self.attack_sound.set_volume(32)
+            self.attack_sound.set_volume(main_state.account.sfx_volume)
         self.name = 'Whip'
         self.damage = 15
         self.frame = 0

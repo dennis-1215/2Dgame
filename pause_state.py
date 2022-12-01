@@ -2,6 +2,7 @@ from pico2d import *
 import game_framework
 import game_world
 import play_state
+import result_state
 
 WIDTH, HEIGHT = 1024, 1024
 
@@ -32,11 +33,11 @@ def handle_events():
         elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_ESCAPE):
             game_framework.pop_state()
         elif event.type == SDL_KEYDOWN and event.key == SDLK_RETURN or event.key == SDLK_SPACE:
-            if choice == 1:
+            if choice == 0:
                 game_framework.pop_state()
-            elif choice == 0:
-                game_framework.pop_state()
-                # game_framework.push_state(option_state)
+            elif choice == 1:
+                play_state.backgrounds.bgm.stop()
+                game_framework.push_state(result_state)
             pass
         elif event.type == SDL_KEYDOWN and (event.key == SDLK_UP or event.key == SDLK_LEFT):
             if choice > 0:
@@ -57,9 +58,9 @@ def draw():
 
     # 선택지 박스 그리기
     image_choice.clip_draw(454, 1024 - 395, 47, 30, WIDTH / 2 - 100, 50, 100, 60)
-    font.draw(WIDTH / 2 - 115, 50, '옵션', (255, 255, 255))
+    font.draw(WIDTH / 2 - 115, 50, '뒤로', (255, 255, 255))
     image_choice.clip_draw(454, 1024 - 395, 47, 30, WIDTH / 2 + 100, 50, 100, 60)
-    font.draw(WIDTH / 2 + 65, 50, '계속하기', (255, 255, 255))
+    font.draw(WIDTH / 2 + 65, 50, '그만하기', (255, 255, 255))
 
     # 화살표 그리기
     if choice == 0:

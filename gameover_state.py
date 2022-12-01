@@ -2,8 +2,7 @@ from pico2d import *
 import game_framework
 import game_world
 import play_state
-import character
-import title_state
+import result_state
 
 WIDTH, HEIGHT = 1024, 1024
 
@@ -29,7 +28,7 @@ def handle_events():
         if event.type == SDL_QUIT:
             game_framework.quit()
         elif event.type == SDL_KEYDOWN:
-            game_framework.change_state(title_state)
+            game_framework.push_state(result_state)
 
 def draw():
     image.clip_draw(0, 0, 400, 300, WIDTH / 2, HEIGHT / 2, WIDTH/1.5, HEIGHT/1.5)

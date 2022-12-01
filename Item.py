@@ -16,7 +16,7 @@ class Item:
             Item.imageItem = load_image('sprites/characters/items.png')
         if Item.get_exp_sound == None:
             Item.get_exp_sound = load_wav('sounds/get_exp.ogg')
-            Item.get_exp_sound.set_volume(32)
+            Item.get_exp_sound.set_volume(main_state.account.sfx_volume)
 
         self.level = 1
         self.exp = 100
@@ -93,7 +93,7 @@ class Gold(Item):
             Gold.image = load_image('sprites/characters/items.png')
         if Gold.get_coin_sound == None:
             Gold.get_coin_sound = load_wav('sounds/get_coin.ogg')
-            Gold.get_coin_sound.set_volume(32)
+            Gold.get_coin_sound.set_volume(main_state.account.sfx_volume)
 
         self.level = 1
         self.gold = random.randint(1, 20)
