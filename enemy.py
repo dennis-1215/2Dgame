@@ -163,7 +163,7 @@ class Enemy:
         if group == 'whip:enemy':
             if self.whip_time > self.cooltime:
                 self.hp -= other.damage * play_state.player.hit + main_state.damage_up.plus_damage
-                Golem.hit_sound.play()
+                Bat.hit_sound.play()
                 self.whip_time = 0
             if self.hp <= 0:
                 if self.drop <= 80:

@@ -8,6 +8,11 @@ import random
 
 WIDTH, HEIGHT = 1024, 1024
 
+PIXEL_PER_METER = (20.0 / 0.2) # 20 pixel = 20 cm
+RUN_SPEED_KMPH = 10.0
+RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000.0 / 60.0)
+RUN_SPEED_MPS = (RUN_SPEED_MPM / 60.0)
+RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
 class Item:
     imageItem = None
     get_exp_sound = None
@@ -31,14 +36,14 @@ class Item:
 
     def animation(self, player):
         if self.x > WIDTH/2:
-            self.x -= 1
+            self.x -= RUN_SPEED_PPS * game_framework.frame_time
         else:
-            self.x += 1
+            self.x += RUN_SPEED_PPS * game_framework.frame_time
 
         if self.y > HEIGHT/2:
-            self.y -= 1
+            self.y -= RUN_SPEED_PPS * game_framework.frame_time
         else:
-            self.y += 1
+            self.y += RUN_SPEED_PPS * game_framework.frame_time
 
         if abs(self.x - WIDTH/2) < 2 and abs(self.y - HEIGHT/2) < 2:
             player.exp += self.exp * main_state.bonus_exp.multiply_bonus_exp

@@ -15,7 +15,6 @@ FRAMES_PER_ACTION = 7
 image_bg, image_choice, font = None, None, None
 hp, speed, bonus_exp, bonus_gold, damage_up, armor = None, None, None, None, None, None
 account = None
-event_key = None
 
 choice = 0
 frame = 0
@@ -75,7 +74,7 @@ def exit():
     del image_choice, font
 
 def handle_events():
-    global choice, event_key
+    global choice
     events = get_events()
     for event in events:
         if event.type == SDL_QUIT:
@@ -94,14 +93,11 @@ def handle_events():
                 game_framework.quit()
                 pass
         elif event.type == SDL_KEYDOWN and (event.key == SDLK_UP or event.key == SDLK_LEFT):
-            event_key = event
             if choice > 0:
                 choice -= 1
         elif event.type == SDL_KEYDOWN and (event.key == SDLK_DOWN or event.key == SDLK_RIGHT):
-            event_key = event
             if choice < 3:
                 choice += 1
-        event_key = event
 
 
 

@@ -45,7 +45,6 @@ def enter():
     ui_image = load_image('sprites/framework/UI.png')
 
     player = character.Character()
-    player.handle_event(main_state.event_key)
     backgrounds = back_ground.BG()
     whip, heal, hp, garlic, shoes, damage_up, second_whip = equipments.Whip(), equipments.Heal(), equipments.Hp(), equipments.Garlic(), equipments.Shoes(), equipments.Damage_up(), equipments.Second_Whip()
     equipment_list = [whip, heal, hp, garlic, shoes, damage_up, second_whip]
