@@ -1,7 +1,7 @@
 from pico2d import *
 import game_framework
 import game_world
-import title_state
+import main_state
 import win_state
 import enemy
 import character
@@ -43,7 +43,7 @@ def enter():
     ui_image = load_image('sprites/framework/UI.png')
 
     player = character.Character()
-    player.handle_event(title_state.event_key)
+    player.handle_event(main_state.event_key)
     print(player.hp, player.max_hp)
     backgrounds = back_ground.BG()
     whip, heal, hp, garlic, shoes, damage_up, second_whip = equipments.Whip(), equipments.Heal(), equipments.Hp(), equipments.Garlic(), equipments.Shoes(), equipments.Damage_up(), equipments.Second_Whip()
@@ -54,6 +54,8 @@ def enter():
     game_world.add_object(player, 2)
 
     game_world.add_collision_pairs(player, None, 'player:enemy')
+    game_world.add_collision_pairs(player, None, 'player:item')
+    game_world.add_collision_pairs(player, None, 'player:gold')
     game_world.add_collision_pairs(whip, None, 'whip:enemy')
     game_world.add_collision_pairs(second_whip, None, 'whip2:enemy')
     game_world.add_collision_pairs(garlic, None, 'garlic:enemy')

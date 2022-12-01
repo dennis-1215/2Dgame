@@ -7,12 +7,15 @@ import title_state
 
 WIDTH, HEIGHT = 1024, 1024
 
-image = None
+image, bgm = None, None
 title_frame = 0
 
 def enter():
-    global image
+    global image, bgm
     image = load_image('sprites/framework/gameover.png')
+    bgm = load_music('sounds/gameover.ogg')
+    bgm.set_volume(32)
+    bgm.play()
 
 def exit():
     game_world.clear()
@@ -24,8 +27,6 @@ def handle_events():
     events = get_events()
     for event in events:
         if event.type == SDL_QUIT:
-            game_framework.quit()
-        elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
             game_framework.quit()
         elif event.type == SDL_KEYDOWN:
             game_framework.change_state(title_state)

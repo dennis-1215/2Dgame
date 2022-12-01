@@ -6,7 +6,10 @@ class BG:
     image = None
     def __init__(self):
         if BG.image == None:
-            self.image = load_image('sprites/maps/bg_molise.png')
+            BG.image = load_image('sprites/maps/bg_molise.png')
+        self.bgm = load_music('sounds/bgm_beginning.ogg')
+        self.bgm.set_volume(32)
+        self.bgm.repeat_play()
         self.canvas_width = get_canvas_width()
         self.canvas_height = get_canvas_height()
         self.w = self.image.w

@@ -265,10 +265,10 @@ class Character:
         self.x, self.y = 0, 0
         self.w, self.h = 50, 55
         self.dir, self.face_dir = 0, 1
-        self.max_hp = 1000 + main_state.hp.add_hp
+        self.max_hp = 300 + main_state.hp.add_hp
         self.hit = 1.0
         self.move = 1.0
-        self.hp = 1000 + main_state.hp.add_hp
+        self.hp = 300 + main_state.hp.add_hp
         self.level = 0
         self.max_exp = 100
         self.kill_count = 0

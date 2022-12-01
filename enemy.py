@@ -34,11 +34,15 @@ BAT_FRAMES_PER_ACTION = 5
 WIDTH, HEIGHT = 1024, 1024
 class Enemy:
     imageR, imageL = None, None
+    hit_sound = None
     def __init__(self):
         if Enemy.imageR == None:
-            self.imageR = load_image('sprites/characters/enemy1R.png')
+            Enemy.imageR = load_image('sprites/characters/enemy1R.png')
         if Enemy.imageL == None:
-            self.imageL = load_image('sprites/characters/enemy1L.png')
+            Enemy.imageL = load_image('sprites/characters/enemy1L.png')
+        if Enemy.hit_sound == None:
+            Enemy.hit_sound = load_wav('sounds/enemy_hit.ogg')
+            Enemy.hit_sound.set_volume(32)
         self.hp = 10 + (play_state.play_time//10 * 2)
         self.atk = 1
         self.hit = 1
@@ -148,10 +152,17 @@ class Enemy:
         if group == 'whip:enemy':
             if self.whip_time > self.cooltime:
                 self.hp -= other.damage * play_state.player.hit + main_state.damage_up.plus_damage
+                Bat.hit_sound.play()
                 self.whip_time = 0
             if self.hp <= 0:
                 if self.drop <= 80:
-                    game_world.add_object(Item.Item(self.x, self.y), 2)
+                    item = Item.Item(self.x, self.y)
+                    game_world.add_object(item, 2)
+                    game_world.add_collision_pairs(None, item, 'player:item')
+                elif self.drop <= 85:
+                    gold = Item.Gold(self.x, self.y)
+                    game_world.add_object(gold, 2)
+                    game_world.add_collision_pairs(None, gold, 'player:gold')
                 game_world.remove_object(self)
                 play_state.player.kill_count += 1
 
@@ -159,10 +170,17 @@ class Enemy:
         if group == 'whip2:enemy':
             if self.whip2_time > self.cooltime:
                 self.hp -= other.damage * play_state.player.hit + main_state.damage_up.plus_damage
+                Bat.hit_sound.play()
                 self.whip2_time = 0
             if self.hp <= 0:
                 if self.drop <= 80:
-                    game_world.add_object(Item.Item(self.x, self.y), 2)
+                    item = Item.Item(self.x, self.y)
+                    game_world.add_object(item, 2)
+                    game_world.add_collision_pairs(None, item, 'player:item')
+                elif self.drop <= 85:
+                    gold = Item.Gold(self.x, self.y)
+                    game_world.add_object(gold, 2)
+                    game_world.add_collision_pairs(None, gold, 'player:gold')
                 game_world.remove_object(self)
                 play_state.player.kill_count += 1
 
@@ -170,10 +188,17 @@ class Enemy:
         if group == 'garlic:enemy':
             if self.garlic_time > self.cooltime:
                 self.hp -= other.damage * play_state.player.hit + main_state.damage_up.plus_damage
+                Bat.hit_sound.play()
                 self.time = 0
             if self.hp <= 0:
                 if self.drop <= 80:
-                    game_world.add_object(Item.Item(self.x, self.y), 2)
+                    item = Item.Item(self.x, self.y)
+                    game_world.add_object(item, 2)
+                    game_world.add_collision_pairs(None, item, 'player:item')
+                elif self.drop <= 85:
+                    gold = Item.Gold(self.x, self.y)
+                    game_world.add_object(gold, 2)
+                    game_world.add_collision_pairs(None, gold, 'player:gold')
                 game_world.remove_object(self)
                 play_state.player.kill_count += 1
 
@@ -186,9 +211,13 @@ class Enemy:
 
 class Bat(Enemy): # 가로 세로 2m
     image = None
+    hit_sound = None
     def __init__(self):
         if Bat.image == None:
-            self.image = load_image('sprites/characters/enemies.png')
+            Bat.image = load_image('sprites/characters/enemies.png')
+        if Bat.hit_sound == None:
+            Bat.hit_sound = load_wav('sounds/enemy_hit.ogg')
+            Bat.hit_sound.set_volume(32)
         self.hp = 10
         self.atk = 1
         self.hit = 1

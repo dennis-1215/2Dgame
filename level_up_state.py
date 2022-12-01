@@ -12,16 +12,19 @@ TIME_PER_ACTION = 1.0
 ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
 FRAMES_PER_ACTION = 7
 
-image_LU, image_choice = None, None
+image_LU, image_choice, levelup_sound = None, None, None
 choice = 0
 frame = 0
 random_item = [None, None, None]
 
 def enter():
-    global image_LU, image_choice, choice, random_item
+    global image_LU, image_choice, choice, random_item, levelup_sound
 
     image_LU = load_image('sprites/framework/level_up.png')
     image_choice = load_image('sprites/framework/UI.png')
+    levelup_sound = load_wav('sounds/levelup.ogg')
+    levelup_sound.set_volume(32)
+    levelup_sound.play()
     choice = 0
     mix()
 def exit():

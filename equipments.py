@@ -16,6 +16,8 @@ class Whip:
             self.image = load_image('sprites/characters/items.png')
             self.image_vfx = load_image('sprites/characters/vfx.png')
             self.font = load_font('font/KO.ttf', 20)
+            self.attack_sound = load_wav('sounds/whip_sound.ogg')
+            self.attack_sound.set_volume(32)
         self.name = 'Whip'
         self.damage = 15
         self.frame = 0
@@ -50,6 +52,9 @@ class Whip:
             if self.frame >= 3.99:
                 self.time = 0
                 self.frame = 0
+
+        if self.frame > 1.1 and self.frame < 2.5:
+            self.attack_sound.play()
 
         if player.face_dir == 1:
             draw_rectangle(*self.get_bb_right())
@@ -108,6 +113,8 @@ class Second_Whip():
             self.image = load_image('sprites/characters/items.png')
             self.image_vfx = load_image('sprites/characters/vfx.png')
             self.font = load_font('font/KO.ttf', 20)
+            self.attack_sound = load_wav('sounds/whip_sound.ogg')
+            self.attack_sound.set_volume(32)
         self.name = 'Whip'
         self.damage = 15
         self.frame = 0
@@ -143,6 +150,9 @@ class Second_Whip():
             draw_rectangle(*self.get_bb_right())
         else:
             draw_rectangle(*self.get_bb_left())
+
+        if self.frame > 1.1 and self.frame < 2.5:
+            self.attack_sound.play()
 
     def update(self, player):
         self.time += game_framework.frame_time

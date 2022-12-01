@@ -4,18 +4,20 @@ import main_state
 
 WIDTH, HEIGHT = 1024, 1024
 
-image_bg, image_sub = None, None
+image_bg, image_sub, intro_music = None, None, None
 title_frame = 0
-event_key = None
 
 TIME_PER_ACTION = 1.0
 ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
 FRAMES_PER_ACTION = 2
 
 def enter():
-    global image_bg, image_sub, title_frame
+    global image_bg, image_sub, title_frame, intro_music
     image_bg = load_image('sprites/framework/title.png')
     image_sub = load_image('sprites/framework/title_sub.png')
+    intro_music = load_music('sounds/titleintro.ogg')
+    intro_music.set_volume(32)
+    intro_music.play()
 
 def exit():
     global image_bg, image_sub
@@ -23,13 +25,11 @@ def exit():
     del image_sub
 
 def handle_events():
-    global event_key
     events = get_events()
     for event in events:
         if event.type == SDL_QUIT:
             game_framework.quit()
         elif event.type == SDL_KEYDOWN:
-            event_key = event
             game_framework.change_state(main_state)
 
 
