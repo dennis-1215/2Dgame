@@ -1,6 +1,6 @@
 from pico2d import *
 import game_framework
-import account_items
+import main_state
 
 WIDTH, HEIGHT = 1024, 1024
 
@@ -13,9 +13,6 @@ choice = 0
 frame = 0
 account_item_list = []
 
-class Account_data:
-    def __init__(self):
-        pass
 
 
 def enter():
@@ -24,7 +21,7 @@ def enter():
     image_bg = load_image('sprites/framework/main_bg.png')
     image = load_image('sprites/framework/shop.png')
     image_choice = load_image('sprites/framework/UI.png')
-    font = load_font('KO.ttf', 20)
+    font = load_font('font/KO.ttf', 20)
 
 
 
@@ -32,6 +29,8 @@ def enter():
 def exit():
     global image, image_choice, font
     del image, image_choice, font
+
+    main_state.account_save()
 
 def handle_events():
     global choice
@@ -45,14 +44,36 @@ def handle_events():
             if choice == 0:
                 game_framework.pop_state()
             elif choice == 1:
-                # game_framework.push_state(shop_state)
-                pass
+                if main_state.account.account_gold >= main_state.hp.need_gold:
+                    main_state.account.account_gold -= main_state.hp.need_gold
+                    main_state.hp.level += 1
+                    main_state.account.hp_level += 1
             elif choice == 2:
-                # game_framework.push_state(option_state)
-                pass
+                if main_state.account.account_gold >= main_state.speed.need_gold:
+                    main_state.account.account_gold -= main_state.speed.need_gold
+                    main_state.speed.level += 1
+                    main_state.account.speed_level += 1
             elif choice == 3:
-                game_framework.quit()
-                pass
+                if main_state.account.account_gold >= main_state.bonus_exp.need_gold:
+                    main_state.account.account_gold -= main_state.bonus_exp.need_gold
+                    main_state.bonus_exp.level += 1
+                    main_state.account.bonus_exp_level += 1
+            elif choice == 4:
+                if main_state.account.account_gold >= main_state.bonus_gold.need_gold:
+                    main_state.account.account_gold -= main_state.bonus_gold.need_gold
+                    main_state.bonus_gold.level += 1
+                    main_state.account.bonus_gold_level += 1
+            elif choice == 5:
+                if main_state.account.account_gold >= main_state.damage_up.need_gold:
+                    main_state.account.account_gold -= main_state.damage_up.need_gold
+                    main_state.damage_up.level += 1
+                    main_state.account.damage_up_level += 1
+            elif choice == 6:
+                if main_state.account.account_gold >= main_state.armor.need_gold:
+                    main_state.account.account_gold -= main_state.armor.need_gold
+                    main_state.armor.level += 1
+                    main_state.account.armor_level += 1
+
         elif event.type == SDL_KEYDOWN and event.key == SDLK_LEFT:
             if choice > 0:
                 choice -= 1
@@ -103,22 +124,28 @@ def draw():
         image_choice.clip_composite_draw(259, 1024 - 404, 6, 6, 0, 'hv', WIDTH / 2 - 105 + (180 * (choice - 4)), HEIGHT / 2 + 75, 12, 12)
 
     if choice == 1:
-        hp.choiced_draw()
+        main_state.hp.choiced_draw()
     elif choice == 2:
-        speed.choiced_draw()
+        main_state.speed.choiced_draw()
     elif choice == 3:
-        bonus_exp.choiced_draw()
+        main_state.bonus_exp.choiced_draw()
     elif choice == 4:
-        bonus_gold.choiced_draw()
+        main_state.bonus_gold.choiced_draw()
     elif choice == 5:
-        damage_up.choiced_draw()
+        main_state.damage_up.choiced_draw()
     elif choice == 6:
-        armor.choiced_draw()
+        main_state.armor.choiced_draw()
     update_canvas()
 
 def update():
     global frame
     frame = (frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 7
+    main_state.account.hp_level = main_state.hp.level
+    main_state.account.speed_level = main_state.speed.level
+    main_state.account.bonus_exp_level = main_state.bonus_exp.level
+    main_state.account.bonus_gold_level = main_state.bonus_gold.level
+    main_state.account.damage_up_level = main_state.damage_up.level
+    main_state.account.armor_level = main_state.armor.level
 
 def pause():
     pass

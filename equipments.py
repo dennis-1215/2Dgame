@@ -15,7 +15,7 @@ class Whip:
         if Whip.image == None:
             self.image = load_image('sprites/characters/items.png')
             self.image_vfx = load_image('sprites/characters/vfx.png')
-            self.font = load_font('KO.ttf', 20)
+            self.font = load_font('font/KO.ttf', 20)
         self.name = 'Whip'
         self.damage = 15
         self.frame = 0
@@ -107,7 +107,7 @@ class Second_Whip():
         if Second_Whip.image == None:
             self.image = load_image('sprites/characters/items.png')
             self.image_vfx = load_image('sprites/characters/vfx.png')
-            self.font = load_font('KO.ttf', 20)
+            self.font = load_font('font/KO.ttf', 20)
         self.name = 'Whip'
         self.damage = 15
         self.frame = 0

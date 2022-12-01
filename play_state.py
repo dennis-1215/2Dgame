@@ -38,12 +38,13 @@ def enter():
     global player, backgrounds, play_time, equipment_list, time_font, ui_font, ui_image
     play_time = 0
 
-    time_font = load_font('KO.ttf', 30)
-    ui_font = load_font('KO.ttf', 10)
+    time_font = load_font('font/KO.ttf', 30)
+    ui_font = load_font('font/KO.ttf', 10)
     ui_image = load_image('sprites/framework/UI.png')
 
     player = character.Character()
     player.handle_event(title_state.event_key)
+    print(player.hp, player.max_hp)
     backgrounds = back_ground.BG()
     whip, heal, hp, garlic, shoes, damage_up, second_whip = equipments.Whip(), equipments.Heal(), equipments.Hp(), equipments.Garlic(), equipments.Shoes(), equipments.Damage_up(), equipments.Second_Whip()
     equipment_list = [whip, heal, hp, garlic, shoes, damage_up, second_whip]

@@ -3,6 +3,7 @@ import game_framework
 import shop_state
 import play_state
 import account_items
+import pickle
 
 WIDTH, HEIGHT = 1024, 1024
 
@@ -12,18 +13,55 @@ FRAMES_PER_ACTION = 7
 
 image, image_bg, image_choice, font = None, None, None, None
 hp, speed, bonus_exp, bonus_gold, damage_up, armor = None, None, None, None, None, None
-
+account = None
 choice = 0
 frame = 0
 
+
+class Account_data:
+    def __init__(self):
+        self.hp_level = 0
+        self.speed_level = 0
+        self.bonus_exp_level = 0
+        self.bonus_gold_level = 0
+        self.damage_up_level = 0
+        self.armor_level = 0
+        self.account_gold = 1000
+    def __getstate__(self):
+        state = {'hp_level': self.hp_level,
+                 'speed_level': self.speed_level,
+                 'bonus_exp_level': self.bonus_exp_level,
+                 'bonus_gold_level': self.bonus_gold_level,
+                 'damage_up_level': self.damage_up_level,
+                 'armor_level': self.armor_level,
+                 'account_gold': self.account_gold
+                 }
+        return state
+    def __setstate__(self, state):
+        self.__init__()
+        self.__dict__.update(state)
+
 def enter():
-    global image, image_bg, image_choice, font, choice, hp, speed, bonus_exp, bonus_gold, damage_up, armor
+    global image, image_bg, image_choice, font, choice, hp, speed, bonus_exp, bonus_gold, damage_up, armor, account
     choice = 0
     image_bg = load_image('sprites/framework/title.png')
     image_choice = load_image('sprites/framework/UI.png')
-    font = load_font('KO.ttf', 20)
-    hp, speed, bonus_exp, bonus_gold, damage_up, armor = account_items.Account_hp(0), account_items.Account_speed(0), account_items.Account_bonus_exp(0), account_items.Account_bonus_gold(0), account_items.Account_damage(
-        0), account_items.Account_armor(0)
+    font = load_font('font/KO.ttf', 20)
+    account = Account_data()
+    with open('account.sav', 'rb') as f:
+        try:
+            data_check = pickle.load(f)
+        except EOFError:
+            account_save()
+
+    account_load()
+
+    hp, speed, bonus_exp, bonus_gold, damage_up, armor = account_items.Account_hp(account.hp_level), \
+                                                         account_items.Account_speed(account.speed_level), \
+                                                         account_items.Account_bonus_exp(account.bonus_exp_level), \
+                                                         account_items.Account_bonus_gold(account.bonus_gold_level), \
+                                                         account_items.Account_damage(account.damage_up_level), \
+                                                         account_items.Account_armor(account.armor_level)
 def exit():
     global image, image_choice, font
     del image, image_choice, font
@@ -97,3 +135,12 @@ def pause():
 
 def resume():
     pass
+
+def account_save():
+    with open('account.sav', 'wb') as f:
+        pickle.dump(account, f)
+
+def account_load():
+    global account
+    with open('account.sav', 'rb') as f:
+        account = pickle.load(f)

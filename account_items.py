@@ -6,7 +6,7 @@ class Account_hp:
     def __init__(self, level):
         if Account_hp.image == None:
             self.image = load_image('sprites/characters/items.png')
-            self.font = load_font('KO.ttf', 20)
+            self.font = load_font('font/KO.ttf', 20)
         self.name = '최대 체력'
         self.level = level
         self.need_gold = 400 * (1 + self.level)
@@ -31,7 +31,7 @@ class Account_speed(Account_hp):
     def __init__(self, level):
         if Account_speed.image == None:
             self.image = load_image('sprites/characters/items.png')
-            self.font = load_font('KO.ttf', 20)
+            self.font = load_font('font/KO.ttf', 20)
         self.name = '이동 속도'
         self.level = level
         self.need_gold = 400 * (1 + self.level)
@@ -46,7 +46,7 @@ class Account_bonus_exp(Account_hp):
     def __init__(self, level):
         if Account_speed.image == None:
             self.image = load_image('sprites/characters/items.png')
-            self.font = load_font('KO.ttf', 20)
+            self.font = load_font('font/KO.ttf', 20)
         self.name = '성장'
         self.level = level
         self.need_gold = 400 * (1 + self.level)
@@ -61,7 +61,7 @@ class Account_bonus_gold(Account_hp):
     def __init__(self, level):
         if Account_speed.image == None:
             self.image = load_image('sprites/characters/items.png')
-            self.font = load_font('KO.ttf', 20)
+            self.font = load_font('font/KO.ttf', 20)
         self.name = '탐욕'
         self.level = level
         self.need_gold = 400 * (1 + self.level)
@@ -81,7 +81,7 @@ class Account_damage(Account_hp):
     def __init__(self, level):
         if Account_speed.image == None:
             self.image = load_image('sprites/characters/items.png')
-            self.font = load_font('KO.ttf', 20)
+            self.font = load_font('font/KO.ttf', 20)
         self.name = '피해량'
         self.level = level
         self.need_gold = 400 * (1 + self.level)
@@ -96,7 +96,7 @@ class Account_armor(Account_hp):
     def __init__(self, level):
         if Account_speed.image == None:
             self.image = load_image('sprites/characters/items.png')
-            self.font = load_font('KO.ttf', 20)
+            self.font = load_font('font/KO.ttf', 20)
         self.name = '방어력'
         self.level = level
         self.need_gold = 400 * (1 + self.level)
