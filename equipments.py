@@ -33,13 +33,17 @@ class Whip:
                             '공격력이 30% 증가합니다.',
                             '공격 사거리가 30% 증가합니다.',
                             '바라보는 방향의 반대 방향으로도 1회 공격합니다.',
+                            '공격력이 증가합니다.'
                             ]
         self.x, self.y = 362, 392 - 171
         self.width, self.height = 15, 15
 
     def choice_draw(self, x, y):
         self.image.clip_draw(self.x, self.y, self.width, self.height, x + 65, y + 30, self.width * 3, self.height*3)
-        self.font.draw(x + 50, y - 20, f'{self.description[self.level]}')
+        if self.level < 7:
+            self.font.draw(x + 50, y - 20, f'{self.description[self.level]}')
+        else:
+            self.font.draw(x + 50, y - 20, f'{self.description[7]}')
         self.font.draw(x + 150, y + 30, f'{self.name}')
         self.font.draw(x + 500, y + 30, f'Lv. {self.level}')
 
@@ -83,6 +87,9 @@ class Whip:
         if self.level == 7:
             play_state.second_whip.level = self.level
             play_state.second_whip.time = self.time
+        if self.level >= 8:
+            self.damage += 1.1
+            play_state.second_whip.damage += self.damage
 
 
     def get_bb_right(self):
@@ -178,6 +185,7 @@ class Heal(Whip):
                             '체력 회복 주기가 빨라집니다.',
                             '체력 회복량이 대폭 상승합니다.',
                             '체력 회복 주기가 대폭 감소합니다.',
+                            '체력 회복량이 소폭 상승합니다.'
                             ]
         self.x, self.y = 394, 392 - 102
         self.width, self.height = 12, 12
@@ -206,6 +214,8 @@ class Heal(Whip):
             self.damage *= 2
         if self.level == 7:
             self.cooltime = 0.5
+        if self.level >= 8:
+            self.damage += 2
     def update(self, player):
         self.time += game_framework.frame_time
         if self.level >= 1:
@@ -232,6 +242,7 @@ class Hp(Whip):
                             '최대 체력이 20% 증가합니다.',
                             '최대 체력이 30% 증가합니다.',
                             '최대 체력이 50% 증가합니다.',
+                            '최대 체력이 10% 증가합니다.'
                             ]
         self.x, self.y = 404, 392-187
         self.width, self.height = 15, 15
@@ -260,7 +271,8 @@ class Hp(Whip):
             play_state.player.max_hp *= 1.3
         if self.level == 7:
             play_state.player.max_hp *= 1.5
-
+        if self.level >= 8:
+            play_state.player.max_hp *= 1.1
 class Garlic(Whip):
     image = None
     def __init__(self):
@@ -281,6 +293,7 @@ class Garlic(Whip):
                             '피해 범위가 증가합니다.',
                             '입히는 피해량이 상승합니다.',
                             '피해 범위와 피해량이 증가하고, \n피해를 입히는 주기가 빨라집니다.',
+                            '피해 범위와 피해량이 증가합니다.'
                             ]
         self.x, self.y = 406, 392-363
         self.width, self.height = 11, 11
@@ -321,6 +334,9 @@ class Garlic(Whip):
             self.damage *= 3.0
             self.range *= 2
             self.cooltime = 1.0
+        if self.level >= 8:
+            self.damage *= 1.2
+            self.range += 10
 
 class Shoes(Whip):
     image = None
@@ -340,6 +356,7 @@ class Shoes(Whip):
                             '이동속도가 빨라집니다.',
                             '이동속도가 빨라집니다.',
                             '이동속도가 빨라집니다.',
+                            '이동속도가 빨라집니다.'
                             ]
         self.x, self.y = 334, 392 - 295
         self.width, self.height = 14, 15
@@ -365,6 +382,8 @@ class Shoes(Whip):
             play_state.player.move += 0.1
         if self.level == 7:
             play_state.player.move += 0.4
+        if self.level >= 8:
+            play_state.player.move += 0.1
     def update(self, player):
         pass
 class Damage_up(Whip):
@@ -385,6 +404,7 @@ class Damage_up(Whip):
                             '입히는 피해량이 상승합니다.',
                             '입히는 피해량이 상승합니다.',
                             '입히는 피해량이 상승합니다.',
+                            '입히는 피해량이 상승합니다.'
                             ]
         self.x, self.y = 177, 392 - 361
         self.width, self.height = 14, 14
@@ -410,5 +430,7 @@ class Damage_up(Whip):
             play_state.player.hit += 0.1
         if self.level == 7:
             play_state.player.hit += 0.1
+        if self.level == 7:
+            play_state.player.hit += 0.05
     def update(self, player):
         pass

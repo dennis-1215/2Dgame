@@ -41,7 +41,7 @@ def handle_events():
             game_framework.quit()
         elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_ESCAPE):
             game_framework.pop_state()
-        elif event.type == SDL_KEYDOWN and event.key == SDLK_RETURN or event.key == SDLK_SPACE:
+        elif event.type == SDL_KEYDOWN and (event.key == SDLK_RETURN or event.key == SDLK_SPACE):
             if choice == 0:
                 game_framework.pop_state()
             elif choice == 1:

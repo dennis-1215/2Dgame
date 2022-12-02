@@ -53,11 +53,10 @@ def draw():
     # 회색 반투명
     image.clip_draw(0, 0, WIDTH, HEIGHT, WIDTH / 2, HEIGHT / 2)
 
-
     # 선택지 박스 그리기
     image_choice.clip_draw(454, 1024 - 395, 47, 30, WIDTH / 2 - 100, 50, 100, 60)
     font.draw(WIDTH / 2 - 115, 50, '뒤로', (255, 255, 255))
-    image_choice.clip_draw(454, 1024 - 395, 47, 30, WIDTH / 2 + 100, 50, 100, 60)
+    image_choice.clip_draw(464, 1024 - 553, 47, 32, WIDTH / 2 + 100, 50, 100, 60)
     font.draw(WIDTH / 2 + 65, 50, '그만하기', (255, 255, 255))
 
     # 화살표 그리기

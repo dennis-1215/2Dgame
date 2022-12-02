@@ -313,5 +313,5 @@ class Character:
                 game_framework.push_state(gameover_state)
 
     def get_bb(self):
-        return WIDTH/2 - self.w/2, HEIGHT/2 - self.h/2, WIDTH/2 + self.w/2, HEIGHT/2 + self.h/2
+        return WIDTH/2 - self.w/2 + 10, HEIGHT/2 - self.h/2 + 10, WIDTH/2 + self.w/2 - 10, HEIGHT/2 + self.h/2 - 10
 

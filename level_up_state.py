@@ -42,9 +42,7 @@ def handle_events():
         elif event.type == SDL_KEYDOWN and event.key == SDLK_RETURN or event.key == SDLK_SPACE:
             play_state.equipment_list[random_item[choice]].level += 1
             play_state.equipment_list[random_item[choice]].choiced()
-
             mix()
-
             game_framework.pop_state()
 
         elif event.type == SDL_KEYDOWN and event.key == SDLK_UP:

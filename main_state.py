@@ -28,7 +28,7 @@ class Account_data:
         self.bonus_gold_level = 0
         self.damage_up_level = 0
         self.armor_level = 0
-        self.account_gold = 300
+        self.account_gold = 400
         self.bgm_volume = 16
         self.sfx_volume = 16
     def __getstate__(self):
@@ -81,22 +81,20 @@ def handle_events():
             game_framework.quit()
         elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_ESCAPE):
             game_framework.change_state(title_state)
-        elif event.type == SDL_KEYDOWN and event.key == SDLK_RETURN or event.key == SDLK_SPACE:
+        elif event.type == SDL_KEYDOWN and (event.key == SDLK_RETURN or event.key == SDLK_SPACE):
             if choice == 0:
                 game_framework.change_state(play_state)
             elif choice == 1:
                 game_framework.push_state(shop_state)
-            elif choice == 2:
-                # game_framework.push_state(option_state)
                 pass
-            elif choice == 3:
+            elif choice == 2:
                 game_framework.quit()
                 pass
         elif event.type == SDL_KEYDOWN and (event.key == SDLK_UP or event.key == SDLK_LEFT):
             if choice > 0:
                 choice -= 1
         elif event.type == SDL_KEYDOWN and (event.key == SDLK_DOWN or event.key == SDLK_RIGHT):
-            if choice < 3:
+            if choice < 2:
                 choice += 1
 
 
@@ -113,8 +111,6 @@ def draw():
     image_choice.clip_draw(454, 1024 - 395, 47, 31, WIDTH / 2, HEIGHT / 2 - 150, 100, 60)
     font.draw(WIDTH / 2 - 15, HEIGHT / 2 - 150, '상점', (255, 255, 255))
 
-    image_choice.clip_draw(454, 1024 - 395, 47, 31, WIDTH / 2, HEIGHT / 2 - 250, 100, 60)
-    font.draw(WIDTH / 2 - 15, HEIGHT / 2 - 250, '옵션', (255, 255, 255))
 
     image_choice.clip_draw(464, 1024 - 553, 47, 31, WIDTH / 2, HEIGHT / 2 - 350, 100, 60)
     font.draw(WIDTH / 2 - 35, HEIGHT / 2 - 350, '게임종료', (255, 255, 255))
@@ -127,9 +123,6 @@ def draw():
         image_choice.clip_composite_draw(2 + 16 * int(frame), 1023 - 376, 15, 13, 0, '', WIDTH / 2 - 70, HEIGHT / 2 - 150, 30, 26)
         image_choice.clip_composite_draw(2 + 16 * int(frame), 1023 - 376, 15, 13, 3.141592, 'v', WIDTH / 2 + 70, HEIGHT / 2 - 150, 30, 26)
     elif choice == 2:
-        image_choice.clip_composite_draw(2 + 16 * int(frame), 1023 - 376, 15, 13, 0, '', WIDTH / 2 - 70, HEIGHT / 2 - 250, 30, 26)
-        image_choice.clip_composite_draw(2 + 16 * int(frame), 1023 - 376, 15, 13, 3.141592, 'v', WIDTH / 2 + 70, HEIGHT / 2 - 250, 30, 26)
-    elif choice == 3:
         image_choice.clip_composite_draw(2 + 16 * int(frame), 1023 - 376, 15, 13, 0, '', WIDTH / 2 - 70, HEIGHT / 2 - 350, 30, 26)
         image_choice.clip_composite_draw(2 + 16 * int(frame), 1023 - 376, 15, 13, 3.141592, 'v', WIDTH / 2 + 70, HEIGHT / 2 - 350, 30, 26)
 

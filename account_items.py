@@ -1,5 +1,4 @@
 from pico2d import *
-import game_framework
 
 class Account_hp:
     image = None
@@ -71,11 +70,6 @@ class Account_bonus_gold(Account_hp):
 
         self.x, self.y = 418, 392 - 271
         self.width, self.height = 9, 8
-    def choiced_draw(self):
-        self.image.clip_draw(self.x, self.y, self.width, self.height, 312, 195, self.width * 3, self.height * 3)
-        self.font.draw(400, 200, f'{self.description}')
-        self.font.draw(280, 240, f'{self.name}')
-        self.font.draw(700, 200, f'Lv. {self.level}')
 
 class Account_damage(Account_hp):
     image = None
