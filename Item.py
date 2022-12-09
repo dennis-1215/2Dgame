@@ -25,6 +25,7 @@ class Item:
 
         self.level = 1
         self.exp = 100
+        self.exp = 100
         self.range = 30
         self.x = x
         self.y = y
@@ -124,30 +125,6 @@ class Gold(Item):
         if abs(self.x - WIDTH/2) < 2 and abs(self.y - HEIGHT/2) < 2:
             player.gold += self.gold * main_state.bonus_gold.multiply_bonus_gold
             game_world.remove_object(self)
-
-    def update(item, player):
-        if player.dir == 1:
-            item.x -= character.RUN_SPEED_PPS * game_framework.frame_time * (player.move * main_state.speed.multiply_speed)
-        elif player.dir == 2:
-            item.x += character.RUN_SPEED_PPS * game_framework.frame_time * (player.move * main_state.speed.multiply_speed)
-            item.y -= character.RUN_SPEED_PPS * game_framework.frame_time * (player.move * main_state.speed.multiply_speed)
-        elif player.dir == 3:
-            item.y -= character.RUN_SPEED_PPS * game_framework.frame_time * (player.move * main_state.speed.multiply_speed)
-        elif player.dir == 4:
-            item.x -= character.RUN_SPEED_PPS * game_framework.frame_time * (player.move * main_state.speed.multiply_speed)
-            item.y -= character.RUN_SPEED_PPS * game_framework.frame_time * (player.move * main_state.speed.multiply_speed)
-        elif player.dir == -1:
-            item.x += character.RUN_SPEED_PPS * game_framework.frame_time * (player.move * main_state.speed.multiply_speed)
-        elif player.dir == -2:
-            item.x -= character.RUN_SPEED_PPS * game_framework.frame_time * (player.move * main_state.speed.multiply_speed)
-            item.y += character.RUN_SPEED_PPS * game_framework.frame_time * (player.move * main_state.speed.multiply_speed)
-        elif player.dir == -3:
-            item.y += character.RUN_SPEED_PPS * game_framework.frame_time * (player.move * main_state.speed.multiply_speed)
-        elif player.dir == -4:
-            item.x += character.RUN_SPEED_PPS * game_framework.frame_time * (player.move * main_state.speed.multiply_speed)
-            item.y += character.RUN_SPEED_PPS * game_framework.frame_time * (player.move * main_state.speed.multiply_speed)
-        if item.animation_on == 1:
-            item.animation(player)
 
     def handle_collision(self, other, group):
         if group == 'player:gold':

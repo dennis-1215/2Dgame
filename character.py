@@ -291,6 +291,7 @@ class Character:
                 print(f'ERROR: State {self.cur_state.__name__}     Event {event}')
             self.cur_state.enter(self, event)
 
+
     def draw(self, player):
         self.cur_state.draw(self)
         debug_print('PPPP')
